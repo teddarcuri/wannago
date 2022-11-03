@@ -6,7 +6,6 @@
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
 	</head>
-	<!-- TODO: Move these styles -->
 	<style>
 		*,
 		*:before,
@@ -20,42 +19,8 @@
 			color: #fff;
 			font-family: 'Proxima Nova';
 		}
-
-		#app-wrapper {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			flex-flow: column;
-			overflow: hidden;
-		}
-
-		#app-nav {
-			flex: 0 0 70px;
-			display: flex;
-			align-items: center;
-		}
-
-		#app-body {
-			flex-grow: 1;
-		}
-
-		#logo {
-			font-size: 23px;
-			padding-left: 20px;
-		}
 	</style>
 	<body>
-		<div id="app-wrapper">
-			<nav id="app-nav">
-				<div id="logo">
-					<!-- <a href="/globe">Globe</a> -->
-					wannago
-				</div>
-			</nav>
-			<div id="app-body">%sveltekit.body%</div>
-		</div>
+		%sveltekit.body%
 	</body>
 </html>
