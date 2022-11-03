@@ -11,7 +11,11 @@
 		const map = new mapboxgl.Map({
 			container: 'mapbox-mount',
 			style: 'mapbox://styles/mapbox/satellite-v9',
-			projection: 'globe'
+			projection: 'globe',
+			zoom: 3.333,
+			bearing: 0,
+			center: [-99.94373365867199, 43.495094628394924],
+			pitch: 60
 		});
 
 		map.on('load', () => {
