@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { env } from '$env/dynamic/public';
+	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 
 	onMount(async () => {
 		const module = await import('mapbox-gl/dist/mapbox-gl.js');
 		const mapboxgl = module.default;
 
-		mapboxgl.accessToken = env.PUBLIC_MAPBOX_ACCESS_TOKEN;
+		mapboxgl.accessToken = PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 		const map = new mapboxgl.Map({
 			container: 'mapbox-mount',
