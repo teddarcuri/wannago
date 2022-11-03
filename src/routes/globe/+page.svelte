@@ -13,6 +13,17 @@
 			style: 'mapbox://styles/mapbox/satellite-v9',
 			projection: 'globe'
 		});
+
+		map.on('load', () => {
+			map.addSource('mapbox-dem', {
+				type: 'raster-dem',
+				url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+				tileSize: 512,
+				maxzoom: 14
+			});
+			// add the DEM source as a terrain layer with just a lil exaggerated height
+			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.666 });
+		});
 	});
 </script>
 
