@@ -15,14 +15,24 @@
 		});
 
 		map.on('load', () => {
+			// create DEM source
+			// https://en.wikipedia.org/wiki/Digital_elevation_model
 			map.addSource('mapbox-dem', {
 				type: 'raster-dem',
 				url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
 				tileSize: 512,
 				maxzoom: 14
 			});
-			// add the DEM source as a terrain layer with just a lil exaggerated height
+			// DEM source -> terrain layer
 			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.666 });
+			// A little fog to set the mood
+			map.setFog({
+				color: 'rgba(186, 210, 235, 0.15)', // Lower atmosphere
+				'high-color': 'rgba(36, 92, 223, 0.15)', // Upper atmosphere
+				'horizon-blend': 0.0333, // Atmosphere thickness (default 0.2 at low zooms)
+				'space-color': 'rgb(0, 0, 0)', // Background color
+				'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+			});
 		});
 	});
 </script>
