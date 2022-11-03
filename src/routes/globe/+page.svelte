@@ -13,7 +13,7 @@
 			container: 'mapbox-mount',
 			style: 'mapbox://styles/mapbox/satellite-v9',
 			projection: 'globe',
-			zoom: 5,
+			zoom: 3.666,
 			bearing: 0,
 			center: [-99.94373365867199, 43.495094628394924],
 			pitch: 60
