@@ -7,3 +7,5 @@ declare namespace App {
 	// interface Error {}
 	// interface Platform {}
 }
+
+declare module 'mapbox-gl/dist/mapbox-gl.js';
