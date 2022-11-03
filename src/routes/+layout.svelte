@@ -1,3 +1,7 @@
+<script>
+	import '../app.css';
+</script>
+
 <div id="app-wrapper">
 	<header id="app-nav">
 		<div id="logo">wannago</div>
@@ -27,10 +31,11 @@
 
 	#app-body {
 		flex-grow: 1;
+		position: relative;
 	}
 
 	#logo {
 		font-size: 23px;
-		padding-left: 20px;
+		padding-left: 28px;
 	}
 </style>
