@@ -4,6 +4,9 @@
 	import ActiveInfoDisplay from './ActiveInfoDisplay.svelte';
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 	import rotateGlobe from './util/rotateGlobe';
+	import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+	import 'mapbox-gl/dist/mapbox-gl.css';
 
 	onMount(async () => {
 		// Import + Initalization
@@ -19,6 +22,14 @@
 			center: [-99.94373365867199, 43.495094628394924],
 			pitch: 60
 		});
+
+		// Add the control to the map.
+		map.addControl(
+			new MapboxGeocoder({
+				accessToken: mapboxgl.accessToken,
+				mapboxgl: mapboxgl
+			})
+		);
 
 		// Mapbox Loaded
 		map.on('load', () => {
