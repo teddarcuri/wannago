@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { activeInfoDisplay } from './store.ts';
 	import { onMount } from 'svelte';
 	import ActiveInfoDisplay from './ActiveInfoDisplay.svelte';
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
@@ -43,6 +44,13 @@
 			});
 
 			rotateGlobe(map);
+		});
+		map.on('mousemove', (e) => {
+			const { lngLat } = e;
+			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;
+			const lng = `${Math.abs(lngLat.lng.toFixed(3))}° ${lngLat.lng > 0 ? 'E' : 'W'}`;
+			const displayText = `${lat}, ${lng}`;
+			activeInfoDisplay.update(() => ({ displayText }));
 		});
 	});
 </script>

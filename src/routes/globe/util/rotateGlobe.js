@@ -58,15 +58,13 @@ export default function (map) {
 	});
 
 	spinGlobe();
-
-	document.getElementById('btn-spin').addEventListener('click', (e) => {
+	map.on('contextmenu', () => {
+		// TODO: Assign to nice "Start/Stop" button in UI
 		spinEnabled = !spinEnabled;
 		if (spinEnabled) {
 			spinGlobe();
-			e.target.innerHTML = 'Pause rotation';
 		} else {
 			map.stop(); // Immediately end ongoing animation
-			e.target.innerHTML = 'Start rotation';
 		}
 	});
 }

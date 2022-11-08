@@ -1,5 +1,8 @@
 <script lang="ts">
-	const title = 'Document your World.';
+  import { activeInfoDisplay } from './store.ts' 
+
+  let displayText
+  activeInfoDisplay.subscribe(data => displayText = data.displayText)
 </script>
 
 <div
@@ -8,5 +11,5 @@
 		bg-zinc-900 px-3 py-2 text-center 
 		text-sm tracking-widest"
 >
-	{title}
+	{displayText}
 </div>
