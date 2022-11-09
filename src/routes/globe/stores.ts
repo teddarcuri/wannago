@@ -21,3 +21,19 @@ export const activeInfoDisplay: ActiveInfoDisplayStore = writable({
 	displayText: 'Document your World.'
 });
 
+//
+// Add Destination
+//
+interface AddDestinationStore {
+	subscribe: Writable<number>['subscribe'];
+	point: [number, number];
+	lngLat: {
+		lng: number;
+		lat: number;
+	};
+}
+
+export const addDestination: AddDestinationStore = writable({
+	point: null,
+	screenCoordinates: null
+});
