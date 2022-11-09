@@ -1,69 +1,9 @@
 <script lang="ts">
-	import { activeInfoDisplay } from './store.ts';
 	import { onMount } from 'svelte';
 	import ActiveInfoDisplay from './ActiveInfoDisplay.svelte';
-	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
-	import rotateGlobe from './util/rotateGlobe';
-	import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-	import 'mapbox-gl/dist/mapbox-gl.css';
+	import bootstrapMapbox from './util/bootstrapMapbox';
 
-	onMount(async () => {
-		// Import + Initalization
-		const module = await import('mapbox-gl/dist/mapbox-gl.js');
-		const mapboxgl = module.default;
-		mapboxgl.accessToken = PUBLIC_MAPBOX_ACCESS_TOKEN;
-		const map = new mapboxgl.Map({
-			container: 'mapbox-mount',
-			style: 'mapbox://styles/mapbox/satellite-v9',
-			projection: 'globe',
-			zoom: 3.666,
-			bearing: 0,
-			center: [-99.94373365867199, 43.495094628394924],
-			pitch: 60
-		});
-
-		// Add the control to the map.
-		map.addControl(
-			new MapboxGeocoder({
-				accessToken: mapboxgl.accessToken,
-				mapboxgl: mapboxgl
-			})
-		);
-
-		// Mapbox Loaded
-		map.on('load', () => {
-			// create DEM source
-			// https://en.wikipedia.org/wiki/Digital_elevation_model
-			map.addSource('mapbox-dem', {
-				type: 'raster-dem',
-				url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-				tileSize: 512,
-				maxzoom: 14
-			});
-
-			// DEM source -> terrain layer
-			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.666 });
-
-			// A little fog to set the mood
-			map.setFog({
-				color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
-				'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
-				'horizon-blend': 0.0333, // Atmosphere thickness (default 0.2 at low zooms)
-				'space-color': 'rgb(0, 0, 0)', // Background color
-				'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
-			});
-
-			rotateGlobe(map);
-		});
-		map.on('mousemove', (e) => {
-			const { lngLat } = e;
-			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;
-			const lng = `${Math.abs(lngLat.lng.toFixed(3))}° ${lngLat.lng > 0 ? 'E' : 'W'}`;
-			const displayText = `${lat}, ${lng}`;
-			activeInfoDisplay.update(() => ({ displayText }));
-		});
-	});
+	onMount(async () => await bootstrapMapbox());
 </script>
 
 <div id="mapbox-mount" />

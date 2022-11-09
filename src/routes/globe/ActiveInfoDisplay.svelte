@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { activeInfoDisplay } from './store.ts' 
+	import { activeInfoDisplay } from './stores.ts';
 
-  let displayText
-  activeInfoDisplay.subscribe(data => displayText = data.displayText)
+	let displayText;
+	activeInfoDisplay.subscribe((data) => (displayText = data.displayText));
 </script>
 
 <div
