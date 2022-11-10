@@ -5,6 +5,7 @@ import { activeInfoDisplay, addDestination } from '../stores.ts';
 import rotateGlobe from './rotateGlobe';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import searchIcon from '$lib/img/search-icon.svg';
 
 // TODO: Typescriptify
 
@@ -26,7 +27,24 @@ export default async () => {
 	map.addControl(
 		new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
-			mapboxgl: mapboxgl
+			mapboxgl: mapboxgl,
+			marker: {
+				element: (() => {
+					// Add marker
+					var wrapper = document.createElement('div');
+					wrapper.classList.add('mapboxgl-marker-wrapper');
+					var inner = document.createElement('div');
+					inner.classList.add('mapboxgl-marker-inner');
+					var background = document.createElement('div');
+					background.classList.add('mapboxgl-marker-background');
+					var gimg = document.createElement('img');
+					gimg.src = searchIcon;
+					inner.append(gimg);
+					wrapper.append(inner);
+					wrapper.append(background);
+					return wrapper;
+				})()
+			}
 		})
 	);
 
