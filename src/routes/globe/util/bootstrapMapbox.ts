@@ -76,6 +76,38 @@ export default async () => {
 	});
 
 	// Events
+	map.on('render', () => {
+		//
+		// Update atmosphere
+		// Show sky when user is low enough
+		const HORIZON_BLEND_LOW = 0.0333;
+		const HORIZON_BLEND_HIGH = 1;
+		const fog = map.getFog();
+		const zoom = map.getZoom();
+		// If the user is zoomed in enough, set the fog to ressemble an atmosphere
+		if (zoom < 6) {
+			if (fog?.['horizon-blend'] !== HORIZON_BLEND_LOW) {
+				map.setFog({
+					color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
+					'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
+					'horizon-blend': HORIZON_BLEND_LOW, // Atmosphere thickness (default 0.2 at low zooms)
+					'space-color': 'rgb(0, 0, 0)', // Background color
+					'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+				});
+			}
+		} else {
+			// If the user is zoomed out enough, set the fog to ressemble space
+			if (fog?.['horizon-blend'] !== HORIZON_BLEND_HIGH) {
+				map.setFog({
+					color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
+					'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
+					'horizon-blend': HORIZON_BLEND_HIGH, // Atmosphere thickness (default 0.2 at low zooms)
+					'space-color': 'rgb(0, 0, 0)', // Background color
+					'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+				});
+			}
+		}
+	});
 
 	map.on('dblclick', (e) => {
 		const {
