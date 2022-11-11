@@ -1,22 +1,23 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import type { Marker } from 'mapbox-gl';
 
 //
 // Active Info Display
 //
-enum ActiveInfoDisplayStatus {
+export enum ActiveInfoDisplayStatus {
 	Normal,
+	Action,
 	Success,
 	Error
 }
 
-interface ActiveInfoDisplayStore {
-	subscribe: Writable<number>['subscribe'];
+export interface ActiveInfoDisplayStore {
 	status: ActiveInfoDisplayStatus;
 	displayText: string;
 }
 
-export const activeInfoDisplay: ActiveInfoDisplayStore = writable({
+export const activeInfoDisplayStore: Writable<ActiveInfoDisplayStore> = writable({
 	status: ActiveInfoDisplayStatus.Normal,
 	displayText: 'Document your World.'
 });
@@ -24,16 +25,12 @@ export const activeInfoDisplay: ActiveInfoDisplayStore = writable({
 //
 // Add Destination
 //
-interface AddDestinationStore {
-	subscribe: Writable<number>['subscribe'];
-	point: [number, number];
-	lngLat: {
-		lng: number;
-		lat: number;
-	};
+export interface AddDestinationStore {
+	marker: Marker | null;
+	screenPos: { x: number; y: number } | null;
 }
 
-export const addDestination: AddDestinationStore = writable({
-	point: null,
-	screenCoordinates: null
+export const addDestinationStore: Writable<AddDestinationStore> = writable({
+	marker: null,
+	screenPos: null
 });

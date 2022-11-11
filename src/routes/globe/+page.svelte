@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import ActiveInfoDisplay from './ActiveInfoDisplay.svelte';
+	import ActiveInfoDisplay from './components/ActiveInfoDisplay.svelte';
+	import AddDestination from './components/AddDestination.svelte';
 	import bootstrapMapbox from './util/bootstrapMapbox';
 
 	onMount(async () => await bootstrapMapbox());
@@ -8,6 +9,7 @@
 
 <div id="mapbox-mount" />
 <ActiveInfoDisplay />
+<AddDestination />
 
 <style>
 	#mapbox-mount {
