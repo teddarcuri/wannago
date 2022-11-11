@@ -1,8 +1,16 @@
-<a href="/globe">Go to Globe</a>
+<script>
+	import { page } from '$app/stores';
+	import Account from './auth/Account.svelte';
+	import Auth from './auth/Auth.svelte';
+</script>
 
-<style>
-	a {
-		color: #ccc;
-		padding: 20px 33px;
-	}
-</style>
+<svelte:head>
+	<title>Supabase + SvelteKit</title>
+	<meta name="description" content="SvelteKit using supabase-js v2" />
+</svelte:head>
+
+{#if !$page.data.session}
+	<Auth />
+{:else}
+	<Account session={$page.data.session} />
+{/if}

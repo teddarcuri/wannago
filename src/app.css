@@ -64,3 +64,15 @@ html {
 		--angle: 360deg;
 	}
 }
+
+input {
+	@apply mb-5 border-b-2 
+	border-zinc-500
+	bg-transparent
+	py-3
+	w-full
+	text-xl
+	text-white
+	focus:outline-none
+	active:bg-transparent;
+}
