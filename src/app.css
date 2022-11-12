@@ -65,7 +65,7 @@ html {
 	}
 }
 
-input {
+input[type='text'] {
 	@apply mb-5 border-b-2 
 	border-zinc-500
 	bg-transparent

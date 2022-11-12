@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { AuthSession } from '@supabase/supabase-js';
-	import { supabaseClient } from '$lib/supabaseClient';
+	import { supabaseClient } from '$lib/db';
 
 	export let session: AuthSession;
 
@@ -81,30 +81,31 @@
 	}
 </script>
 
-<form class="form-widget" on:submit|preventDefault={updateProfile}>
-	<div>
-		<label for="email">Email</label>
-		<input id="email" type="text" value={session.user.email} disabled />
-	</div>
-	<div>
-		<label for="username">Name</label>
-		<input id="username" type="text" bind:value={username} />
-	</div>
-	<div>
-		<label for="website">Website</label>
-		<input id="website" type="website" bind:value={website} />
-	</div>
+<div class="grid place-items-center">
+	<form class="bg-gray-700 p-6 min-w-[400px]" on:submit|preventDefault={updateProfile}>
+		<h1 class="text-2xl pb-10">Edit Profile</h1>
 
-	<div>
-		<input
-			type="submit"
-			class="button block primary"
-			value={loading ? 'Loading...' : 'Update'}
-			disabled={loading}
-		/>
-	</div>
+		<div>
+			<label for="email">Email</label>
+			<input id="email" type="text" value={session.user.email} disabled />
+		</div>
+		<div>
+			<label for="username">Name</label>
+			<input id="username" type="text" bind:value={username} />
+		</div>
+		<div>
+			<div>
+				<input
+					type="submit"
+					class="button block primary"
+					value={loading ? '...' : 'Update'}
+					disabled={loading}
+				/>
+			</div>
 
-	<div>
-		<button class="button block" on:click={signOut} disabled={loading}>Sign Out</button>
-	</div>
-</form>
+			<div>
+				<button class="button block" on:click={signOut} disabled={loading}>Sign Out</button>
+			</div>
+		</div>
+	</form>
+</div>

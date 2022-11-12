@@ -12,5 +12,6 @@
 {#if !$page.data.session}
 	<Auth />
 {:else}
+	<a href="/globe">Go to Globe</a>
 	<Account session={$page.data.session} />
 {/if}

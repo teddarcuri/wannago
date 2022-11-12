@@ -8,7 +8,12 @@
 
 	$: status = $activeInfoDisplayStore.status;
 	$: displayText = $activeInfoDisplayStore.displayText;
-	$: bgColor = status === ActiveInfoDisplayStatus.Action ? 'bg-slate-800' : 'bg-zinc-900';
+	$: bgColor = {
+		[ActiveInfoDisplayStatus.Action]: 'bg-slate-800',
+		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
+		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
+		[ActiveInfoDisplayStatus.Error]: 'bg-red-700'
+	}[status];
 </script>
 
 <div

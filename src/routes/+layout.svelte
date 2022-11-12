@@ -1,10 +1,14 @@
 <script>
-	import { supabaseClient } from '$lib/supabaseClient';
+	import { supabaseClient } from '$lib/db';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-
+	import { page } from '$app/stores';
 	import '../app.css';
 
+	$: pathname = $page.url.pathname;
+	$: isRoot = pathname === '/';
+	$: navLink = isRoot ? '/globe' : '/';
+	$: navText = isRoot ? 'Go to Globe' : '< Back to Dashboard';
 	onMount(() => {
 		const {
 			data: { subscription }
@@ -20,7 +24,21 @@
 
 <div id="app-wrapper">
 	<header id="app-nav">
-		<div id="logo">wannago</div>
+		<div id="logo" class="mr-7">wannago</div>
+		<nav>
+			<a
+				class="
+				  duration-999 flex items-center 
+                  text-sm uppercase tracking-widest 
+                  opacity-60 transition-all ease-in-out 
+				  px-3
+                  hover:ml-[-7px]
+                  hover:opacity-80"
+				href={navLink}
+			>
+				{navText}
+			</a>
+		</nav>
 	</header>
 	<div id="app-body">
 		<slot />

@@ -1,12 +1,24 @@
 <script lang="ts">
-	import { addDestinationStore } from '../stores';
+	import { supabaseClient } from '$lib/db';
+	import { ActiveInfoDisplayStatus, activeInfoDisplayStore, addDestinationStore } from '../stores';
 
 	let name = '';
 	$: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
 
-	const handleSubmit = () => {
-		console.log('SUBMIT: ', name);
+	const handleSubmit = async () => {
+		const { lng, lat } = marker.getLngLat();
+		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
+			name,
+			lat,
+			lng
+		});
+
+		if (data)
+			activeInfoDisplayStore.update((s) => ({
+				status: ActiveInfoDisplayStatus.Success,
+				displayText: `Succesfully created ${data.name}`
+			}));
 	};
 </script>
 
