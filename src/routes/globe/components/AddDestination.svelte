@@ -7,7 +7,7 @@
 	$: marker = $addDestinationStore.marker;
 
 	const handleSubmit = async () => {
-		const { lng, lat } = marker.getLngLat();
+		const { lng, lat } = marker?.getLngLat() ?? {};
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
 			lat,
@@ -21,12 +21,22 @@
 			}));
 
 			setTimeout(() => {
-				activeInfoDisplayStore.update((s) => ({
-					status: ActiveInfoDisplayStatus.Normal,
-					displayText: ''
-				}));
+				clearActiveInfoDisplay();
 			}, 5000);
 		}
+	};
+
+	const clearActiveInfoDisplay = () => {
+		activeInfoDisplayStore.update((s) => ({
+			status: ActiveInfoDisplayStatus.Normal,
+			displayText: ''
+		}));
+	};
+
+	const handleCancel = () => {
+		marker?.remove();
+		addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
+		clearActiveInfoDisplay();
 	};
 </script>
 
@@ -35,12 +45,12 @@
 		style:top={`${screenPos?.y}px`}
 		style:left={`${screenPos?.x}px`}
 		class="absolute z-50 
-            h-[180px] w-[300px] 
+            h-[180px] w-[320px] 
             translate-x-6
             -translate-y-[106%]
             grid
             place-items-center
-            p-[2px]
+            p-[3px]
             root
         "
 	>
@@ -65,6 +75,22 @@
                 "
 				placeholder="Name this Destination"
 			/>
+			<button
+				class="
+                    h-[40px]
+					w-[40px]
+					rounded-full
+                    absolute
+					top-2
+					right-2
+                    px-3
+					text-xl
+                  	text-zinc-400
+                    hover:text-zinc-200
+                    active:bg-zinc-900
+                "
+				on:click={handleCancel}>x</button
+			>
 			<button
 				class="
                     h-[44px]
