@@ -2,12 +2,13 @@
 	import { ActiveInfoDisplayStatus } from '../stores';
 	import { activeInfoDisplayStore } from '../stores';
 
+	const DEFAULT_DISPLAY_TEXT = 'Document Your World.';
 	let bgColor: string = 'bg-zinc-900';
-	let displayText: string | undefined;
+	let displayText: string;
 	let status: ActiveInfoDisplayStatus;
 
 	$: status = $activeInfoDisplayStore.status;
-	$: displayText = $activeInfoDisplayStore.displayText;
+	$: displayText = $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
 	$: bgColor = {
 		[ActiveInfoDisplayStatus.Action]: 'bg-slate-800',
 		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
@@ -18,8 +19,8 @@
 
 <div
 	class={`
-		absolute top-0 left-0 z-50  w-[220px] 
-		${bgColor} px-3 py-2 text-center 
+		absolute top-0 left-0 z-50 min-w-[220px] 
+		${bgColor} px-7 py-2 text-center 
 		text-sm tracking-widest`}
 >
 	{displayText}

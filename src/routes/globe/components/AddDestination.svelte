@@ -14,11 +14,19 @@
 			lng
 		});
 
-		if (data)
+		if (data) {
 			activeInfoDisplayStore.update((s) => ({
 				status: ActiveInfoDisplayStatus.Success,
 				displayText: `Succesfully created ${data.name}`
 			}));
+
+			setTimeout(() => {
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: ''
+				}));
+			}, 5000);
+		}
 	};
 </script>
 
