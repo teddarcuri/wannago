@@ -1,13 +1,15 @@
 <script lang="ts">
-	import { supabaseClient } from '$lib/db';
 	import type { Map } from 'mapbox-gl';
-	import { ActiveInfoDisplayStatus, activeInfoDisplayStore, addDestinationStore } from '../stores';
-	import rotateCameraAroundPoint from '../util/rotateCameraAroundPoint';
+	import { goto } from '$app/navigation';
+	import { supabaseClient } from '$lib/db';
+	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+	import { addDestinationStore } from '$lib/stores/addDestination';
 	import spinner from '$lib/img/spinner.svg';
 	import addIcon from '$lib/img/add-icon.svg';
 	import destination from '$lib/img/destination.svg';
-	import { goto } from '$app/navigation';
+	import rotateCameraAroundPoint from '../util/rotateCameraAroundPoint';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
+	import { userDestinationsStore } from '$lib/stores/userDestinations';
 
 	export let map: Map;
 
@@ -15,7 +17,6 @@
 	let loading = false;
 	$: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
-
 	const handleSubmit = async () => {
 		loading = true;
 		let element = marker?._element;
@@ -27,7 +28,7 @@
 			...s,
 			displayText: 'Creating Destination...'
 		}));
-		const { lng, lat } = marker?.getLngLat() ?? {};
+		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
 		map.flyTo({
 			center: [lng, lat]
 		});
@@ -57,6 +58,12 @@
 
 		if (data) {
 			setTimeout(async () => {
+				userDestinationsStore.update((s) => ({
+					destinations: [...s.destinations, data]
+				}));
+
+				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
+
 				await goto(`/globe/destinations/${data.name}`);
 				activeInfoDisplayStore.update((s) => ({
 					status: ActiveInfoDisplayStatus.Success,
@@ -67,7 +74,6 @@
 					coordinates: { coordinates: point }
 				} = data; // yes, the double coordinates is unfortunate...
 
-				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
 				rotateCameraAroundPoint({ point, init: 0, map });
 				element?.classList.remove('loading');
 				loading = false;

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { ActiveInfoDisplayStatus } from '../stores';
-	import { activeInfoDisplayStore } from '../stores';
+	import { activeInfoDisplayStore, ActiveInfoDisplayStatus } from '$lib/stores/activeInfoDisplay';
 
 	const DEFAULT_DISPLAY_TEXT = 'Document Your World.';
 	let bgColor: string = 'bg-zinc-900';
@@ -10,7 +9,7 @@
 	$: status = $activeInfoDisplayStore.status;
 	$: displayText = $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
 	$: bgColor = {
-		[ActiveInfoDisplayStatus.Action]: 'bg-slate-800',
+		[ActiveInfoDisplayStatus.Action]: 'bg-gray-600',
 		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
 		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
 		[ActiveInfoDisplayStatus.Error]: 'bg-red-700'

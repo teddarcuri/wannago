@@ -1,20 +1,32 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { supabaseClient } from '$lib/db';
 	import type { Map } from 'mapbox-gl';
 	import { onMount } from 'svelte';
-	import createMarker from '../util/createMarker';
 	import destination from '$lib/img/destination.svg';
-	import { goto } from '$app/navigation';
-	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import addIcon from '$lib/img/add-icon.svg';
+	import { userDestinationsStore } from '$lib/stores/userDestinations';
+	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+	import createMarker from '../util/createMarker';
+	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
+
 	export let map: Map;
+
+	$: destinations = $userDestinationsStore.destinations;
+	$: $userDestinationsStore.destinations, createDestinationMarkers();
 
 	async function loadData() {
 		const { error, data } = await supabaseClient.from('destinations').select();
 
 		if (error) return console.error(error);
 
-		data.forEach(({ name, coordinates }) => {
+		userDestinationsStore.update((s) => ({
+			destinations: data
+		}));
+	}
+
+	const createDestinationMarkers = () => {
+		destinations.forEach(({ name, coordinates }) => {
 			const {
 				coordinates: [lng, lat]
 			} = coordinates;
@@ -35,16 +47,24 @@
 			// TODO: COnsider a refactor
 			// It might be good to simply have this apply/remove a class
 			domElement.addEventListener('mouseenter', () => {
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Action,
+					displayText: name
+				}));
 				const img = getMarkerImgChildNode(domElement);
 				img.src = addIcon;
 			});
 
 			domElement.addEventListener('mouseleave', () => {
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: ''
+				}));
 				const img = getMarkerImgChildNode(domElement);
 				img.src = destination;
 			});
 		});
-	}
+	};
 
 	onMount(async () => await loadData());
 </script>

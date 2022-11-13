@@ -1,19 +1,15 @@
-import type { Map } from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
-import {
-	type AddDestinationStore,
-	ActiveInfoDisplayStatus,
-	activeInfoDisplayStore,
-	addDestinationStore
-} from '../stores';
-import rotateGlobe from './rotateGlobe';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import addIcon from '$lib/img/add-icon.svg';
-import searchIcon from '$lib/img/search-icon.svg';
-import createMarker from './createMarker';
 import { goto } from '$app/navigation';
+import type { Map } from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+// import searchIcon from '$lib/img/search-icon.svg';
+import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+import { type AddDestinationStore, addDestinationStore } from '$lib/stores/addDestination';
+import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import addIcon from '$lib/img/add-icon.svg';
+import createMarker from './createMarker';
+import rotateGlobe from './rotateGlobe';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe((d) => {
