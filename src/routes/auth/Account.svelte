@@ -81,9 +81,16 @@
 	}
 </script>
 
-<div class="grid place-items-center">
-	<form class="bg-gray-700 p-6 min-w-[400px]" on:submit|preventDefault={updateProfile}>
-		<h1 class="text-2xl pb-10">Edit Profile</h1>
+<div class="grid place-items-center pt-16">
+	<form
+		class="p-9 bg-gray-900 min-w-[500px] 
+			rounded-lg pb-[77px]
+			border-gray-800 border-4
+			text-sm
+			"
+		on:submit|preventDefault={updateProfile}
+	>
+		<h1 class="text-2xl pb-10">Your Basic Info</h1>
 
 		<div>
 			<label for="email">Email</label>

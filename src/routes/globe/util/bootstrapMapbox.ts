@@ -12,6 +12,8 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import addIcon from '$lib/img/add-icon.svg';
 import searchIcon from '$lib/img/search-icon.svg';
+import createMarker from './createMarker';
+import { goto } from '$app/navigation';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe((d) => {
@@ -41,29 +43,29 @@ export default async (): Promise<Map> => {
 	});
 
 	// Controls
-	map.addControl(
-		new MapboxGeocoder({
-			accessToken: mapboxgl.accessToken,
-			mapboxgl: mapboxgl,
-			marker: {
-				element: (() => {
-					// Add marker
-					var wrapper = document.createElement('div');
-					wrapper.classList.add('mapboxgl-marker-wrapper');
-					var inner = document.createElement('div');
-					inner.classList.add('mapboxgl-marker-inner');
-					var background = document.createElement('div');
-					background.classList.add('mapboxgl-marker-background');
-					var gimg = document.createElement('img');
-					gimg.src = searchIcon;
-					inner.append(gimg);
-					wrapper.append(inner);
-					wrapper.append(background);
-					return wrapper;
-				})()
-			}
-		})
-	);
+	// map.addControl(
+	// 	new MapboxGeocoder({
+	// 		accessToken: mapboxgl.accessToken,
+	// 		mapboxgl: mapboxgl,
+	// 		marker: {
+	// 			element: (() => {
+	// 				// Add marker
+	// 				var wrapper = document.createElement('div');
+	// 				wrapper.classList.add('mapboxgl-marker-wrapper');
+	// 				var inner = document.createElement('div');
+	// 				inner.classList.add('mapboxgl-marker-inner');
+	// 				var background = document.createElement('div');
+	// 				background.classList.add('mapboxgl-marker-background');
+	// 				var gimg = document.createElement('img');
+	// 				gimg.src = searchIcon;
+	// 				inner.append(gimg);
+	// 				wrapper.append(inner);
+	// 				wrapper.append(background);
+	// 				return wrapper;
+	// 			})()
+	// 		}
+	// 	})
+	// );
 
 	map.on('zoomstart', () => {
 		// map.stop();
@@ -143,6 +145,8 @@ export default async (): Promise<Map> => {
 	});
 
 	map.on('dblclick', (e) => {
+		map.stop();
+		goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
 		const cameraIsLow = currentZoom < lowZoom;
@@ -157,7 +161,7 @@ export default async (): Promise<Map> => {
 		// Show user they are adding a destination
 		activeInfoDisplayStore.update(() => ({
 			status: ActiveInfoDisplayStatus.Action,
-			displayText: 'New Destination'
+			displayText: "What's here?"
 		}));
 
 		// Stop camera rotation
@@ -174,21 +178,13 @@ export default async (): Promise<Map> => {
 		});
 
 		// Add marker
-		var wrapper = document.createElement('div');
-		wrapper.classList.add('mapboxgl-marker-wrapper');
-		var inner = document.createElement('div');
-		inner.classList.add('mapboxgl-marker-inner');
-		var background = document.createElement('div');
-		background.classList.add('mapboxgl-marker-background');
-		var img = document.createElement('img');
-		img.src = addIcon;
-		inner.append(img);
-		wrapper.append(inner);
-		wrapper.append(background);
-
-		const marker = new mapboxgl.Marker({ element: wrapper, draggable: true })
-			.setLngLat([lng, lat])
-			.addTo(map);
+		const marker = createMarker({
+			map,
+			icon: addIcon,
+			lat,
+			lng,
+			draggable: true
+		});
 
 		// Add marker to addDestination store
 		addDestinationStore.update((s) => ({

@@ -1,28 +1,80 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/db';
+	import type { Map } from 'mapbox-gl';
 	import { ActiveInfoDisplayStatus, activeInfoDisplayStore, addDestinationStore } from '../stores';
+	import rotateCameraAroundPoint from '../util/rotateCameraAroundPoint';
+	import spinner from '$lib/img/spinner.svg';
+	import addIcon from '$lib/img/add-icon.svg';
+	import destination from '$lib/img/destination.svg';
+	import { goto } from '$app/navigation';
+	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
+
+	export let map: Map;
 
 	let name = '';
+	let loading = false;
 	$: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
 
 	const handleSubmit = async () => {
+		loading = true;
+		let element = marker?._element;
+		// Sweet, baby jesus this is hacky and needs to be done another way
+		const img = getMarkerImgChildNode(element);
+		img.src = spinner;
+		element?.classList.add('loading');
+		activeInfoDisplayStore.update((s) => ({
+			...s,
+			displayText: 'Creating Destination...'
+		}));
 		const { lng, lat } = marker?.getLngLat() ?? {};
+		map.flyTo({
+			center: [lng, lat]
+		});
+
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
 			lat,
 			lng
 		});
 
-		if (data) {
+		if (error) {
+			img.src = addIcon;
+			loading = false;
+			element?.classList.remove('loading');
 			activeInfoDisplayStore.update((s) => ({
-				status: ActiveInfoDisplayStatus.Success,
-				displayText: `Succesfully created ${data.name}`
+				status: ActiveInfoDisplayStatus.Error,
+				displayText: 'error dude'
 			}));
 
 			setTimeout(() => {
-				clearActiveInfoDisplay();
-			}, 5000);
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: "What's here?"
+				}));
+			}, 4000);
+		}
+
+		if (data) {
+			setTimeout(async () => {
+				await goto(`/globe/destinations/${data.name}`);
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Success,
+					displayText: `Succesfully created ${data.name}`
+				}));
+
+				const {
+					coordinates: { coordinates: point }
+				} = data; // yes, the double coordinates is unfortunate...
+
+				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
+				rotateCameraAroundPoint({ point, init: 0, map });
+				element?.classList.remove('loading');
+				loading = false;
+				img.src = destination;
+			}, 2000);
+
+			setTimeout(() => clearActiveInfoDisplay(), 9000);
 		}
 	};
 
@@ -40,25 +92,33 @@
 	};
 </script>
 
-{#if marker}
+{#if marker && !loading}
 	<div
 		style:top={`${screenPos?.y}px`}
 		style:left={`${screenPos?.x}px`}
 		class="absolute z-50 
-            h-[180px] w-[320px] 
+            h-[190px] w-[333px] 
             translate-x-6
             -translate-y-[106%]
             grid
             place-items-center
-            p-[3px]
+			rounded-lg
+			overflow-hidden
+            p-[2px]
             root
         "
 	>
+		{#if loading}
+			<div class="absolute bg-black w-full h-full">Creating Destination</div>
+		{/if}
+
 		<form
 			on:submit|preventDefault={handleSubmit}
 			class="
-              bg-zinc-900 p-4 
+              bg-zinc-900 p-4
                 pt-9 w-full h-full flex flex-col
+				rounded-lg
+
             "
 		>
 			<input
@@ -89,6 +149,7 @@
                     hover:text-zinc-200
                     active:bg-zinc-900
                 "
+				type="button"
 				on:click={handleCancel}>x</button
 			>
 			<button
@@ -112,6 +173,6 @@
 <style>
 	.root {
 		--angle: -50deg;
-		background-image: linear-gradient(var(--angle), #4c5563, #94a3b8);
+		background-image: linear-gradient(var(--angle), #2b3441, #3a4554);
 	}
 </style>

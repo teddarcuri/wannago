@@ -12,7 +12,7 @@ html {
 	box-sizing: border-box;
 	background: #000;
 	color: #fff;
-	font-family: 'Proxima Nova';
+	font-family: 'proxima-nova';
 }
 
 .mapboxgl-marker-wrapper {
@@ -37,14 +37,28 @@ html {
 	border-radius: 100%;
 	background-image: linear-gradient(var(--angle), #4c5563, rgb(200, 200, 200));
 	animation: 6s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
-	box-shadow: 0px 0px 11px 1px rgba(0, 0, 0, 0.6);
+	box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.5);
+}
+
+.active-destination {
+	background-image: linear-gradient(
+		var(--angle),
+		rgb(101, 197, 133),
+		#307f6e,
+		rgb(102, 175, 102),
+		rgb(62, 127, 187)
+	);
+}
+
+.destination {
+	background-image: linear-gradient(var(--angle), #5f708b, #425369, #3a4554);
 }
 
 .mapboxgl-marker-inner {
 	background-image: linear-gradient(0deg, #333, #000);
 	border-radius: 50%;
-	height: 42px;
-	width: 42px;
+	height: calc(100% - 3px);
+	width: calc(100% - 3px);
 	z-index: 4;
 	display: flex;
 	align-items: center;
@@ -53,6 +67,11 @@ html {
 
 .mapboxgl-marker-inner img {
 	width: 17px;
+}
+
+.mapboxgl-marker.loading img {
+	width: 33px;
+	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 }
 
 .mapboxgl-canvas {

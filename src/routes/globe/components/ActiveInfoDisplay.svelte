@@ -17,11 +17,17 @@
 	}[status];
 </script>
 
-<div
-	class={`
-		absolute top-0 left-0 z-50 min-w-[220px] 
-		${bgColor} px-7 py-2 text-center 
-		text-sm tracking-widest`}
->
+<div class={bgColor}>
 	{displayText}
 </div>
+
+<style>
+	div {
+		@apply absolute top-0 left-0 z-50 min-w-[220px] 
+		 px-7 py-2 text-center opacity-80
+		rounded-br-sm
+		text-sm tracking-widest;
+
+		transition: all ease 0.6s;
+	}
+</style>

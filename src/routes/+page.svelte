@@ -5,13 +5,12 @@
 </script>
 
 <svelte:head>
-	<title>Supabase + SvelteKit</title>
-	<meta name="description" content="SvelteKit using supabase-js v2" />
+	<title>Wannago</title>
+	<meta name="description" content="We live in a beautiful World. Document yours." />
 </svelte:head>
 
 {#if !$page.data.session}
 	<Auth />
 {:else}
-	<a href="/globe">Go to Globe</a>
 	<Account session={$page.data.session} />
 {/if}
