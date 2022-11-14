@@ -1,7 +1,7 @@
 <div
 	class="
         absolute
-        top-[55px]
+        top-[50px]
         text-gray-200
         rounded-md
         left-[15px]

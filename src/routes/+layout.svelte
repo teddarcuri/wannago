@@ -11,6 +11,7 @@
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
 	$: navText = isRoot ? 'View Globe' : 'Dashboard';
+	$: session = $page.data.session;
 
 	onMount(() => {
 		const {
@@ -29,20 +30,21 @@
 	<header id="app-nav">
 		<div id="logo" class="mr-7">wannago</div>
 		<nav>
-			<a
-				class="
-				  duration-999 flex items-center 
-                  text-xs uppercase tracking-widest 
-                  opacity-60 transition-all ease-in-out 
-				  px-3
-                  hover:ml-[-7px]
-                  hover:opacity-80"
-				href={navLink}
-				class:active={isRoot}
-			>
-				<img class="mr-3" src={dashboard} width="15px" heihgt="15px" />
-				{navText}
-			</a>
+			{#if session}
+				<a
+					class:active={isRoot}
+					class="
+					duration-999 flex items-center 
+					text-xs uppercase tracking-widest 
+					opacity-50 transition-all ease-in-out 
+					px-3
+					hover:opacity-80"
+					href={navLink}
+				>
+					<img class="mr-3" src={dashboard} width="15px" heihgt="15px" />
+					{navText}
+				</a>
+			{/if}
 		</nav>
 	</header>
 	<div id="app-body">
@@ -71,8 +73,9 @@
 		z-index: 99;
 	}
 
-	nav a {
-		@apply ml-[-7px] opacity-80;
+	nav a.active {
+		@apply opacity-90;
+		transform: scale(1.1);
 	}
 
 	#app-body {

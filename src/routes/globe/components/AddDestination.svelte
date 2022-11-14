@@ -29,9 +29,9 @@
 			displayText: 'Creating Destination...'
 		}));
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
-		map.flyTo({
-			center: [lng, lat]
-		});
+		// map.flyTo({
+		// 	center: [lng, lat]
+		// });
 
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
@@ -66,21 +66,20 @@
 
 		if (data) {
 			setTimeout(async () => {
+				const {
+					coordinates: { coordinates: point }
+				} = data; // yes, the double coordinates is unfortunate...
+
 				userDestinationsStore.update((s) => ({
 					destinations: [...s.destinations, data]
 				}));
 
-				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
-
 				await goto(`/globe/destinations/${data.name}`);
+				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
 				activeInfoDisplayStore.update((s) => ({
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`
 				}));
-
-				const {
-					coordinates: { coordinates: point }
-				} = data; // yes, the double coordinates is unfortunate...
 
 				rotateCameraAroundPoint({ point, init: 0, map });
 				element?.classList.remove('loading');

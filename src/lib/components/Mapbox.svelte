@@ -14,14 +14,17 @@
 
 	$: storeDump = JSON.stringify($userDestinationsStore);
 	$: applyBlur = $page.url.pathname === '/' ? 'blur' : '';
+	$: session = $page.data.session;
 </script>
 
 <div id="mapbox-mount" class={applyBlur} />
-<!-- <div class="absolute bottom-0 left-0 p-7 overflow-auto w-[400px] h-[200px] bg-gray-900">
+<div class="absolute top-0 right-0 p-7 overflow-auto w-[400px] h-full bg-gray-900">
 	{storeDump}
-</div> -->
+</div>
 {#if map}
-	<ActiveInfoDisplay />
+	{#if session}
+		<ActiveInfoDisplay />
+	{/if}
 	<AddDestination {map} />
 	<DestinationMarkers {map} />
 {/if}

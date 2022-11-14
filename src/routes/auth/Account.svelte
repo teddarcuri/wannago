@@ -81,38 +81,31 @@
 	}
 </script>
 
-<div class="grid place-items-center">
+<div class="col-span-4 grid place-items-center">
 	<form
-		class="p-9 bg-gray-900 min-w-[500px] 
-			rounded-lg pb-[77px]
+		class="p-9 bg-gray-900 w-full 
+			rounded-lg 
 			border-gray-800 border-4
 			text-sm
 			"
 		on:submit|preventDefault={updateProfile}
 	>
-		<div>
-			<label for="email">Email</label>
-			<input id="email" type="text" value={session.user.email} disabled />
-		</div>
-		<div>
-			<label for="username">Name</label>
-			<input id="username" type="text" bind:value={username} />
-		</div>
-		<div>
-			<div>
-				<input
-					type="submit"
-					class="button block primary"
-					value={loading ? '...' : 'Update'}
-					disabled={loading}
-				/>
-			</div>
-		</div>
+		<label for="email">Email</label>
+		<input id="email" type="text" value={session.user.email} disabled />
+
+		<label for="username">Name</label>
+		<input id="username" type="text" bind:value={username} />
+
+		<button type="submit" disabled={loading}>
+			{loading ? '...' : 'Update'}
+		</button>
 	</form>
 
 	<div>
-		<button class="absolute right-[20px] bottom-[20px]" on:click={signOut} disabled={loading}
-			>Sign Out</button
+		<button
+			class="absolute bg-sky-900 right-[20px] bottom-[20px]"
+			on:click={signOut}
+			disabled={loading}>Log Me Out</button
 		>
 	</div>
 </div>

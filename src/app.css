@@ -68,6 +68,7 @@ html {
 .mapboxgl-marker-inner img {
 	width: 17px;
 	opacity: 0.7;
+	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 }
 
 .mapboxgl-marker.loading img {
@@ -94,11 +95,11 @@ button {
 	self-end
 	rounded-md
 	px-6
+	bg-sky-900
   	text-zinc-200
 	hover:border-zinc-600
 	hover:bg-gray-800
-	hover:text-zinc-200
- bg-gray-900;
+	hover:text-zinc-200;
 }
 
 input[type='text'] {

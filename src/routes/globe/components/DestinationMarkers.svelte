@@ -40,7 +40,6 @@
 			const img = getMarkerImgChildNode(domElement);
 			domElement.addEventListener('click', (e) => {
 				goto(`/globe/destinations/${name}`);
-				rotateCameraAroundPoint({ point: coordinates.coordinates, init: 0, map });
 				domElement.classList.add('active-destination');
 				img.src = destinationIconMo;
 				map.flyTo({

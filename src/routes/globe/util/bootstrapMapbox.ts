@@ -31,8 +31,8 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		// style: 'mapbox://styles/mapbox/satellite-v9',
-		style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+		style: 'mapbox://styles/mapbox/satellite-v9',
+		// style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
