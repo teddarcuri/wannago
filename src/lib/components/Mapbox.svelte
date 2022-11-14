@@ -8,19 +8,16 @@
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
 	import AddDestination from '@globe/components/AddDestination.svelte';
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
-
+	import DeveloperTools from './DeveloperTools.svelte';
 	let map: Map;
 	onMount(async () => (map = await bootstrapMapbox()));
 
-	$: storeDump = JSON.stringify($userDestinationsStore);
 	$: applyBlur = $page.url.pathname === '/' ? 'blur' : '';
 	$: session = $page.data.session;
 </script>
 
 <div id="mapbox-mount" class={applyBlur} />
-<div class="absolute top-0 right-0 p-7 overflow-auto w-[400px] h-full bg-gray-900">
-	{storeDump}
-</div>
+<DeveloperTools />
 {#if map}
 	{#if session}
 		<ActiveInfoDisplay />
