@@ -4,12 +4,13 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import dashboard from '$lib/img/dashboard.svg';
+	import Mapbox from '$lib/components/Mapbox.svelte';
 	import '../app.css';
 
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
-	$: navText = isRoot ? 'Back to Globe' : 'Dashboard';
+	$: navText = isRoot ? 'View Globe' : 'Dashboard';
 
 	onMount(() => {
 		const {
@@ -37,6 +38,7 @@
                   hover:ml-[-7px]
                   hover:opacity-80"
 				href={navLink}
+				class:active={isRoot}
 			>
 				<img class="mr-3" src={dashboard} width="15px" heihgt="15px" />
 				{navText}
@@ -44,6 +46,7 @@
 		</nav>
 	</header>
 	<div id="app-body">
+		<Mapbox />
 		<slot />
 	</div>
 </div>
@@ -64,6 +67,12 @@
 		flex: 0 0 70px;
 		display: flex;
 		align-items: center;
+		background: black;
+		z-index: 99;
+	}
+
+	nav a {
+		@apply ml-[-7px] opacity-80;
 	}
 
 	#app-body {

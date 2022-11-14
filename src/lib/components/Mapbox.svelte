@@ -1,19 +1,22 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import bootstrapMapbox from './util/bootstrapMapbox';
-	import ActiveInfoDisplay from './components/ActiveInfoDisplay.svelte';
-	import AddDestination from './components/AddDestination.svelte';
-	import DestinationMarkers from './components/DestinationMarkers.svelte';
+	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
+	import { onMount } from 'svelte';
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
+	// @globe
+	import bootstrapMapbox from '@globe/util/bootstrapMapbox';
+	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
+	import AddDestination from '@globe/components/AddDestination.svelte';
+	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
 
 	let map: Map;
 	onMount(async () => (map = await bootstrapMapbox()));
 
 	$: storeDump = JSON.stringify($userDestinationsStore);
+	$: applyBlur = $page.url.pathname === '/' ? 'blur' : '';
 </script>
 
-<div id="mapbox-mount" />
+<div id="mapbox-mount" class={applyBlur} />
 <!-- <div class="absolute bottom-0 left-0 p-7 overflow-auto w-[400px] h-[200px] bg-gray-900">
 	{storeDump}
 </div> -->
@@ -28,5 +31,11 @@
 	#mapbox-mount {
 		width: 100%;
 		height: 100%;
+		transition: all ease 1s;
+	}
+
+	.blur {
+		@apply blur-md;
+		transform: scale(1.1);
 	}
 </style>

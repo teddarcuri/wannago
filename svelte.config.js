@@ -10,7 +10,12 @@ const config = {
 	}),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		alias: {
+			'@': 'src/*',
+			'@routes': 'src/routes/*',
+			'@globe': 'src/routes/globe/*'
+		}
 	}
 };
 

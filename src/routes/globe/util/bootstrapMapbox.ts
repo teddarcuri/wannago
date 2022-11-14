@@ -8,7 +8,7 @@ import { type AddDestinationStore, addDestinationStore } from '$lib/stores/addDe
 import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import addIcon from '$lib/img/add-icon.svg';
-import createMarker from './createMarker';
+import createMarker, { MarkerType } from './createMarker';
 import rotateGlobe from './rotateGlobe';
 import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 
@@ -180,6 +180,7 @@ export default async (): Promise<Map> => {
 
 		// Add marker
 		const marker = createMarker({
+			markerType: MarkerType.newDestination,
 			map,
 			icon: addIcon,
 			lat,

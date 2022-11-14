@@ -3,7 +3,8 @@ import { Marker } from 'mapbox-gl';
 
 export enum MarkerType {
 	destination,
-	activeDestination
+	activeDestination,
+	newDestination
 }
 
 interface Options {

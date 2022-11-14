@@ -81,7 +81,7 @@
 	}
 </script>
 
-<div class="grid place-items-center pt-16">
+<div class="grid place-items-center">
 	<form
 		class="p-9 bg-gray-900 min-w-[500px] 
 			rounded-lg pb-[77px]
@@ -90,8 +90,6 @@
 			"
 		on:submit|preventDefault={updateProfile}
 	>
-		<h1 class="text-2xl pb-10">Your Basic Info</h1>
-
 		<div>
 			<label for="email">Email</label>
 			<input id="email" type="text" value={session.user.email} disabled />
@@ -109,10 +107,12 @@
 					disabled={loading}
 				/>
 			</div>
-
-			<div>
-				<button class="button block" on:click={signOut} disabled={loading}>Sign Out</button>
-			</div>
 		</div>
 	</form>
+
+	<div>
+		<button class="absolute right-[20px] bottom-[20px]" on:click={signOut} disabled={loading}
+			>Sign Out</button
+		>
+	</div>
 </div>

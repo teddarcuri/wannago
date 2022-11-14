@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { supabaseClient } from '$lib/db';
 	import type { Map } from 'mapbox-gl';
 	import { onMount } from 'svelte';
 	import destination from '$lib/img/destination.svg';
-	import addIcon from '$lib/img/add-icon.svg';
+	import destinationIconMo from '$lib/img/destination-mo.svg';
+
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
 	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
 	import createMarker from '../util/createMarker';
@@ -15,6 +17,7 @@
 
 	$: destinations = $userDestinationsStore.destinations;
 	$: $userDestinationsStore.destinations, createDestinationMarkers();
+	$: slug = $page.params.slug;
 
 	async function loadData() {
 		const { error, data } = await supabaseClient.from('destinations').select();
@@ -34,17 +37,19 @@
 
 			const marker = createMarker({ map, lat, lng, icon: destination });
 			const domElement = marker.getElement();
+			const img = getMarkerImgChildNode(domElement);
 			domElement.addEventListener('click', (e) => {
 				goto(`/globe/destinations/${name}`);
 				rotateCameraAroundPoint({ point: coordinates.coordinates, init: 0, map });
 				domElement.classList.add('active-destination');
-				// map.flyTo({
-				// 	zoom: 14.555,
-				// 	center: coordinates.coordinates,
-				// 	pitch: 69,
-				// 	speed: 1,
-				// 	curve: 1
-				// });
+				img.src = destinationIconMo;
+				map.flyTo({
+					zoom: 14.555,
+					center: coordinates.coordinates,
+					pitch: 69,
+					speed: 1,
+					curve: 1
+				});
 			});
 
 			// TODO: COnsider a refactor
@@ -54,16 +59,15 @@
 					status: ActiveInfoDisplayStatus.Action,
 					displayText: name
 				}));
-				const img = getMarkerImgChildNode(domElement);
-				img.src = addIcon;
+				img.src = destinationIconMo;
 			});
 
 			domElement.addEventListener('mouseleave', () => {
+				const isActiveDestination = name === slug;
 				activeInfoDisplayStore.update((s) => ({
 					status: ActiveInfoDisplayStatus.Normal,
 					displayText: ''
 				}));
-				const img = getMarkerImgChildNode(domElement);
 				img.src = destination;
 			});
 		});

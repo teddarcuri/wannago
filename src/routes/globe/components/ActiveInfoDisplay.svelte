@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { activeInfoDisplayStore, ActiveInfoDisplayStatus } from '$lib/stores/activeInfoDisplay';
 
 	const DEFAULT_DISPLAY_TEXT = 'Document Your World.';
@@ -6,13 +7,17 @@
 	let displayText: string;
 	let status: ActiveInfoDisplayStatus;
 
+	$: session = $page.data.session;
 	$: status = $activeInfoDisplayStore.status;
-	$: displayText = $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
+	$: displayText = !session
+		? 'Create an account to save destinations'
+		: $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
 	$: bgColor = {
 		[ActiveInfoDisplayStatus.Action]: 'bg-gray-800',
 		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
 		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
-		[ActiveInfoDisplayStatus.Error]: 'bg-red-700'
+		[ActiveInfoDisplayStatus.Error]: 'bg-red-700',
+		[ActiveInfoDisplayStatus.Information]: 'bg-sky-800'
 	}[status];
 </script>
 

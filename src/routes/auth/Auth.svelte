@@ -20,10 +20,9 @@
 	};
 </script>
 
-<form class="bg-black h-full grid place-items-center" on:submit|preventDefault={handleLogin}>
-	<div class="col-6 form-widget border-2 border-gray-800 p-10">
-		<h1 class="text-3xl pb-1">We live in a beautiful World.</h1>
-		<h3 class="text-2xl pb-6">Document Yours.</h3>
+<form class="bg-gray-900 h-full grid place-items-center" on:submit|preventDefault={handleLogin}>
+	<div class="gradient" />
+	<div class="inner p-10">
 		<p class="py-4">Sign in via magic link with your email below</p>
 		<input
 			class="
@@ -59,3 +58,22 @@
 		/>
 	</div>
 </form>
+
+<style>
+	form {
+		position: relative;
+		padding: 2px;
+		opacity: 0.9;
+	}
+
+	.gradient {
+		@apply absolute top-0 left-0
+		w-full h-full;
+		opacity: 0.4;
+		background-image: linear-gradient(120deg, #426eb5, #9db5dc, #7fb6ff, #2361b9, #0d3e84);
+	}
+	.inner {
+		@apply bg-black;
+		z-index: 9;
+	}
+</style>

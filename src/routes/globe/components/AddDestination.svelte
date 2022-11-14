@@ -21,7 +21,6 @@
 	const handleSubmit = async () => {
 		loading = true;
 		let element = marker?._element;
-		// Sweet, baby jesus this is hacky and needs to be done another way
 		const img = getMarkerImgChildNode(element);
 		img.src = spinner;
 		element?.classList.add('loading');
@@ -44,10 +43,18 @@
 			img.src = addIcon;
 			loading = false;
 			element?.classList.remove('loading');
-			activeInfoDisplayStore.update((s) => ({
-				status: ActiveInfoDisplayStatus.Error,
-				displayText: 'error dude'
-			}));
+
+			if (error.code === '42501') {
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Information,
+					displayText: s.displayText
+				}));
+			} else {
+				activeInfoDisplayStore.update((s) => ({
+					status: ActiveInfoDisplayStatus.Error,
+					displayText: 'error dude'
+				}));
+			}
 
 			setTimeout(() => {
 				activeInfoDisplayStore.update((s) => ({

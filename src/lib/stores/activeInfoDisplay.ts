@@ -8,7 +8,8 @@ export enum ActiveInfoDisplayStatus {
 	Normal,
 	Action,
 	Success,
-	Error
+	Error,
+	Information
 }
 
 export interface ActiveInfoDisplayStore {
