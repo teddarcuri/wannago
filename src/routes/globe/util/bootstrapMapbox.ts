@@ -65,30 +65,16 @@ export default async (): Promise<Map> => {
 	// 	})
 	// );
 
-	map.on('zoomstart', () => {
-		// map.stop();
-	});
-
 	// Lifecycle
 	map.on('load', () => {
 		// disable zoom on double click
 		// rn, dbl click is being used to add a destination
 		map.doubleClickZoom.disable();
-
-		// // A little fog to set the mood
-		// map.setFog({
-		// 	color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
-		// 	'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
-		// 	'horizon-blend': 0.0333, // Atmosphere thickness (default 0.2 at low zooms)
-		// 	'space-color': 'rgb(0, 0, 0)', // Background color
-		// 	'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
-		// });
-
+		// Rotate the globe
 		rotateGlobe(map);
 	});
 
 	map.on('render', () => {
-		//
 		// Add Destination set screen coordinates
 		if (addDestination?.marker) {
 			addDestinationStore.update((s) => ({
@@ -146,7 +132,6 @@ export default async (): Promise<Map> => {
 	});
 
 	map.on('dblclick', (e) => {
-		map.stop();
 		goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
@@ -155,8 +140,6 @@ export default async (): Promise<Map> => {
 		const { lat, lng } = lngLat;
 
 		// Remove old marker if exist
-		// TODO: Make this logic declaritive by allowing
-		// component lifecycle methods to take care of rendering
 		if (addDestination?.marker) addDestination.marker.remove();
 
 		// Show user they are adding a destination
@@ -165,10 +148,7 @@ export default async (): Promise<Map> => {
 			displayText: "What's here?"
 		}));
 
-		// Stop camera rotation
-		map.stop();
-
-		// Fly to destination
+		// // Fly to destination
 		map.flyTo({
 			zoom: cameraIsLow ? lowZoom : currentZoom,
 			center: [lng, lat],
@@ -193,13 +173,6 @@ export default async (): Promise<Map> => {
 			...s,
 			marker
 		}));
-	});
-
-	map.on('contextmenu', () => {
-		// stop camera rotation
-		map.stop();
-		// load styles
-		// map.setStyle('mapbox://styles/mapbox/satellite-streets-v11');
 	});
 
 	map.on('mousemove', (e) => {
