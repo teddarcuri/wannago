@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import dashboard from '$lib/img/dashboard.svg';
 	import Mapbox from '$lib/components/Mapbox.svelte';
+	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import '../app.css';
 
 	$: pathname = $page.url.pathname;
@@ -48,6 +49,7 @@
 		</nav>
 	</header>
 	<div id="app-body">
+		<NavigationManager />
 		<Mapbox />
 		<slot />
 	</div>
