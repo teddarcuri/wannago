@@ -9,6 +9,7 @@
 	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
 	import createMarker from '../util/createMarker';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
+	import rotateCameraAroundPoint from '../util/rotateCameraAroundPoint';
 
 	export let map: Map;
 
@@ -35,13 +36,15 @@
 			const domElement = marker.getElement();
 			domElement.addEventListener('click', (e) => {
 				goto(`/globe/destinations/${name}`);
-				map.flyTo({
-					zoom: 13,
-					center: coordinates.coordinates,
-					pitch: 69,
-					speed: 1,
-					curve: 1
-				});
+				rotateCameraAroundPoint({ point: coordinates.coordinates, init: 0, map });
+				domElement.classList.add('active-destination');
+				// map.flyTo({
+				// 	zoom: 14.555,
+				// 	center: coordinates.coordinates,
+				// 	pitch: 69,
+				// 	speed: 1,
+				// 	curve: 1
+				// });
 			});
 
 			// TODO: COnsider a refactor

@@ -14,9 +14,9 @@
 </script>
 
 <div id="mapbox-mount" />
-<div class="absolute bottom-0 left-0 p-7 overflow-auto w-[400px] h-[200px] bg-gray-900">
+<!-- <div class="absolute bottom-0 left-0 p-7 overflow-auto w-[400px] h-[200px] bg-gray-900">
 	{storeDump}
-</div>
+</div> -->
 {#if map}
 	<ActiveInfoDisplay />
 	<AddDestination {map} />

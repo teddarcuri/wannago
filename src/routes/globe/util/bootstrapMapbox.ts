@@ -10,6 +10,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import addIcon from '$lib/img/add-icon.svg';
 import createMarker from './createMarker';
 import rotateGlobe from './rotateGlobe';
+import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe((d) => {
@@ -30,7 +31,8 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		style: 'mapbox://styles/mapbox/satellite-v9',
+		// style: 'mapbox://styles/mapbox/satellite-v9',
+		style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
@@ -73,16 +75,27 @@ export default async (): Promise<Map> => {
 		// rn, dbl click is being used to add a destination
 		map.doubleClickZoom.disable();
 
-		// A little fog to set the mood
-		map.setFog({
-			color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
-			'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
-			'horizon-blend': 0.0333, // Atmosphere thickness (default 0.2 at low zooms)
-			'space-color': 'rgb(0, 0, 0)', // Background color
-			'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
-		});
+		// // A little fog to set the mood
+		// map.setFog({
+		// 	color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
+		// 	'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
+		// 	'horizon-blend': 0.0333, // Atmosphere thickness (default 0.2 at low zooms)
+		// 	'space-color': 'rgb(0, 0, 0)', // Background color
+		// 	'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+		// });
 
 		rotateGlobe(map);
+	});
+
+	map.on('render', () => {
+		//
+		// Add Destination set screen coordinates
+		if (addDestination?.marker) {
+			addDestinationStore.update((s) => ({
+				...s,
+				screenPos: s.marker?._pos
+			}));
+		}
 	});
 
 	map.on('styledata', () => {
@@ -94,50 +107,42 @@ export default async (): Promise<Map> => {
 			tileSize: 512,
 			maxzoom: 14
 		});
+		// Set Terrain
 		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.666 });
-	});
 
-	// Events
-	map.on('render', () => {
-		//
-		// Add Destination
-		if (addDestination?.marker) {
-			addDestinationStore.update((s) => ({
-				...s,
-				screenPos: s.marker?._pos
-			}));
-		}
-
-		//
-		// Update atmosphere
-		// Show sky when user is low enough
-		const HORIZON_BLEND_LOW = 0.0333;
-		const HORIZON_BLEND_HIGH = 1;
-		const fog = map.getFog();
-		const zoom = map.getZoom();
-		// If the user is zoomed in enough, set the fog to ressemble an atmosphere
-		if (zoom < 5.555) {
-			if (fog?.['horizon-blend'] !== HORIZON_BLEND_LOW) {
-				map.setFog({
-					color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
-					'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
-					'horizon-blend': HORIZON_BLEND_LOW, // Atmosphere thickness (default 0.2 at low zooms)
-					'space-color': 'rgb(0, 0, 0)', // Background color
-					'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
-				});
+		// Draw Atmosphere on render
+		map.on('render', () => {
+			//
+			// Update atmosphere
+			// Show sky when user is low enough
+			const HORIZON_BLEND_LOW = 0.0333;
+			const HORIZON_BLEND_HIGH = 1;
+			const fog = map.getFog();
+			const zoom = map.getZoom();
+			// If the user is zoomed in enough, set the fog to ressemble an atmosphere
+			if (zoom < 5.555) {
+				if (fog?.['horizon-blend'] !== HORIZON_BLEND_LOW) {
+					map.setFog({
+						color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
+						'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
+						'horizon-blend': HORIZON_BLEND_LOW, // Atmosphere thickness (default 0.2 at low zooms)
+						'space-color': 'rgb(0, 0, 0)', // Background color
+						'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+					});
+				}
+			} else {
+				// If the user is zoomed out enough, set the fog to ressemble space
+				if (fog?.['horizon-blend'] !== HORIZON_BLEND_HIGH) {
+					map.setFog({
+						color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
+						'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
+						'horizon-blend': HORIZON_BLEND_HIGH, // Atmosphere thickness (default 0.2 at low zooms)
+						'space-color': 'rgb(0, 0, 0)', // Background color
+						'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+					});
+				}
 			}
-		} else {
-			// If the user is zoomed out enough, set the fog to ressemble space
-			if (fog?.['horizon-blend'] !== HORIZON_BLEND_HIGH) {
-				map.setFog({
-					color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
-					'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
-					'horizon-blend': HORIZON_BLEND_HIGH, // Atmosphere thickness (default 0.2 at low zooms)
-					'space-color': 'rgb(0, 0, 0)', // Background color
-					'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
-				});
-			}
-		}
+		});
 	});
 
 	map.on('dblclick', (e) => {
@@ -197,11 +202,12 @@ export default async (): Promise<Map> => {
 	});
 
 	map.on('mousemove', (e) => {
+		// Get Lat, Lng for ActiveInfoDisplay
 		if (activeInfoDisplayStatus === ActiveInfoDisplayStatus.Normal) {
 			const { lngLat } = e;
 			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;
 			const lng = `${Math.abs(lngLat.lng.toFixed(3))}° ${lngLat.lng > 0 ? 'E' : 'W'}`;
-			const displayText = `${lat}, ${lng}`;
+			const displayText = getLatLngDisplayText(lngLat.lat, lngLat.lng);
 			activeInfoDisplayStore.update(() => ({
 				status: ActiveInfoDisplayStatus.Normal,
 				displayText

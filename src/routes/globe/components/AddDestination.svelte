@@ -17,6 +17,7 @@
 	let loading = false;
 	$: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
+
 	const handleSubmit = async () => {
 		loading = true;
 		let element = marker?._element;

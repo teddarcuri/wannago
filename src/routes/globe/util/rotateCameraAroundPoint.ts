@@ -12,11 +12,12 @@ export default function ({ point, init, map }) {
 		requestAnimationFrame(rotateCamera);
 	}
 
-	rotateCamera(init);
+	// map.stop();
+	// rotateCamera(init);
 	map.flyTo({
 		center: point,
-		zoom: 10000,
-		speed: 0.2,
+		zoom: 13,
+		speed: 1,
 		curve: 1
 		// essential: true // this animation is considered essential with respect to prefers-reduced-motion
 	});

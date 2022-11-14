@@ -9,7 +9,7 @@
 	$: status = $activeInfoDisplayStore.status;
 	$: displayText = $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
 	$: bgColor = {
-		[ActiveInfoDisplayStatus.Action]: 'bg-gray-600',
+		[ActiveInfoDisplayStatus.Action]: 'bg-gray-800',
 		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
 		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
 		[ActiveInfoDisplayStatus.Error]: 'bg-red-700'
