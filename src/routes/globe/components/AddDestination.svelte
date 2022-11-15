@@ -112,9 +112,9 @@
             -translate-y-[106%]
             grid
             place-items-center
-			rounded-lg
+			rounded-sm
 			overflow-hidden
-            p-[2px]
+            p-[1px]
             root
         "
 	>
@@ -127,8 +127,7 @@
 			class="
               bg-zinc-900 p-4
                 pt-9 w-full h-full flex flex-col
-				rounded-lg
-
+				rounded-sm
             "
 		>
 			<input

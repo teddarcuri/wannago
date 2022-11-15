@@ -46,7 +46,7 @@ export default function ({
 
 	if (markerType === MarkerType.newDestination) {
 		wrapper.classList.add('add-destination');
-		background.classList.add('blue');
+		// background.classList.add('blue');
 	}
 
 	if (name) {

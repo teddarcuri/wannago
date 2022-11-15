@@ -24,12 +24,13 @@
 	const img = getMarkerImgChildNode(domElement);
 	img.src = destinationIcon;
 
+	$: routeId = $page.routeId;
 	$: slug = $page.params.slug;
 	$: isActive = slug === name;
 	$: if (isActive) {
 		domElement.classList.add('active-destination');
 		map.flyTo({
-			zoom: 14,
+			zoom: map.getZoom() < 10 ? 14 : map.getZoom() + 0.25,
 			center: coordinates.coordinates,
 			pitch: 69,
 			speed: 1
@@ -59,7 +60,7 @@
 	domElement.addEventListener('mouseenter', () => {
 		if (isActive) {
 			activeInfoDisplayStore.update((s) => ({
-				status: ActiveInfoDisplayStatus.Action,
+				status: ActiveInfoDisplayStatus.Information,
 				displayText: 'Click to edit'
 			}));
 		} else {

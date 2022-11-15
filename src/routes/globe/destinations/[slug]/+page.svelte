@@ -12,7 +12,7 @@
 
 <DisplayCard>
 	{#if destination}
-		<div class="bg-gray-900 h-full p-8 pt-10 rounded-lg opacity-90">
+		<div class="bg-stone-900 w-[494px] h-full p-8 pt-[266px] rounded-lg opacity-90">
 			<!-- <img
 			class="cover"
 			src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/WhereToWeekend__HERO_Moab_shutterstock_383798869.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL1doZXJlVG9XZWVrZW5kX19IRVJPX01vYWJfc2h1dHRlcnN0b2NrXzM4Mzc5ODg2OS53ZWJwIiwiaWF0IjoxNjY4NDEyMzM2LCJleHAiOjE5ODM3NzIzMzZ9.nlZVuJjojYpI2vsJkcItW0W471LD1Z0tCFp-k5NEZos"
@@ -59,6 +59,6 @@
 	}
 
 	section {
-		@apply bg-slate-900 relative z-20;
+		@apply relative z-20;
 	}
 </style>

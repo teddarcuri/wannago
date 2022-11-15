@@ -1,24 +1,37 @@
 <script>
 	import { page, navigating } from '$app/stores';
+	import ProgressBar from 'svelte-progress-bar';
+	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '../stores/activeInfoDisplay';
 
-	console.log('ROUTE ID: ', $page.routeId);
-	$: if ($navigating) {
-		const {
-			to: {
-				routeId,
-				params: { slug }
+	let progress;
+	$: {
+		if ($navigating) {
+			const {
+				to: {
+					routeId,
+					params: { slug }
+				}
+			} = $navigating;
+
+			if (progress) progress.start();
+			if (routeId === '/globe/destinations/[slug]') {
+				// // View Destination
+				// activeInfoDisplayStore.update((s) => ({
+				// 	status: ActiveInfoDisplayStatus.Information,
+				// 	displayText: 'Viewing Destination:'
+				// }));
 			}
-		} = $navigating;
 
-		console.log('navigating: ', $navigating);
-		if (routeId === '/globe/destinations/[slug]') {
-			// View Destination
-			console.log('DESTINATION SLUG: ', slug);
+			if (routeId === '/globe') {
+				// Globe Page
+				console.log('NAVIGATED TO GLOBE PAGE');
+			}
 		}
 
-		if (routeId === '/globe') {
-			// Globe Page
-			console.log('NAVIGATED TO GLOBE PAGE');
+		if (!$navigating) {
+			if (progress) progress.complete();
 		}
 	}
 </script>
+
+<ProgressBar bind:this={progress} />

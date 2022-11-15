@@ -19,7 +19,10 @@
 		<section>
 			{#if !$page.data.session}
 				<LoginForm />
-				<div class="absolute top-0 right-0 w-[444px] p-10 h-full opacity-90 bg-black">
+				<div
+					id="product-information"
+					class="absolute top-0 right-0 w-[444px] h-full opacity-90 bg-slate-900"
+				>
 					<h2 class="text-3xl opacity-80">Create Destinations</h2>
 					<img
 						class="w-[100px]"
@@ -38,8 +41,8 @@
 					p-9 row-span-1 col-span-6 
 					md:col-span-3 lg:col-span-2 
 					rounded-2xl pb-[77px]
-				  border-gray-800 border-2
-				  hover:border-gray-700
+				  border-stone-800 border-2
+				  hover:border-gray-600
 			"
 				>
 					<div class="gradient" />

@@ -91,7 +91,8 @@
 	}
 
 	.inner {
-		@apply bg-black w-full;
+		@apply w-full;
+		background: rgba(5, 5, 5, 0.9);
 		z-index: 9;
 	}
 </style>
