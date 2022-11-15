@@ -17,7 +17,7 @@
 </script>
 
 <div id="mapbox-mount" class={applyBlur} />
-<DeveloperTools />
+<!-- <DeveloperTools /> -->
 {#if map}
 	{#if session}
 		<ActiveInfoDisplay />

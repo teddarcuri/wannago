@@ -11,8 +11,8 @@
 	<div class="wrapper">
 		{#if session}
 			<header>
-				<h1>🌎 Welcome</h1>
-				<!-- <h3>We live in a beautiful World. Document yours.</h3> -->
+				<h1>🌎 Welcome to Wannago.</h1>
+				<h3 class="opacity-50">We live in a beautiful World. Document yours.</h3>
 			</header>
 		{/if}
 		<section>

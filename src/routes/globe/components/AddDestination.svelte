@@ -75,16 +75,12 @@
 				}));
 
 				await goto(`/globe/destinations/${data.name}`);
+				loading = false;
 				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
 				activeInfoDisplayStore.update((s) => ({
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`
 				}));
-
-				rotateCameraAroundPoint({ point, init: 0, map });
-				element?.classList.remove('loading');
-				loading = false;
-				img.src = destination;
 			}, 2000);
 
 			setTimeout(() => clearActiveInfoDisplay(), 9000);

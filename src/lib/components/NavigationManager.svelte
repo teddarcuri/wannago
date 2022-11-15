@@ -1,6 +1,7 @@
 <script>
-	import { navigating } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 
+	console.log('ROUTE ID: ', $page.routeId);
 	$: if ($navigating) {
 		const {
 			to: {
@@ -9,6 +10,7 @@
 			}
 		} = $navigating;
 
+		console.log('navigating: ', $navigating);
 		if (routeId === '/globe/destinations/[slug]') {
 			// View Destination
 			console.log('DESTINATION SLUG: ', slug);

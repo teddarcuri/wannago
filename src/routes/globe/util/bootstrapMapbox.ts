@@ -1,8 +1,8 @@
 import { goto } from '$app/navigation';
 import type { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-// import searchIcon from '$lib/img/search-icon.svg';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import searchIcon from '$lib/img/search-icon.svg';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import { type AddDestinationStore, addDestinationStore } from '$lib/stores/addDestination';
 import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
@@ -31,8 +31,8 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		style: 'mapbox://styles/mapbox/satellite-v9',
-		// style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+		// style: 'mapbox://styles/mapbox/satellite-v9',
+		style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
@@ -41,29 +41,29 @@ export default async (): Promise<Map> => {
 	});
 
 	// Controls
-	// map.addControl(
-	// 	new MapboxGeocoder({
-	// 		accessToken: mapboxgl.accessToken,
-	// 		mapboxgl: mapboxgl,
-	// 		marker: {
-	// 			element: (() => {
-	// 				// Add marker
-	// 				var wrapper = document.createElement('div');
-	// 				wrapper.classList.add('mapboxgl-marker-wrapper');
-	// 				var inner = document.createElement('div');
-	// 				inner.classList.add('mapboxgl-marker-inner');
-	// 				var background = document.createElement('div');
-	// 				background.classList.add('mapboxgl-marker-background');
-	// 				var gimg = document.createElement('img');
-	// 				gimg.src = searchIcon;
-	// 				inner.append(gimg);
-	// 				wrapper.append(inner);
-	// 				wrapper.append(background);
-	// 				return wrapper;
-	// 			})()
-	// 		}
-	// 	})
-	// );
+	map.addControl(
+		new MapboxGeocoder({
+			accessToken: mapboxgl.accessToken,
+			mapboxgl: mapboxgl,
+			marker: {
+				element: (() => {
+					// Add marker
+					var wrapper = document.createElement('div');
+					wrapper.classList.add('mapboxgl-marker-wrapper');
+					var inner = document.createElement('div');
+					inner.classList.add('mapboxgl-marker-inner');
+					var background = document.createElement('div');
+					background.classList.add('mapboxgl-marker-background');
+					var gimg = document.createElement('img');
+					gimg.src = searchIcon;
+					inner.append(gimg);
+					wrapper.append(inner);
+					wrapper.append(background);
+					return wrapper;
+				})()
+			}
+		})
+	);
 
 	// Lifecycle
 	map.on('load', () => {

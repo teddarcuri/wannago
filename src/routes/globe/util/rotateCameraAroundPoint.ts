@@ -12,14 +12,8 @@ export default function ({ point, init, map }) {
 		// Request the next frame of the animation.
 		animationFrame = requestAnimationFrame(rotateCamera);
 	}
-	console.log(animationFrame);
 
-	// map.flyTo({
-	// 	center: point,
-	// 	zoom: 13,
-	// 	speed: 1,
-	// 	curve: 1
-	// 	// essential: true // this animation is considered essential with respect to prefers-reduced-motion
-	// });
 	rotateCamera(init);
+
+	return animationFrame;
 }

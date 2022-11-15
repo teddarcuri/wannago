@@ -2,7 +2,6 @@
 	import DisplayCard from '@globe/components/DisplayCard.svelte';
 </script>
 
-<!-- 
 <DisplayCard>
 	<div>
 		<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
@@ -17,13 +16,16 @@
 		<br />
 		<button>Got it. Dismiss for now.</button>
 	</div>
-</DisplayCard> -->
+</DisplayCard>
+
 <style>
 	p {
 		@apply ml-2;
 	}
 
 	div {
+		z-index: 1;
+		position: relative;
 		@apply bg-gray-900 p-8 opacity-90 rounded-lg;
 	}
 

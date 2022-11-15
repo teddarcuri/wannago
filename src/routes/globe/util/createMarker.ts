@@ -10,6 +10,7 @@ export enum MarkerType {
 interface Options {
 	markerType?: MarkerType;
 	map: Map;
+	name?: string;
 	icon?: string;
 	lat: number;
 	lng: number;
@@ -22,6 +23,7 @@ export default function ({
 	icon,
 	lat,
 	lng,
+	name,
 	draggable
 }: Options): Marker {
 	// Outer wrapper
@@ -42,12 +44,21 @@ export default function ({
 		background.classList.add('active-destination');
 	}
 
+	if (name) {
+		// name bubble
+		var bubble = document.createElement('div');
+		bubble.classList.add('name-bubble');
+		bubble.innerText = name;
+		// wrapper.append(bubble);
+	}
+
 	// icon
 	if (icon) {
 		var img = document.createElement('img');
 		img.src = icon;
 		inner.append(img);
 	}
+
 	// append dat shiz
 	wrapper.append(inner);
 	wrapper.append(background);

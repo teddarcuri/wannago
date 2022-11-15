@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@property --angle {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: false;
+}
+
 *,
 *:before,
 *:after {
@@ -16,15 +22,26 @@ html {
 }
 
 .mapboxgl-marker-wrapper {
-	height: 45px;
-	width: 45px;
+	height: 40px;
+	width: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
+	z-index: 1;
 }
 
 .mapboxgl-marker-wrapper:hover {
 	cursor: pointer;
+	z-index: 2;
+}
+
+.mapboxgl-marker-wrapper:hover img {
+	opacity: 1;
+}
+
+.mapboxgl-marker-wrapper:hover .name-bubble {
+	display: block;
 }
 
 .mapboxgl-marker-background {
@@ -35,8 +52,8 @@ html {
 	top: 0;
 	left: 0;
 	border-radius: 100%;
-	background-image: linear-gradient(var(--angle), #60779c, #7c98bc, #3a4554);
-	animation: 6s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
+	background-image: linear-gradient(var(--angle), #60779c, #a1c1ec, #90b4e3, #3a4554);
+	animation: 5s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 	box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -45,20 +62,37 @@ html {
 		var(--angle),
 		rgb(101, 197, 133),
 		#307f6e,
+		#6fdbf6,
 		rgb(102, 175, 102),
 		rgb(62, 127, 187)
 	);
+}
+
+.active-destination .mapboxgl-marker-inner {
+	height: calc(100% - 8px);
+	width: calc(100% - 8px);
 }
 
 .destination {
 	background-image: linear-gradient(var(--angle), #5f708b, #425369, #3a4554);
 }
 
+.active-destination .mapboxgl-marker-inner img {
+	opacity: 1;
+	width: 22px;
+}
+
+.active-destination {
+	height: 55px;
+	width: 55px;
+	z-index: 10;
+}
+
 .mapboxgl-marker-inner {
 	background-image: linear-gradient(0deg, #333, #000);
 	border-radius: 50%;
-	height: calc(100% - 5px);
-	width: calc(100% - 5px);
+	height: calc(100% - 4px);
+	width: calc(100% - 4px);
 	z-index: 4;
 	display: flex;
 	align-items: center;
@@ -66,9 +100,9 @@ html {
 }
 
 .mapboxgl-marker-inner img {
-	width: 17px;
-	opacity: 0.7;
-	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
+	width: 15px;
+	opacity: 0.5;
+	transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
 }
 
 .mapboxgl-marker.loading img {
@@ -76,18 +110,14 @@ html {
 	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 }
 
-.active-destination .mapboxgl-marker-inner img {
-	opacity: 1;
+.mapboxgl-marker-wrapper .name-bubble {
+	@apply bg-slate-800 hidden px-4 py-2 rounded-md absolute top-0 left-1/2 opacity-90;
+	pointer-events: none;
+	transform: translate(-50%, -100px);
 }
 
 .mapboxgl-canvas {
 	outline: none;
-}
-
-@keyframes rotate {
-	to {
-		--angle: 360deg;
-	}
 }
 
 button {
@@ -112,4 +142,10 @@ input[type='text'] {
 	text-white
 	focus:outline-none
 	active:bg-transparent;
+}
+
+@keyframes rotate {
+	to {
+		--angle: 360deg;
+	}
 }

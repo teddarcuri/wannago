@@ -8,7 +8,7 @@
 	$: destination = data.destination;
 	$: lat = destination.coordinates.coordinates[1];
 	$: lng = destination.coordinates.coordinates[0];
-	$: console.log('DATA: ', destination);
+	$: console.log('Data from destination/slug page load: ', destination);
 </script>
 
 <DisplayCard>
