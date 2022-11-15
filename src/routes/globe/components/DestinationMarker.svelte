@@ -29,7 +29,7 @@
 	$: if (isActive) {
 		domElement.classList.add('active-destination');
 		map.flyTo({
-			zoom: 11,
+			zoom: 14,
 			center: coordinates.coordinates,
 			pitch: 69,
 			speed: 1

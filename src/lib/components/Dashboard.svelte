@@ -39,6 +39,7 @@
 					md:col-span-3 lg:col-span-2 
 					rounded-2xl pb-[77px]
 				  border-gray-800 border-2
+				  hover:border-gray-700
 			"
 				>
 					<div class="gradient" />
@@ -106,6 +107,10 @@ k
 
 	h3 {
 		@apply text-xl;
+	}
+
+	a {
+		transition: border 0.4s ease;
 	}
 
 	a img {

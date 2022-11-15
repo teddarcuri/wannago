@@ -9,6 +9,6 @@
 	<title>Globe</title>
 </svelte:head>
 
-{#if $page.data.session && !addDestinationMarker}
-	<!-- <GettingStarted /> -->
+{#if false && $page.data.session && !addDestinationMarker}
+	<GettingStarted />
 {/if}

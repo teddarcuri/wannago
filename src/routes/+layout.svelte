@@ -31,7 +31,7 @@
 	<header id="app-nav">
 		<div id="logo" class="mr-7">wannago</div>
 		<nav>
-			{#if session}
+			{#if true || session}
 				<a
 					class:active={isRoot}
 					class="

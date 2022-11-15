@@ -12,14 +12,15 @@
 	let map: Map;
 	onMount(async () => (map = await bootstrapMapbox()));
 
-	$: applyBlur = $page.url.pathname === '/' ? 'blur' : '';
+	$: isRoot = $page.url.pathname === '/';
+	$: applyBlur = isRoot ? 'blur' : '';
 	$: session = $page.data.session;
 </script>
 
 <div id="mapbox-mount" class={applyBlur} />
 <!-- <DeveloperTools /> -->
 {#if map}
-	{#if session}
+	{#if true || (session && !isRoot)}
 		<ActiveInfoDisplay />
 	{/if}
 	<AddDestination {map} />
