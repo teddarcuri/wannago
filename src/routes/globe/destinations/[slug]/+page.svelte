@@ -8,16 +8,15 @@
 	$: destination = data.destination;
 	$: lat = destination.coordinates.coordinates[1];
 	$: lng = destination.coordinates.coordinates[0];
-	$: console.log('Data from destination/slug page load: ', destination);
 </script>
 
 <DisplayCard>
-	<div class="bg-gray-900 p-6 pt-28 rounded-lg opacity-90">
+	<div class="bg-gray-900 h-full p-8 pt-10 rounded-lg opacity-90">
 		<!-- <img
 			class="cover"
 			src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/WhereToWeekend__HERO_Moab_shutterstock_383798869.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL1doZXJlVG9XZWVrZW5kX19IRVJPX01vYWJfc2h1dHRlcnN0b2NrXzM4Mzc5ODg2OS53ZWJwIiwiaWF0IjoxNjY4NDEyMzM2LCJleHAiOjE5ODM3NzIzMzZ9.nlZVuJjojYpI2vsJkcItW0W471LD1Z0tCFp-k5NEZos"
 		/> -->
-		<div class="absolute flex top-0 right-0 py-[6px] px-[12px]">
+		<div class="absolute flex top-0 right-0">
 			<!-- <button href="/globe">
 				<img src={focusIcon} />
 			</button> -->
@@ -53,8 +52,8 @@
 	}
 	a img,
 	button img {
-		width: 12px;
-		height: 12px;
+		width: 9px;
+		height: 9px;
 	}
 
 	section {

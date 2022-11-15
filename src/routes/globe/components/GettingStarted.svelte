@@ -2,6 +2,7 @@
 	import DisplayCard from '@globe/components/DisplayCard.svelte';
 </script>
 
+<button class="absolute top-2 left-[235px]">Help</button>
 <DisplayCard>
 	<div>
 		<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
@@ -21,6 +22,12 @@
 <style>
 	p {
 		@apply ml-2;
+	}
+
+	button {
+		width: 20px;
+		height: 20px;
+		display: block;
 	}
 
 	div {

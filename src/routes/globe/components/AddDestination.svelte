@@ -23,16 +23,16 @@
 		let element = marker?._element;
 		const img = getMarkerImgChildNode(element);
 		img.src = spinner;
+		// ya... this needs to be changed...
+		const background = element.children[1];
+		background.classList.remove('blue');
+		background.classList.add('golden2');
 		element?.classList.add('loading');
 		activeInfoDisplayStore.update((s) => ({
-			...s,
+			status: ActiveInfoDisplayStatus.Action,
 			displayText: 'Creating Destination...'
 		}));
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
-		// map.flyTo({
-		// 	center: [lng, lat]
-		// });
-
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
 			lat,
@@ -40,9 +40,9 @@
 		});
 
 		if (error) {
-			img.src = addIcon;
-			loading = false;
 			element?.classList.remove('loading');
+			loading = false;
+			img.src = addIcon;
 
 			if (error.code === '42501') {
 				activeInfoDisplayStore.update((s) => ({
@@ -58,10 +58,10 @@
 
 			setTimeout(() => {
 				activeInfoDisplayStore.update((s) => ({
-					status: ActiveInfoDisplayStatus.Normal,
+					status: ActiveInfoDisplayStatus.Information,
 					displayText: "What's here?"
 				}));
-			}, 4000);
+			}, 4444);
 		}
 
 		if (data) {
@@ -73,17 +73,18 @@
 				userDestinationsStore.update((s) => ({
 					destinations: [...s.destinations, data]
 				}));
-
 				await goto(`/globe/destinations/${data.name}`);
+
+				element?.classList.remove('loading');
 				loading = false;
 				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
 				activeInfoDisplayStore.update((s) => ({
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`
 				}));
-			}, 2000);
+			}, 2200);
 
-			setTimeout(() => clearActiveInfoDisplay(), 9000);
+			setTimeout(() => clearActiveInfoDisplay(), 7777);
 		}
 	};
 

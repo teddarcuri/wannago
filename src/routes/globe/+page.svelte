@@ -10,5 +10,5 @@
 </svelte:head>
 
 {#if $page.data.session && !addDestinationMarker}
-	<GettingStarted />
+	<!-- <GettingStarted /> -->
 {/if}

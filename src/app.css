@@ -22,22 +22,24 @@ html {
 }
 
 .mapboxgl-marker-wrapper {
-	height: 40px;
-	width: 40px;
+	height: 44px;
+	width: 44px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
+	transition: height ease-in-out 0.1s, width ease-in-out 0.15s;
 	z-index: 1;
 }
 
-.mapboxgl-marker-wrapper:hover {
+.mapboxgl-marker-wrapper:not(.active-destination):hover {
 	cursor: pointer;
 	z-index: 2;
+	height: 50px;
+	width: 50px;
 }
 
 .mapboxgl-marker-wrapper:hover img {
-	opacity: 1;
+	opacity: 0.7;
 }
 
 .mapboxgl-marker-wrapper:hover .name-bubble {
@@ -52,8 +54,7 @@ html {
 	top: 0;
 	left: 0;
 	border-radius: 100%;
-	background-image: linear-gradient(var(--angle), #60779c, #a1c1ec, #90b4e3, #3a4554);
-	animation: 5s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
+	background-image: linear-gradient(var(--angle), #75849b, #6c7a8d, #57667e);
 	box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -69,27 +70,36 @@ html {
 }
 
 .active-destination .mapboxgl-marker-inner {
-	height: calc(100% - 8px);
-	width: calc(100% - 8px);
+	height: calc(100% - 4px);
+	width: calc(100% - 4px);
 }
 
 .destination {
-	background-image: linear-gradient(var(--angle), #5f708b, #425369, #3a4554);
+	background-image: linear-gradient(var(--angle), #7f92b0, #425369, #3a4554);
+}
+.blue {
+	background-image: linear-gradient(var(--angle), #35a4a4, #1271a0, #269584);
+}
+.golden {
+	background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
+}
+.golden2 {
+	background-image: linear-gradient(var(--angle), #f8f1be, #c9af77, #d8c684, #ddb990);
 }
 
 .active-destination .mapboxgl-marker-inner img {
-	opacity: 1;
-	width: 22px;
+	opacity: 0.8;
+	width: 24px;
 }
 
 .active-destination {
-	height: 55px;
-	width: 55px;
+	height: 60px;
+	width: 60px;
 	z-index: 10;
 }
 
 .mapboxgl-marker-inner {
-	background-image: linear-gradient(0deg, #333, #000);
+	background-image: linear-gradient(0deg, rgb(47, 47, 47), #000);
 	border-radius: 50%;
 	height: calc(100% - 4px);
 	width: calc(100% - 4px);
@@ -100,13 +110,16 @@ html {
 }
 
 .mapboxgl-marker-inner img {
-	width: 15px;
-	opacity: 0.5;
+	width: 17px;
+	opacity: 0.4;
 	transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
 }
 
 .mapboxgl-marker.loading img {
-	width: 33px;
+	width: 28px;
+	opacity: 0.7;
+
+	transform: rotate(var(--angle));
 	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 }
 
@@ -118,6 +131,10 @@ html {
 
 .mapboxgl-canvas {
 	outline: none;
+}
+
+.add-destination img {
+	opacity: 0.9;
 }
 
 button {

@@ -13,7 +13,7 @@
 		? 'Create an account to save destinations'
 		: $activeInfoDisplayStore.displayText || DEFAULT_DISPLAY_TEXT;
 	$: bgColor = {
-		[ActiveInfoDisplayStatus.Action]: 'bg-gray-800',
+		[ActiveInfoDisplayStatus.Action]: 'bg-amber-600',
 		[ActiveInfoDisplayStatus.Normal]: 'bg-zinc-900',
 		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
 		[ActiveInfoDisplayStatus.Error]: 'bg-red-700',

@@ -41,29 +41,31 @@ export default async (): Promise<Map> => {
 	});
 
 	// Controls
-	map.addControl(
-		new MapboxGeocoder({
-			accessToken: mapboxgl.accessToken,
-			mapboxgl: mapboxgl,
-			marker: {
-				element: (() => {
-					// Add marker
-					var wrapper = document.createElement('div');
-					wrapper.classList.add('mapboxgl-marker-wrapper');
-					var inner = document.createElement('div');
-					inner.classList.add('mapboxgl-marker-inner');
-					var background = document.createElement('div');
-					background.classList.add('mapboxgl-marker-background');
-					var gimg = document.createElement('img');
-					gimg.src = searchIcon;
-					inner.append(gimg);
-					wrapper.append(inner);
-					wrapper.append(background);
-					return wrapper;
-				})()
-			}
-		})
-	);
+	if (false) {
+		map.addControl(
+			new MapboxGeocoder({
+				accessToken: mapboxgl.accessToken,
+				mapboxgl: mapboxgl,
+				marker: {
+					element: (() => {
+						// Add marker
+						var wrapper = document.createElement('div');
+						wrapper.classList.add('mapboxgl-marker-wrapper');
+						var inner = document.createElement('div');
+						inner.classList.add('mapboxgl-marker-inner');
+						var background = document.createElement('div');
+						background.classList.add('mapboxgl-marker-background');
+						var gimg = document.createElement('img');
+						gimg.src = searchIcon;
+						inner.append(gimg);
+						wrapper.append(inner);
+						wrapper.append(background);
+						return wrapper;
+					})()
+				}
+			})
+		);
+	}
 
 	// Lifecycle
 	map.on('load', () => {
@@ -144,7 +146,7 @@ export default async (): Promise<Map> => {
 
 		// Show user they are adding a destination
 		activeInfoDisplayStore.update(() => ({
-			status: ActiveInfoDisplayStatus.Action,
+			status: ActiveInfoDisplayStatus.Information,
 			displayText: "What's here?"
 		}));
 

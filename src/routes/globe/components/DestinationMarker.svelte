@@ -29,11 +29,10 @@
 	$: if (isActive) {
 		domElement.classList.add('active-destination');
 		map.flyTo({
-			// zoom: 14.555,
+			zoom: 11,
 			center: coordinates.coordinates,
 			pitch: 69,
-			speed: 1,
-			curve: 1
+			speed: 1
 		});
 	} else {
 		domElement.classList.remove('active-destination');
@@ -65,8 +64,8 @@
 			}));
 		} else {
 			activeInfoDisplayStore.update((s) => ({
-				status: ActiveInfoDisplayStatus.Action,
-				displayText: 'View Destination'
+				status: ActiveInfoDisplayStatus.Information,
+				displayText: name
 			}));
 		}
 	});

@@ -81,11 +81,11 @@
 	}
 </script>
 
-<div class="col-span-4 grid place-items-center">
+<div class="col-span-2 relative grid place-items-center">
 	<form
-		class="p-9 bg-gray-900 w-full 
+		class="p-9 bg-slate-900 w-full 
 			rounded-lg 
-			border-gray-800 border-4
+			border-gray-800 border-0
 			text-sm
 			"
 		on:submit|preventDefault={updateProfile}
@@ -103,7 +103,7 @@
 
 	<div>
 		<button
-			class="absolute bg-sky-900 right-[20px] bottom-[20px]"
+			class="fixed bg-sky-900 right-[20px] bottom-[20px]"
 			on:click={signOut}
 			disabled={loading}>Log Me Out</button
 		>

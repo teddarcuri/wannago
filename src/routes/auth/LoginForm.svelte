@@ -80,6 +80,7 @@
 		width: 1248px;
 		margin: 50px auto 0;
 		padding: 0 40px;
+		position: relative;
 	}
 
 	.gradient {

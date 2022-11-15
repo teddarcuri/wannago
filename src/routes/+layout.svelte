@@ -38,7 +38,7 @@
 					duration-999 flex items-center 
 					text-xs uppercase tracking-widest 
 					opacity-50 transition-all ease-in-out 
-					px-3
+					p-4
 					hover:opacity-80"
 					href={navLink}
 				>

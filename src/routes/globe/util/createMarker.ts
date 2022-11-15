@@ -44,6 +44,11 @@ export default function ({
 		background.classList.add('active-destination');
 	}
 
+	if (markerType === MarkerType.newDestination) {
+		wrapper.classList.add('add-destination');
+		background.classList.add('blue');
+	}
+
 	if (name) {
 		// name bubble
 		var bubble = document.createElement('div');
