@@ -5,19 +5,25 @@
 	let email: string;
 
 	const handleLogin = async () => {
-		try {
-			loading = true;
-			const { error } = await supabaseClient.auth.signInWithOtp({ email });
-			if (error) throw error;
-			alert('Check your email for the login link!');
-		} catch (error) {
-			if (error instanceof Error) {
-				alert(error.message);
-			}
-		} finally {
-			loading = false;
-		}
+		// try {
+		// 	loading = true;
+		// 	const { error } = await supabaseClient.auth.signInWithOtp({ email });
+		// 	if (error) throw error;
+		// 	alert('Check your email for the login link!');
+		// } catch (error) {
+		// 	if (error instanceof Error) {
+		// 		alert(error.message);
+		// 	}
+		// } finally {
+		// 	loading = false;
+		// }
 	};
+
+	async function signInWithGoogle() {
+		const { data, error } = await supabaseClient.auth.signInWithOAuth({
+			provider: 'google'
+		});
+	}
 </script>
 
 <div class="wrapper">
@@ -25,12 +31,11 @@
 		<h1 class="text-3xl">🌎 Welcome to Wannago</h1>
 		<h3 class="text-xl mt-4">We live in a beautiful World. Document yours.</h3>
 	</header>
-	<form
-		class="bg-gray-900 mt-6 w-[440px] grid place-items-center"
-		on:submit|preventDefault={handleLogin}
-	>
-		<div class="gradient" />
-		<div class="inner p-10">
+	<form class=" mt-6 w-[440px] grid place-items-center" on:submit|preventDefault={handleLogin}>
+		<button on:click={signInWithGoogle}>SIgn in with GOogle bitch</button>
+
+		<!-- <div class="gradient" /> -->
+		<!-- <div class="inner p-10">
 			<p class="py-4">Sign in via magic link with your email below</p>
 			<input
 				class="
@@ -65,7 +70,7 @@
 				value={loading ? 'Loading' : 'Send magic link'}
 				disabled={loading}
 			/>
-		</div>
+		</div> -->
 	</form>
 </div>
 
@@ -74,6 +79,11 @@
 		position: relative;
 		padding: 3px;
 		opacity: 0.9;
+	}
+
+	button {
+		position: relative;
+		z-index: 9;
 	}
 
 	.wrapper {
@@ -87,6 +97,7 @@
 		@apply absolute top-0 left-0
 		w-full h-full;
 		opacity: 0.4;
+		z-index: 0;
 		background-image: linear-gradient(120deg, #426eb5, #9db5dc, #7fb6ff, #2361b9, #0d3e84);
 	}
 

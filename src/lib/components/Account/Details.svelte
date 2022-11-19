@@ -34,7 +34,7 @@
 			if (error && status !== 406) throw error;
 		} catch (error) {
 			if (error instanceof Error) {
-				alert(error.message);
+				console.log(error.message);
 			}
 		} finally {
 			loading = false;
@@ -81,31 +81,60 @@
 	}
 </script>
 
-<div class="col-span-2 relative grid place-items-center">
+<div class="col-span-3 row-start-2 relative grid">
+	<!-- <h1 class="text-xl pb-4">My Account</h1> -->
 	<form
-		class="p-9 bg-stone-900 w-full 
-			rounded-lg 
-			border-gray-800 border-0
-			text-sm
+		class="w-full relative
+			z-50 p-[30px]
+			bg-zinc-900 rounded-lg 
+			 text-sm
 			"
 		on:submit|preventDefault={updateProfile}
 	>
-		<label for="email">Email</label>
-		<input id="email" type="text" value={session.user.email} disabled />
+		<!-- <div class="gradient" /> -->
+		<div class="z-10 relative">
+			<h3 class="text-xl mb-2 opacity-50">Account Details</h3>
+			<label for="email">Email: </label>
+			<span class="text-lg mx-2">{session.user.email}</span>
+			<br />
+			<label for="username">Name: </label>
+			<input disabled id="username" type="text" bind:value={username} />
 
-		<label for="username">Name</label>
-		<input id="username" type="text" bind:value={username} />
-
-		<button type="submit" disabled={loading}>
-			{loading ? '...' : 'Update'}
-		</button>
+			<!-- <button class="bg-sky-900" type="submit" disabled={loading}>
+				{loading ? '...' : 'Update'}
+			</button> -->
+		</div>
 	</form>
 
 	<div>
 		<button
-			class="fixed bg-sky-900 right-[20px] bottom-[20px]"
+			class="absolute text-sm bg-sky-900 right-[20px] z-50 bottom-[20px]"
 			on:click={signOut}
-			disabled={loading}>Log Me Out</button
+			disabled={loading}>Log Out</button
 		>
 	</div>
 </div>
+
+<style>
+	div {
+		@apply text-zinc-300;
+	}
+
+	input {
+		@apply text-zinc-300 inline-flex  text-lg border-0 w-auto px-2;
+	}
+	h1 {
+		@apply text-2xl;
+		opacity: 0.5;
+	}
+
+	.gradient {
+		background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.165));
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 0;
+	}
+</style>

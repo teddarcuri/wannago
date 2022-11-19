@@ -31,7 +31,7 @@
 	<header id="app-nav">
 		<div id="logo" class="mr-7">wannago</div>
 		<nav>
-			{#if true || session}
+			{#if session}
 				<a
 					class:active={isRoot}
 					class="
@@ -46,11 +46,19 @@
 					{navText}
 				</a>
 			{/if}
+			<!-- {#if session?.user?.user_metadata?.avatar_url}
+				<img
+					class="rounded-full h-[40px] w-[40px] absolute right-[20px] top-[20px]"
+					src={session?.user?.user_metadata?.avatar_url}
+				/>
+			{/if} -->
 		</nav>
 	</header>
 	<div id="app-body">
 		<NavigationManager />
-		<Mapbox />
+		{#if session || true}
+			<Mapbox />
+		{/if}
 		<slot />
 	</div>
 </div>

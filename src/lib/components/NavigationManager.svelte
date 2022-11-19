@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 	import { page, navigating } from '$app/stores';
 	import ProgressBar from 'svelte-progress-bar';
 	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '../stores/activeInfoDisplay';
 
-	let progress;
+	let progress: ProgressBar;
+
 	$: {
 		if ($navigating) {
 			const {
@@ -14,18 +15,6 @@
 			} = $navigating;
 
 			if (progress) progress.start();
-			if (routeId === '/globe/destinations/[slug]') {
-				// // View Destination
-				// activeInfoDisplayStore.update((s) => ({
-				// 	status: ActiveInfoDisplayStatus.Information,
-				// 	displayText: 'Viewing Destination:'
-				// }));
-			}
-
-			if (routeId === '/globe') {
-				// Globe Page
-				console.log('NAVIGATED TO GLOBE PAGE');
-			}
 		}
 
 		if (!$navigating) {

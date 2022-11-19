@@ -8,6 +8,12 @@
 	inherits: false;
 }
 
+@keyframes rotate {
+	to {
+		--angle: 360deg;
+	}
+}
+
 *,
 *:before,
 *:after {
@@ -20,127 +26,8 @@ html {
 	color: #fff;
 	font-family: 'proxima-nova';
 }
-/* TODO SASS THIS SHIT */
-.mapboxgl-marker-wrapper {
-	height: 44px;
-	width: 44px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: height ease-in-out 0.1s, width ease-in-out 0.15s;
-	z-index: 1;
-	--angle: 0deg;
-}
 
-.mapboxgl-marker-wrapper:not(.active-destination):hover {
-	cursor: pointer;
-	z-index: 2;
-	height: 55px;
-	width: 55px;
-}
-
-.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-inner {
-	background-image: linear-gradient(0deg, rgb(24, 24, 24), rgb(43, 43, 43));
-}
-
-.mapboxgl-marker-wrapper:hover img {
-	opacity: 0.8;
-}
-
-.mapboxgl-marker-wrapper:hover .name-bubble {
-	display: block;
-}
-
-.mapboxgl-marker-background {
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-radius: 100%;
-	background-image: linear-gradient(var(--angle), #75849b, #6c7a8d, #57667e);
-	box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.5);
-}
-
-.active-destination .mapboxgl-marker-background {
-	background-image: linear-gradient(
-		var(--angle),
-		rgb(101, 197, 133),
-		#307f6e,
-		#6fdbf6,
-		rgb(102, 175, 102),
-		rgb(62, 127, 187)
-	);
-}
-
-.active-destination .mapboxgl-marker-inner {
-	height: calc(100% - 6px);
-	width: calc(100% - 6px);
-}
-
-.destination {
-	background-image: linear-gradient(var(--angle), #7f92b0, #425369, #3a4554);
-}
-.blue {
-	background-image: linear-gradient(var(--angle), #35a4a4, #1271a0, #269584);
-}
-.golden {
-	background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
-}
-.golden2 {
-	background-image: linear-gradient(var(--angle), #f8f1be, #c9af77, #d8c684, #ddb990);
-}
-
-.active-destination .mapboxgl-marker-inner img {
-	opacity: 0.8;
-	width: 24px;
-}
-
-.active-destination {
-	height: 60px;
-	width: 60px;
-	z-index: 10;
-}
-
-.mapboxgl-marker-inner {
-	background-image: linear-gradient(0deg, rgb(47, 47, 47), #000);
-	border-radius: 50%;
-	height: calc(100% - 4px);
-	width: calc(100% - 4px);
-	z-index: 4;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.mapboxgl-marker-inner img {
-	width: 17px;
-	opacity: 0.4;
-	transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
-}
-
-.mapboxgl-marker.loading img {
-	width: 28px;
-	opacity: 0.7;
-
-	transform: rotate(var(--angle));
-	animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
-}
-
-.mapboxgl-marker-wrapper .name-bubble {
-	@apply bg-slate-800 hidden px-4 py-2 rounded-md absolute top-0 left-1/2 opacity-90;
-	pointer-events: none;
-	transform: translate(-50%, -100px);
-}
-
-.mapboxgl-canvas {
-	outline: none;
-}
-
-.add-destination img {
-	opacity: 0.9;
-}
-
+/* GLOBALS */
 button {
 	@apply h-[44px]
 	self-end
@@ -168,34 +55,18 @@ input[type='text'] {
 /* Progress Bar */
 .svelte-progress-bar {
 	z-index: 9999;
-	background-color: rgb(101, 197, 133);
-	height: 4px;
+	height: 3px;
 }
+
 .svelte-progress-bar,
 .svelte-progress-bar-leader {
 	background-color: rgb(101, 197, 133);
-	/* background-image: linear-gradient(
+	background-image: linear-gradient(
 		90deg,
 		rgb(101, 197, 133),
 		#307f6e,
 		#6fdbf6,
 		rgb(195, 205, 64),
 		rgb(62, 127, 187)
-	); */
-
-	background-image: linear-gradient(
-		90deg,
-		#a8dbe3,
-		#51ca95,
-		rgb(55, 89, 134),
-		#47d16e,
-		#60e6c0,
-		rgb(48, 128, 203)
 	);
-}
-
-@keyframes rotate {
-	to {
-		--angle: 360deg;
-	}
 }

@@ -1,15 +1,13 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 
-//
-// Active Info Display
-//
 export enum ActiveInfoDisplayStatus {
 	Normal,
 	Action,
 	Success,
 	Error,
-	Information
+	Information,
+	Loading
 }
 
 export interface ActiveInfoDisplayStore {

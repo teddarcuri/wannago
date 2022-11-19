@@ -18,9 +18,9 @@
 </script>
 
 <div id="mapbox-mount" class={applyBlur} />
-<!-- <DeveloperTools /> -->
+<DeveloperTools />
 {#if map}
-	{#if true || (session && !isRoot)}
+	{#if session && !isRoot}
 		<ActiveInfoDisplay />
 	{/if}
 	<AddDestination {map} />
@@ -35,8 +35,12 @@
 		transition: all ease 1s;
 	}
 
+	:global(.mapboxgl-canvas) {
+		outline: none;
+	}
+
 	.blur {
-		@apply blur-md;
+		@apply blur-sm;
 		transform: scale(1.1);
 	}
 </style>

@@ -1,25 +1,26 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Account from '@routes/auth/Account.svelte';
-	import LoginForm from '@routes/auth/LoginForm.svelte';
-	let GLOBE_WALLPAPER =
-		'https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/globe?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL2dsb2JlIiwiaWF0IjoxNjY4NDU4OTk4LCJleHAiOjE5ODM4MTg5OTh9.5yPRn_DBMraNvUSelgcknozxZ6cmS9dBVWnyNkHvUm4';
+	import Account from '@/lib/components/Account/Details.svelte';
+	import LoginForm from '$lib/components/Account/LoginForm.svelte';
+	import GlobeTile from './GlobeTile.svelte';
+	import MyDestinations from './MyDestinations.svelte';
+
 	$: session = $page.data.session;
 </script>
 
 <main>
 	<div class="wrapper">
-		<!-- {#if session}
+		{#if session}
 			<header>
 				<h1>🌎 Welcome to Wannago.</h1>
 				<h3 class="opacity-50">We live in a beautiful World. Document yours.</h3>
 			</header>
-		{/if} -->
+		{/if}
 		<div class="bg" />
 		<section>
 			{#if !$page.data.session}
 				<LoginForm />
-				<div
+				<!-- <div
 					id="product-information"
 					class="absolute top-0 right-0 w-[444px] h-full opacity-90 bg-slate-900"
 				>
@@ -31,25 +32,15 @@
 
 					<h2 class="text-3xl opacity-80">Upload Photos</h2>
 					<h2 class="text-3xl opacity-80">Document your experience</h2>
-				</div>
+				</div> -->
 			{:else}
-				<a
-					href="/globe"
-					class="
-					relative
-					overflow-hidden
-					p-9 row-span-1 col-span-6 
-					md:col-span-3 lg:col-span-2 
-					rounded-2xl pb-[77px]
-				  border-stone-800 border-2
-				  hover:border-gray-600
-			"
-				>
-					<div class="gradient" />
-					<img src={GLOBE_WALLPAPER} />
-					<span class="text-4xl absolute bottom-8 left-8">View Globe</span>
-				</a>
-				<Account session={$page.data.session} />
+				<div class="flex-grow flex flex-col p-[30px] max-w-[700px]">
+					<GlobeTile />
+					<Account session={$page.data.session} />
+				</div>
+				<div class="min-w-[320px] -translate-y-[100px]">
+					<MyDestinations />
+				</div>
 			{/if}
 		</section>
 	</div>
@@ -60,12 +51,13 @@ k
 	main {
 		@apply absolute top-0 left-0
 		w-full h-full
+		overflow-auto
 		z-50;
 	}
 
 	.bg {
 		@apply bg-black opacity-80
-		absolute top-0 left-0
+		fixed top-0 left-0
 		w-full h-full
 		z-0;
 	}
@@ -73,19 +65,24 @@ k
 	.wrapper {
 		max-width: 100%;
 		width: 1248px;
-		margin: 50px auto 0;
+		margin: 20px auto 0;
 		padding: 0 66px;
 	}
 
 	section {
-		@apply grid grid-cols-6
-		gap-6
-		mt-12
-    	grid-rows-3;
+		display: flex;
 	}
+	/* Grid Stlyes */
+	/* section {
+		@apply grid grid-cols-6
+		gap-8
+		mt-12
+		place-content-center
+    	grid-rows-3;
+	} */
 
 	header {
-		@apply mb-4;
+		@apply relative z-10 mb-4;
 		max-width: 1200px;
 	}
 

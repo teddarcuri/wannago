@@ -75,7 +75,7 @@ export default async (): Promise<Map> => {
 	// Lifecycle
 	map.on('load', () => {
 		// disable zoom on double click
-		// rn, dbl click is being used to add a destination
+		// dbl click is used to add a destination
 		map.doubleClickZoom.disable();
 		// Rotate the globe
 		rotateGlobe(map);
@@ -101,7 +101,7 @@ export default async (): Promise<Map> => {
 			maxzoom: 14
 		});
 		// Set Terrain
-		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.666 });
+		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.69 });
 
 		// Draw Atmosphere on render
 		map.on('render', () => {
@@ -113,7 +113,7 @@ export default async (): Promise<Map> => {
 			const fog = map.getFog();
 			const zoom = map.getZoom();
 			// If the user is zoomed in enough, set the fog to ressemble an atmosphere
-			if (zoom < 5.555) {
+			if (zoom < 5.5) {
 				if (fog?.['horizon-blend'] !== HORIZON_BLEND_LOW) {
 					map.setFog({
 						color: 'rgba(186, 210, 235, 1)', // Lower atmosphere
@@ -159,7 +159,7 @@ export default async (): Promise<Map> => {
 		map.flyTo({
 			zoom: cameraIsLow ? lowZoom : currentZoom,
 			center: [lng, lat],
-			pitch: 80,
+			pitch: map.getPitch() + 5,
 			speed: cameraIsLow ? 1 : 0.666,
 			curve: 1,
 			essential: true // this animation is considered essential with respect to prefers-reduced-motion

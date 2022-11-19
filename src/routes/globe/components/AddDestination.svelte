@@ -24,12 +24,12 @@
 		const img = getMarkerImgChildNode(element);
 		img.src = spinner;
 		// ya... this needs to be changed...
-		const background = element.children[1];
-		background.classList.remove('blue');
-		background.classList.add('golden2');
+		// const background = element.children[1];
+		// background.classList.remove('blue');
+		// background.classList.add('golden2');
 		element?.classList.add('loading');
 		activeInfoDisplayStore.update((s) => ({
-			status: ActiveInfoDisplayStatus.Action,
+			status: ActiveInfoDisplayStatus.Loading,
 			displayText: 'Creating Destination...'
 		}));
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
@@ -73,7 +73,6 @@
 				userDestinationsStore.update((s) => ({
 					destinations: [...s.destinations, data]
 				}));
-				await goto(`/globe/destinations/${data.name}`);
 
 				element?.classList.remove('loading');
 				loading = false;
@@ -82,6 +81,7 @@
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`
 				}));
+				await goto(`/globe/destinations/${data.name}`);
 			}, 2200);
 
 			setTimeout(() => clearActiveInfoDisplay(), 7777);
@@ -107,7 +107,7 @@
 		style:top={`${screenPos?.y}px`}
 		style:left={`${screenPos?.x}px`}
 		class="absolute z-50 
-            h-[190px] w-[333px] 
+            h-[180px] w-[333px] 
             translate-x-6
             -translate-y-[106%]
             grid
@@ -125,7 +125,7 @@
 		<form
 			on:submit|preventDefault={handleSubmit}
 			class="
-              bg-zinc-900 p-4
+              bg-zinc-900 p-6
                 pt-9 w-full h-full flex flex-col
 				rounded-sm
             "
@@ -133,13 +133,13 @@
 			<input
 				bind:value={name}
 				class="
-                    mb-5 border-b-2 
-                    border-zinc-500
+                    mb-5 
                     bg-transparent
                     py-3
                     text-xl
                     text-white
                     focus:outline-none
+					placeholder-gray-500
                     active:bg-transparent
                 "
 				placeholder="Name this Destination"
