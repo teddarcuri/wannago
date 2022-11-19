@@ -20,6 +20,12 @@ activeInfoDisplayStore.subscribe((d) => {
 let addDestination: AddDestinationStore | undefined;
 addDestinationStore.subscribe((d) => (addDestination = d));
 
+enum Mapstyle {
+	Satellite = 'mapbox://styles/mapbox/satellite-v9',
+	Outdoors = 'mapbox://styles/mapbox/outdoors-v11',
+	Labels = 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y'
+}
+
 export default async (): Promise<Map> => {
 	/*
 		wannago uses MapboxGL JS to render out a 3D globe
@@ -31,8 +37,7 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		// style: 'mapbox://styles/mapbox/satellite-v9',
-		style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+		style: Mapstyle.Labels,
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
