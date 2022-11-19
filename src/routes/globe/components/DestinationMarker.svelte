@@ -51,7 +51,7 @@
 			}));
 		} else {
 			activeInfoDisplayStore.update((s) => ({
-				status: ActiveInfoDisplayStatus.Information,
+				status: ActiveInfoDisplayStatus.Black,
 				displayText: name
 			}));
 		}
@@ -123,7 +123,7 @@
 
 	/* Marker States/Colors */
 	.destination {
-		background-image: linear-gradient(var(--angle), #7f92b0, #425369, #3a4554);
+		background-image: linear-gradient(var(--angle), #9ba9be, #425369, #6691cd);
 	}
 
 	.blue {

@@ -18,7 +18,8 @@
 		[ActiveInfoDisplayStatus.Success]: 'bg-emerald-700',
 		[ActiveInfoDisplayStatus.Error]: 'bg-red-700',
 		[ActiveInfoDisplayStatus.Information]: 'bg-emerald-800',
-		[ActiveInfoDisplayStatus.Loading]: 'bg-slate-500'
+		[ActiveInfoDisplayStatus.Loading]: 'bg-slate-500',
+		[ActiveInfoDisplayStatus.Black]: 'bg-stone-900'
 	}[status];
 </script>
 

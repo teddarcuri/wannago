@@ -7,7 +7,8 @@ export enum ActiveInfoDisplayStatus {
 	Success,
 	Error,
 	Information,
-	Loading
+	Loading,
+	Black
 }
 
 export interface ActiveInfoDisplayStore {
