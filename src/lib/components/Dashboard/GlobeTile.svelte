@@ -1,7 +1,7 @@
 <a href="/globe">
 	<div class="gradient" />
 	<img
-		src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/globe?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL2dsb2JlIiwiaWF0IjoxNjY4NDU4OTk4LCJleHAiOjE5ODM4MTg5OTh9.5yPRn_DBMraNvUSelgcknozxZ6cmS9dBVWnyNkHvUm4"
+		src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/globe%201-min.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL2dsb2JlIDEtbWluLnBuZyIsImlhdCI6MTY2ODgzMzg4NCwiZXhwIjoxOTg0MTkzODg0fQ.rKwkKk8dh7h43nRR5eXzjBcgTMwx8YVJ2vdQuXlHzpw"
 	/>
 	<span class="text-4xl absolute bottom-8 left-8">View Globe</span>
 </a>
@@ -34,8 +34,13 @@
 		transition: border 0.4s ease;
 	}
 
+	a:active {
+		transition: border 0.2s ease;
+		@apply border-gray-700 border-[9px];
+	}
+
 	a:hover img {
-		@apply opacity-70;
+		@apply opacity-100;
 		transform: scale(1.05);
 	}
 
