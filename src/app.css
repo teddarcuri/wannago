@@ -55,7 +55,7 @@ input[type='text'] {
 /* Progress Bar */
 .svelte-progress-bar {
 	z-index: 9999;
-	height: 3px;
+	height: 2px;
 }
 
 .svelte-progress-bar,
