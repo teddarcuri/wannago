@@ -13,11 +13,12 @@
 	onMount(async () => (map = await bootstrapMapbox()));
 
 	$: isRoot = $page.url.pathname === '/';
-	$: applyBlur = isRoot ? 'blur' : '';
+	$: isGallery = $page.routeId === '/globe/destinations/[slug]/gallery';
+	$: blur = isRoot || isGallery ? 'blur' : '';
 	$: session = $page.data.session;
 </script>
 
-<div id="mapbox-mount" class={applyBlur} />
+<div id="mapbox-mount" class:blur />
 <DeveloperTools />
 {#if map}
 	{#if session && !isRoot}
@@ -32,7 +33,7 @@
 	#mapbox-mount {
 		width: 100%;
 		height: 100%;
-		transition: all ease 1s;
+		transition: all ease-in-out 1s;
 	}
 
 	:global(.mapboxgl-canvas) {
@@ -40,7 +41,7 @@
 	}
 
 	.blur {
-		@apply blur-sm;
-		transform: scale(1.1);
+		@apply blur-md;
+		transform: scale(1.11);
 	}
 </style>
