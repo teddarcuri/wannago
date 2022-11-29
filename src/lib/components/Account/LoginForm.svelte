@@ -32,7 +32,7 @@
 		<h3 class="text-xl mt-4">We live in a beautiful World. Document yours.</h3>
 	</header>
 	<form class=" mt-6 w-[440px] grid place-items-center" on:submit|preventDefault={handleLogin}>
-		<button on:click={signInWithGoogle}>SIgn in with GOogle bitch</button>
+		<button on:click={signInWithGoogle}>Sign in with Google</button>
 
 		<!-- <div class="gradient" /> -->
 		<!-- <div class="inner p-10">
