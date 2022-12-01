@@ -28,16 +28,20 @@ html {
 }
 
 /* GLOBALS */
+/* button { */
+/* 	@apply h-[44px] */
+/* 	self-end */
+/* 	rounded-md */
+/* 	px-6 */
+/* 	bg-sky-900 */
+/*   	text-zinc-200 */
+/* 	hover:border-zinc-600 */
+/* 	hover:bg-gray-800 */
+/* 	hover:text-zinc-200; */
+/* } */
+
 button {
-	@apply h-[44px]
-	self-end
-	rounded-md
-	px-6
-	bg-sky-900
-  	text-zinc-200
-	hover:border-zinc-600
-	hover:bg-gray-800
-	hover:text-zinc-200;
+	cursor: pointer;
 }
 
 input[type='text'] {
