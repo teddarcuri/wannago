@@ -2,8 +2,11 @@
 	import getBase64 from '../Image/getBase64';
 	import Button from './Button.svelte';
 	import addIcon from '$lib/img/add-icon.svg';
+	import getImageDimensions from '../Image/getImageDimensions';
 
+	export let minWidth = 200;
 	export let onChange: Function;
+	export let onError: Function;
 	let imagePreview: string;
 	let fileInput: HTMLInputElement;
 	let files: FileList;
@@ -11,8 +14,10 @@
 	async function handleChange() {
 		const file = files?.[0];
 		if (file) {
+			const dimensions = await getImageDimensions(file);
+			if (dimensions.width < minWidth) return onError('Photo not wide enough');
 			imagePreview = await getBase64(file);
-			onChange(file, imagePreview);
+			onChange(file, imagePreview, dimensions);
 		}
 	}
 </script>

@@ -17,8 +17,10 @@
 	export let coverPhoto: CoverPhoto;
 
 	let imageFile = null;
+	let imageDimensions;
 	let destinationId = $page.data.destination.id;
 	let showDeleteConfirmation = false;
+	let uploadError;
 
 	const userId = $page?.data?.session?.user?.id;
 	async function handleUpload() {
@@ -101,11 +103,11 @@
 
 		<div class="z-50 absolute w-full h-full grid place-items-center">
 			<div class="drawer absolute grid bottom-0 left-0 p-8 w-full bg-black/50">
-				<h4>Cover Photo</h4>
+				<h4>{showDeleteConfirmation ? 'Are you sure?' : 'Cover Photo'}</h4>
 
 				<div class="buttons mt-4">
 					{#if showDeleteConfirmation}
-						<button class="red" on:click={handleRemove}>Click again to confirm</button>
+						<button class="red" on:click={handleRemove}>Yes, delete</button>
 						<button on:click={() => (showDeleteConfirmation = false)}>Cancel</button>
 					{:else}
 						<button class="red" on:click={() => (showDeleteConfirmation = true)}
@@ -130,13 +132,16 @@
 		</div>
 	{:else}
 		<div class="grid place-items-center">
-			<h4>Upload Cover Photo</h4>
+			<h4>Upload a Cover Photo</h4>
+			{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
 			<p class="text-stone-300 text-sm">This photo must be at least 880px wide</p>
 			<ImageUpload
-				onChange={(file, base64) => {
+				onChange={(file, base64, dimensions) => {
 					preview = base64;
 					imageFile = file;
+					imageDimensions = dimensions;
 				}}
+				onError={error => (uploadError = error)}
 			/>
 		</div>
 	{/if}
@@ -156,7 +161,7 @@
 
 	.buttons {
 		button {
-			@apply uppercase text-xs  tracking-wide text-stone-200 bg-emerald-600 py-2 px-4 rounded-full;
+			@apply uppercase text-xs  tracking-widest text-stone-200 bg-emerald-600 py-3 px-5 rounded-full;
 
 			&.red {
 				@apply bg-red-800;

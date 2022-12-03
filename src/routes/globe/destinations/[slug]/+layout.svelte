@@ -210,7 +210,7 @@
 	}
 
 	[name='name'] {
-		@apply rounded-md mb-2;
+		@apply rounded-md;
 		padding: 6px 0px;
 		border: solid 2px transparent;
 		transition: all ease 0.2s;
@@ -249,7 +249,7 @@
 	}
 
 	.image-wrapper {
-		@apply pt-[136px] h-[136px] w-full rounded-t-lg;
+		@apply pt-[155px] h-[155px] w-full rounded-t-lg;
 		overflow: hidden;
 		position: relative;
 		background-image: linear-gradient(0deg, #000, rgba(0, 0, 0, 1));
@@ -279,7 +279,7 @@
 	}
 
 	.cover {
-		@apply absolute opacity-50 
+		@apply absolute opacity-60 
 		w-full h-full
 		object-center
 		top-0 left-0 z-0 object-cover;
@@ -291,7 +291,7 @@
 
 	section div:first-child {
 		@apply px-8;
-		margin-top: -55px;
+		margin-top: -70px;
 		background-image: linear-gradient(0deg, #000 20%, rgba(0, 0, 0, 0));
 	}
 
@@ -301,24 +301,6 @@
 		max-height: calc(100vh - 55px);
 		width: calc(100vw - 100%);
 		left: 100%;
-	}
-
-	/* Unsaved Changes */
-	.unsaved-changes {
-		@apply absolute top-full right-8 
-		 mx-auto rounded-b-md  flex 
-		translate-y-0 py-4 px-4
-		justify-end bg-stone-800;
-		background-color: rgba(0, 0, 0, 0.69);
-	}
-
-	.unsaved-changes button {
-		@apply bg-emerald-800 px-4 h-[36px] whitespace-nowrap text-sm
-		hover:bg-emerald-600;
-	}
-
-	.unsaved-changes span {
-		@apply whitespace-nowrap;
 	}
 
 	/* View Gallery */

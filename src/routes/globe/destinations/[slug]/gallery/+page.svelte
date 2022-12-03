@@ -14,7 +14,7 @@
 	}
 
 	main :global(section) {
-		@apply bg-black w-[400px] h-[369px]
+		@apply bg-black w-[555px] h-[369px]
         grid place-items-center rounded-lg;
 		padding: 20px;
 	}
