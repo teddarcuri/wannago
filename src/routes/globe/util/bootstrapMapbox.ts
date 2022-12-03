@@ -4,8 +4,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import searchIcon from '$lib/img/search-icon.svg';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
-import { type AddDestinationStore, addDestinationStore } from '$lib/stores/addDestination';
-import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+import {
+	type AddDestinationStore,
+	addDestinationStore,
+} from '$lib/stores/addDestination';
+import {
+	ActiveInfoDisplayStatus,
+	activeInfoDisplayStore,
+} from '$lib/stores/activeInfoDisplay';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import addIcon from '$lib/img/add-icon.svg';
 import createMarker, { MarkerType } from './createMarker';
@@ -13,17 +19,17 @@ import rotateGlobe from './rotateGlobe';
 import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
-activeInfoDisplayStore.subscribe((d) => {
+activeInfoDisplayStore.subscribe(d => {
 	activeInfoDisplayStatus = d.status;
 });
 
 let addDestination: AddDestinationStore | undefined;
-addDestinationStore.subscribe((d) => (addDestination = d));
+addDestinationStore.subscribe(d => (addDestination = d));
 
 enum Mapstyle {
 	Satellite = 'mapbox://styles/mapbox/satellite-v9',
 	Outdoors = 'mapbox://styles/mapbox/outdoors-v11',
-	Labels = 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y'
+	Simple = 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
 }
 
 export default async (): Promise<Map> => {
@@ -37,16 +43,16 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		style: Mapstyle.Labels,
+		style: Mapstyle.Simple,
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
 		center: [-99.94373365867199, 43.495094628394924],
-		pitch: 60
+		pitch: 60,
 	});
 
 	// Controls
-	if (false) {
+	if (false && true) {
 		map.addControl(
 			new MapboxGeocoder({
 				accessToken: mapboxgl.accessToken,
@@ -66,9 +72,9 @@ export default async (): Promise<Map> => {
 						wrapper.append(inner);
 						wrapper.append(background);
 						return wrapper;
-					})()
-				}
-			})
+					})(),
+				},
+			}),
 		);
 	}
 
@@ -84,9 +90,9 @@ export default async (): Promise<Map> => {
 	map.on('render', () => {
 		// Add Destination set screen coordinates
 		if (addDestination?.marker) {
-			addDestinationStore.update((s) => ({
+			addDestinationStore.update(s => ({
 				...s,
-				screenPos: s.marker?._pos
+				screenPos: s.marker?._pos,
 			}));
 		}
 	});
@@ -98,10 +104,10 @@ export default async (): Promise<Map> => {
 			type: 'raster-dem',
 			url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
 			tileSize: 512,
-			maxzoom: 14
+			maxzoom: 14,
 		});
 		// Set Terrain
-		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.69 });
+		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.11 });
 
 		// Draw Atmosphere on render
 		map.on('render', () => {
@@ -120,7 +126,7 @@ export default async (): Promise<Map> => {
 						'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
 						'horizon-blend': HORIZON_BLEND_LOW, // Atmosphere thickness (default 0.2 at low zooms)
 						'space-color': 'rgb(0, 0, 0)', // Background color
-						'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+						'star-intensity': 0, // Background star brightness (default 0.35 at low zoooms )
 					});
 				}
 			} else {
@@ -131,14 +137,14 @@ export default async (): Promise<Map> => {
 						'high-color': 'rgba(36, 92, 223, 1)', // Upper atmosphere
 						'horizon-blend': HORIZON_BLEND_HIGH, // Atmosphere thickness (default 0.2 at low zooms)
 						'space-color': 'rgb(0, 0, 0)', // Background color
-						'star-intensity': 0 // Background star brightness (default 0.35 at low zoooms )
+						'star-intensity': 0, // Background star brightness (default 0.35 at low zoooms )
 					});
 				}
 			}
 		});
 	});
 
-	map.on('dblclick', (e) => {
+	map.on('dblclick', e => {
 		goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
@@ -152,7 +158,7 @@ export default async (): Promise<Map> => {
 		// Show user they are adding a destination
 		activeInfoDisplayStore.update(() => ({
 			status: ActiveInfoDisplayStatus.Information,
-			displayText: "What's here?"
+			displayText: "What's here?",
 		}));
 
 		// // Fly to destination
@@ -162,7 +168,7 @@ export default async (): Promise<Map> => {
 			pitch: map.getPitch() + 5,
 			speed: cameraIsLow ? 1 : 0.666,
 			curve: 1,
-			essential: true // this animation is considered essential with respect to prefers-reduced-motion
+			essential: true, // this animation is considered essential with respect to prefers-reduced-motion
 		});
 
 		// Add marker
@@ -172,17 +178,17 @@ export default async (): Promise<Map> => {
 			icon: addIcon,
 			lat,
 			lng,
-			draggable: true
+			draggable: true,
 		});
 
 		// Add marker to addDestination store
-		addDestinationStore.update((s) => ({
+		addDestinationStore.update(s => ({
 			...s,
-			marker
+			marker,
 		}));
 	});
 
-	map.on('mousemove', (e) => {
+	map.on('mousemove', e => {
 		// Get Lat, Lng for ActiveInfoDisplay
 		if (activeInfoDisplayStatus === ActiveInfoDisplayStatus.Normal) {
 			const { lngLat } = e;
@@ -191,7 +197,7 @@ export default async (): Promise<Map> => {
 			const displayText = getLatLngDisplayText(lngLat.lat, lngLat.lng);
 			activeInfoDisplayStore.update(() => ({
 				status: ActiveInfoDisplayStatus.Normal,
-				displayText
+				displayText,
 			}));
 		}
 	});

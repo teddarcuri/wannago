@@ -10,10 +10,12 @@
 	$: destinations = $userDestinationsStore.destinations;
 
 	async function loadData() {
-		const { error, data: destinations } = await supabaseClient.from('destinations').select();
+		const { error, data: destinations } = await supabaseClient
+			.from('destinations')
+			.select();
 
 		if (error) return console.error(error);
-		userDestinationsStore.update((s) => ({ destinations }));
+		userDestinationsStore.update(s => ({ destinations }));
 	}
 
 	onMount(async () => await loadData());

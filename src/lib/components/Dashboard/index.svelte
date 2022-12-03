@@ -10,12 +10,12 @@
 
 <main>
 	<div class="wrapper">
-		{#if session}
+		<!-- {#if session}
 			<header>
 				<h1>🌎 Welcome to Wannago.</h1>
 				<h3 class="opacity-50">We live in a beautiful World. Document yours.</h3>
 			</header>
-		{/if}
+		{/if} -->
 		<div class="bg" />
 		<section>
 			{#if !$page.data.session}
@@ -34,11 +34,12 @@
 					<h2 class="text-3xl opacity-80">Document your experience</h2>
 				</div> -->
 			{:else}
-				<div class="flex-grow flex flex-col p-[30px] max-w-[700px]">
+				<div class="flex-grow flex flex-col p-[30px] max-w-[555px]">
 					<GlobeTile />
+
 					<Account session={$page.data.session} />
 				</div>
-				<div class="min-w-[320px] -translate-y-[100px]">
+				<div class="min-w-[320px] pt-8">
 					<MyDestinations />
 				</div>
 			{/if}

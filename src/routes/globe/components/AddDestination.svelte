@@ -81,6 +81,7 @@
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`
 				}));
+				// rotateCameraAroundPoint({ point, init: 0, map });
 				await goto(`/globe/destinations/${data.name}`);
 			}, 2200);
 

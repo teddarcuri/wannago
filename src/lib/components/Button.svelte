@@ -1,8 +1,8 @@
-<script>
-	export let onClick;
+<script lang="ts">
+	export let onClick: MouseEventHandler<HTMLButtonElement>;
 </script>
 
-<button on:click|preventDefault={onClick}>
+<button class={$$props.class} on:click|preventDefault={onClick}>
 	<div class="inner">
 		<slot />
 	</div>

@@ -5,7 +5,7 @@
 	onMount(() => {
 		VanillaTilt.init(document.querySelector('.tilt-tile'), {
 			max: 3,
-			speed: 600
+			speed: 600,
 		});
 	});
 </script>
@@ -41,7 +41,7 @@
 		md:col-span-3 lg:col-span-3 
 		rounded-2xl
 		mb-8
-		h-[369px]
+		h-[329px]
 		border-stone-800 border-2
 		hover:border-gray-600;
 		transition: border 0.4s ease;

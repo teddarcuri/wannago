@@ -1,10 +1,11 @@
+import createWaypointCanvas from '@/lib/util/createWaypointCanvas';
 import type { Map } from 'mapbox-gl';
 import { Marker } from 'mapbox-gl';
 
 export enum MarkerType {
 	destination,
 	activeDestination,
-	newDestination
+	newDestination,
 }
 
 interface Options {
@@ -24,8 +25,14 @@ export default function ({
 	lat,
 	lng,
 	name,
-	draggable
+	draggable,
+	isWaypoint,
 }: Options): Marker {
+	if (isWaypoint) {
+		const element = createWaypointCanvas('Test', 'bada55');
+		return new Marker({ element, draggable }).setLngLat([lng, lat]).addTo(map);
+	}
+
 	// Outer wrapper
 	var wrapper = document.createElement('div');
 	wrapper.classList.add('mapboxgl-marker-wrapper');

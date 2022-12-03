@@ -9,18 +9,23 @@
 	let show = false;
 </script>
 
-<div class:active={show} class="absolute transition-all translate-x-[95%] top-0 right-0">
-	<button on:click={() => (show = !show)} class="absolute left-0 -translate-x-[50px] top-10"
+<div
+	class:active={show}
+	class="absolute transition-all h-full translate-x-[95%] top-0 right-0 z-50"
+>
+	<button
+		on:click={() => (show = !show)}
+		class="absolute bg-black px-8 py-2 left-0 -translate-x-[50px] top-10"
 		>{show ? 'x' : '<'}</button
 	>
-	<pre class=" p-7 text-xs overflow-auto w-[500px] opacity-90  h-full bg-gray-900">
+	<pre class="p-7 text-xs overflow-auto w-[500px] opacity-90 h-full bg-gray-900">
 	<h4>Session</h4>
 	{JSON.stringify(session, null, 2)}
 	<h4>User Destinations</h4>
 	{udDump}
 	<h4>Active Destination</h4>
 	{adDump}
-</pre>
+    </pre>
 </div>
 
 <style>

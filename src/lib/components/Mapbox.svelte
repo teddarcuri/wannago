@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
 	import { onMount } from 'svelte';
-	import { userDestinationsStore } from '$lib/stores/userDestinations';
+	// import { userDestinationsStore } from '$lib/stores/userDestinations';
 	// @globe
 	import bootstrapMapbox from '@globe/util/bootstrapMapbox';
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';

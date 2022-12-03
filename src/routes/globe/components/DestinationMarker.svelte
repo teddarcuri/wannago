@@ -3,7 +3,10 @@
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
 	import destinationIcon from '$lib/img/destination.svg';
-	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+	import {
+		ActiveInfoDisplayStatus,
+		activeInfoDisplayStore,
+	} from '$lib/stores/activeInfoDisplay';
 	import createMarker from '../util/createMarker';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
@@ -13,10 +16,16 @@
 
 	const { name, coordinates } = destination;
 	const {
-		coordinates: [lng, lat]
+		coordinates: [lng, lat],
 	} = coordinates;
 
-	const marker = createMarker({ name, map, lat, lng, icon: destinationIcon });
+	const marker = createMarker({
+		name,
+		map,
+		lat,
+		lng,
+		icon: destinationIcon,
+	});
 	const domElement = marker.getElement();
 	const img = getMarkerImgChildNode(domElement);
 	img.src = destinationIcon;
@@ -29,38 +38,38 @@
 			zoom: map.getZoom() < 10 ? 14 : map.getZoom() + 0.25,
 			center: coordinates.coordinates,
 			pitch: 69,
-			speed: 1
+			speed: 1,
 		});
-		activeDestinationStore.update((s) => ({
+		activeDestinationStore.update(s => ({
 			marker,
-			destination
+			destination,
 		}));
 	} else {
 		domElement.classList.remove('active-destination');
 	}
 
-	domElement.addEventListener('click', (e) => {
+	domElement.addEventListener('click', e => {
 		goto(`/globe/destinations/${name}`);
 	});
 
 	domElement.addEventListener('mouseenter', () => {
 		if (isActive) {
-			activeInfoDisplayStore.update((s) => ({
+			activeInfoDisplayStore.update(s => ({
 				status: ActiveInfoDisplayStatus.Information,
-				displayText: 'Click to edit'
+				displayText: 'Click to edit',
 			}));
 		} else {
-			activeInfoDisplayStore.update((s) => ({
+			activeInfoDisplayStore.update(s => ({
 				status: ActiveInfoDisplayStatus.Black,
-				displayText: name
+				displayText: name,
 			}));
 		}
 	});
 
 	domElement.addEventListener('mouseleave', () => {
-		activeInfoDisplayStore.update((s) => ({
+		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Normal,
-			displayText: ''
+			displayText: '',
 		}));
 	});
 </script>
@@ -97,7 +106,14 @@
 
 	.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-background,
 	.add-destination .mapboxgl-marker-background {
-		background-image: linear-gradient(var(--angle), #b3c0da, #77869c, #b9cbe5, #99b9e6, #57667e);
+		background-image: linear-gradient(
+			var(--angle),
+			#b3c0da,
+			#77869c,
+			#b9cbe5,
+			#99b9e6,
+			#57667e
+		);
 	}
 
 	.mapboxgl-marker-wrapper:hover img,

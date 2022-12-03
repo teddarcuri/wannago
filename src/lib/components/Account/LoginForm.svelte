@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/db';
-
+	import Button from '$lib/components/Button.svelte';
 	let loading = false;
 	let email: string;
 
@@ -21,7 +21,7 @@
 
 	async function signInWithGoogle() {
 		const { data, error } = await supabaseClient.auth.signInWithOAuth({
-			provider: 'google'
+			provider: 'google',
 		});
 	}
 </script>
@@ -31,8 +31,11 @@
 		<h1 class="text-3xl">🌎 Welcome to Wannago</h1>
 		<h3 class="text-xl mt-4">We live in a beautiful World. Document yours.</h3>
 	</header>
-	<form class=" mt-6 w-[440px] grid place-items-center" on:submit|preventDefault={handleLogin}>
-		<button on:click={signInWithGoogle}>Sign in with Google</button>
+	<form
+		class=" mt-6 w-[440px] grid place-items-center"
+		on:submit|preventDefault={handleLogin}
+	>
+		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
 
 		<!-- <div class="gradient" /> -->
 		<!-- <div class="inner p-10">
@@ -98,7 +101,14 @@
 		w-full h-full;
 		opacity: 0.4;
 		z-index: 0;
-		background-image: linear-gradient(120deg, #426eb5, #9db5dc, #7fb6ff, #2361b9, #0d3e84);
+		background-image: linear-gradient(
+			120deg,
+			#426eb5,
+			#9db5dc,
+			#7fb6ff,
+			#2361b9,
+			#0d3e84
+		);
 	}
 
 	.inner {
