@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import ImageUpload from '@/lib/components/ImageUpload.svelte';
 	import { supabaseClient } from '@/lib/db';
 	import { page } from '$app/stores';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
+	import ImageUpload from '@/lib/components/ImageUpload.svelte';
 
 	interface CoverPhoto {
+		id: string;
 		bucket_path?: string;
 		public_url?: string;
 	}
@@ -23,6 +24,7 @@
 	let uploadError;
 
 	const userId = $page?.data?.session?.user?.id;
+
 	async function handleUpload() {
 		activeInfoDisplayStore.update(s => ({
 			...s,
@@ -38,8 +40,8 @@
 			.upload(path, imageFile);
 		// Create the image row and add to destination
 		if (data) {
-			const { status } = await createImageRecord(data.path);
-			if (status < 400) {
+			const { error } = await createImageRecord(data.path, imageDimensions);
+			if (!error) {
 				invalidateAll();
 				imageFile = null;
 				activeInfoDisplayStore.update(s => ({
@@ -63,25 +65,28 @@
 			}));
 		}
 	}
-	// TODO: make this a helper that also stores the file in supabase
-	// then creates the table row + links id to destination + handles active info stuff
-	async function createImageRecord(path) {
+
+	async function createImageRecord(path, dimensions) {
 		// get the photo's public url
 		const {
 			data: { publicUrl },
 		} = await supabaseClient.storage.from('users').getPublicUrl(path);
+		// build object
 		const imageRecord = {
 			public_url: publicUrl,
 			bucket_path: path,
 			user_id: userId,
+			height: dimensions.height,
+			width: dimensions.width,
 		};
+		// Insert into DB
 		const { data, error } = await supabaseClient
 			.from('images')
 			.insert(imageRecord)
 			.select();
+		// add foreign key
 		if (data && data[0]) {
 			const { id: imageId } = data[0];
-			// add photo path to destination
 			return await supabaseClient
 				.from('destinations')
 				.update({ cover_photo: imageId })
@@ -90,10 +95,21 @@
 	}
 
 	async function handleRemove() {
-		// const x = await supabaseClient.storage.from('users').remove([pathToCoverPhoto]);
-		// REMOVE FROM STORAGE
-		// DELETE FOREIGN KEY OR DELETE ROW - Does this cascase and delte key?
-		// console.log(x);
+		try {
+			// Remove file from storage
+			await supabaseClient.storage.from('users').remove([coverPhoto.bucket_path]);
+			// Remove foreign key
+			await supabaseClient
+				.from('destinations')
+				.update({ cover_photo: null })
+				.eq('id', destinationId);
+			// Remove the photo record
+			await supabaseClient.from('images').delete().eq('id', coverPhoto.id);
+			invalidateAll();
+			showDeleteConfirmation = false;
+		} catch (e) {
+			console.error(e);
+		}
 	}
 </script>
 
@@ -110,6 +126,7 @@
 						<button class="red" on:click={handleRemove}>Yes, delete</button>
 						<button on:click={() => (showDeleteConfirmation = false)}>Cancel</button>
 					{:else}
+						<button>View</button>
 						<button class="red" on:click={() => (showDeleteConfirmation = true)}
 							>Remove</button
 						>

@@ -12,6 +12,7 @@ export async function load({ params }) {
             coordinates,
             description,
             cover_photo (
+                id,
                 public_url,
                 bucket_path
             )
