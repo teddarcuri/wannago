@@ -13,7 +13,7 @@
 	onMount(async () => (map = await bootstrapMapbox()));
 
 	$: isRoot = $page.url.pathname === '/';
-	$: isGallery = $page.routeId === '/globe/destinations/[slug]/gallery';
+	$: isGallery = $page.routeId === '/globe/destinations/[id]/gallery';
 	$: blur = isRoot || isGallery ? 'blur' : '';
 	$: session = $page.data.session;
 </script>

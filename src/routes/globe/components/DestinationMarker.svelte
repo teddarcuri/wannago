@@ -14,7 +14,7 @@
 	export let map: Map;
 	export let destination: object;
 
-	const { name, coordinates } = destination;
+	const { id, name, coordinates } = destination;
 	const {
 		coordinates: [lng, lat],
 	} = coordinates;
@@ -29,10 +29,10 @@
 	const domElement = marker.getElement();
 	const img = getMarkerImgChildNode(domElement);
 	img.src = destinationIcon;
-
-	$: slug = $page.params.slug;
-	$: isActive = slug === name;
+	$: console.log($page.params.id, id);
+	$: isActive = $page.params.id == id;
 	$: if (isActive) {
+		console.log('DOM NODE: ', domElement);
 		domElement.classList.add('active-destination');
 		map.flyTo({
 			zoom: map.getZoom() < 10 ? 14 : map.getZoom() + 0.25,
@@ -40,24 +40,25 @@
 			pitch: 69,
 			speed: 1,
 		});
-		activeDestinationStore.update(s => ({
+		activeDestinationStore.update(() => ({
 			marker,
 			destination,
 		}));
 	} else {
+		console.log('NOT ACTIVE:', typeof $page.params.id, typeof id);
 		domElement.classList.remove('active-destination');
 	}
 
 	domElement.addEventListener('click', e => {
-		goto(`/globe/destinations/${name}`);
+		goto(`/globe/destinations/${id}`);
 	});
 
 	domElement.addEventListener('mouseenter', () => {
 		if (isActive) {
-			activeInfoDisplayStore.update(s => ({
-				status: ActiveInfoDisplayStatus.Information,
-				displayText: 'Click to edit',
-			}));
+			// activeInfoDisplayStore.update(s => ({
+			// 	status: ActiveInfoDisplayStatus.Information,
+			// 	displayText: 'Click to edit',
+			// }));
 		} else {
 			activeInfoDisplayStore.update(s => ({
 				status: ActiveInfoDisplayStatus.Black,

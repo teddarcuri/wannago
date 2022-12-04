@@ -18,7 +18,7 @@ export async function load({ params }) {
             )
         `,
 		)
-		.eq('name', params.slug);
+		.eq('id', params.id);
 
 	console.log('DESTINATION DATA -------- ', data);
 

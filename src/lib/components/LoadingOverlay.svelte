@@ -8,7 +8,7 @@
 
 <style>
 	div {
-		@apply bg-stone-900 rounded-lg w-full h-full absolute z-50
+		@apply bg-black rounded-lg w-full h-full absolute z-50
         grid place-items-center;
 	}
 

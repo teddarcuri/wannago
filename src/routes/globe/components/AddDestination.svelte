@@ -2,7 +2,10 @@
 	import type { Map } from 'mapbox-gl';
 	import { goto } from '$app/navigation';
 	import { supabaseClient } from '$lib/db';
-	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '$lib/stores/activeInfoDisplay';
+	import {
+		ActiveInfoDisplayStatus,
+		activeInfoDisplayStore,
+	} from '$lib/stores/activeInfoDisplay';
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import spinner from '$lib/img/spinner.svg';
 	import addIcon from '$lib/img/add-icon.svg';
@@ -28,15 +31,15 @@
 		// background.classList.remove('blue');
 		// background.classList.add('golden2');
 		element?.classList.add('loading');
-		activeInfoDisplayStore.update((s) => ({
+		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Loading,
-			displayText: 'Creating Destination...'
+			displayText: 'Creating Destination...',
 		}));
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
 			lat,
-			lng
+			lng,
 		});
 
 		if (error) {
@@ -45,21 +48,21 @@
 			img.src = addIcon;
 
 			if (error.code === '42501') {
-				activeInfoDisplayStore.update((s) => ({
+				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Information,
-					displayText: s.displayText
+					displayText: s.displayText,
 				}));
 			} else {
-				activeInfoDisplayStore.update((s) => ({
+				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Error,
-					displayText: 'error dude'
+					displayText: 'error dude',
 				}));
 			}
 
 			setTimeout(() => {
-				activeInfoDisplayStore.update((s) => ({
+				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Information,
-					displayText: "What's here?"
+					displayText: "What's here?",
 				}));
 			}, 4444);
 		}
@@ -67,22 +70,22 @@
 		if (data) {
 			setTimeout(async () => {
 				const {
-					coordinates: { coordinates: point }
+					coordinates: { coordinates: point },
 				} = data; // yes, the double coordinates is unfortunate...
 
-				userDestinationsStore.update((s) => ({
-					destinations: [...s.destinations, data]
+				userDestinationsStore.update(s => ({
+					destinations: [...s.destinations, data],
 				}));
 
 				element?.classList.remove('loading');
 				loading = false;
-				addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
-				activeInfoDisplayStore.update((s) => ({
+				addDestinationStore.update(s => ({ marker: null, screenPos: null }));
+				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Success,
-					displayText: `Succesfully created ${data.name}`
+					displayText: `Succesfully created ${data.name}`,
 				}));
 				// rotateCameraAroundPoint({ point, init: 0, map });
-				await goto(`/globe/destinations/${data.name}`);
+				await goto(`/globe/destinations/${data.id}`);
 			}, 2200);
 
 			setTimeout(() => clearActiveInfoDisplay(), 7777);
@@ -90,15 +93,15 @@
 	};
 
 	const clearActiveInfoDisplay = () => {
-		activeInfoDisplayStore.update((s) => ({
+		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Normal,
-			displayText: ''
+			displayText: '',
 		}));
 	};
 
 	const handleCancel = () => {
 		marker?.remove();
-		addDestinationStore.update((s) => ({ marker: null, screenPos: null }));
+		addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 		clearActiveInfoDisplay();
 	};
 </script>

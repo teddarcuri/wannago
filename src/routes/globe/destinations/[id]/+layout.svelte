@@ -14,7 +14,7 @@
 	import { navigating, page } from '$app/stores';
 	import { writable } from 'svelte/store';
 	import { invalidateAll } from '$app/navigation';
-	//imgs.search.brave.com/VlQlUG1ci_9VaI9CwC39eCc	M	tjGAhwBgDU_YPhExqQk/rs:fit:1200:887:1/g:ce/aHR0cHM6Ly93d3cu/Y29sb3JhZG8uY29t/L3NpdGVzL2RlZmF1/bHQvZmlsZXMvQ09f/UGhvdG9Qcm9qZWN0/MjAwN18wMDA3XzBf/MC5qcGc'
+
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
 		Sunset = 'https://imgs.search.brave.com/sQkT26CFbrcRgWamq9NmY2jCeyviP6LJF0MDJmvSlfI/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9qb29p/bm4uY29tL2ltYWdl/cy9nZXJtYW4tbW91/bnRhaW5zLTIuanBn',
@@ -31,10 +31,10 @@
 	$: lat = destination?.coordinates.coordinates[1];
 	$: lng = destination?.coordinates.coordinates[0];
 	$: promptUnsavedChanges = false;
-	$: isGallery = $page?.routeId === '/globe/destinations/[slug]/gallery';
+	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
 	$: galleryButtonText = isGallery ? 'Exit Gallery' : 'View Gallery';
 	$: galleryLink = isGallery
-		? `/globe/destinations/${$page.params.slug}`
+		? `/globe/destinations/${$page.params.id}`
 		: `${$page.url}/gallery`;
 
 	// $: console.log($page.routeId, $page);
@@ -96,9 +96,9 @@
 
 <DisplayCard>
 	<div class="root relative z-50 bg-black min-w-[405px] w-full h-full rounded-lg ">
-		<!-- {#if loading || $navigating || Boolean(!destination)} -->
-		<!-- 	<LoadingOverlay /> -->
-		<!-- {/if} -->
+		{#if $navigating || Boolean(!destination)}
+			<LoadingOverlay />
+		{/if}
 
 		{#if Boolean(destination)}
 			<!-- Cover Photo -->
@@ -137,7 +137,7 @@
 						/>
 						{#if destination.coordinates}
 							<button class="coordinates">
-								{getLatLngDisplayText(lat, lng)}
+								<span>{getLatLngDisplayText(lat, lng)}</span>
 							</button>
 						{/if}
 					</div>
@@ -178,8 +178,17 @@
 
 	.coordinates {
 		@apply inline-flex w-auto p-2 px-4 flex-grow-0 ml-[-12px] rounded-full;
+
 		&:hover {
 			@apply bg-sky-800;
+
+			span {
+				display: none;
+			}
+
+			&:before {
+				content: 'Click to edit location';
+			}
 		}
 	}
 

@@ -18,7 +18,7 @@
 			<li class="mb-6">
 				<a
 					class="tilt-tile p-8 flex rounded-md bg-black hover:bg-gray-900"
-					href={`/globe/destinations/${destination.name}`}
+					href={`/globe/destinations/${destination.id}`}
 				>
 					<h4 class="text-2xl">
 						{destination.name}
