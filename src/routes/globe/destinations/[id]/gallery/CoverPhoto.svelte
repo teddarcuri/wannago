@@ -14,7 +14,7 @@
 		public_url?: string;
 	}
 
-	export let preview: string;
+	export let preview: string = '';
 	export let coverPhoto: CoverPhoto;
 
 	let imageFile = null;
@@ -166,7 +166,9 @@
 
 <style lang="scss">
 	section {
-		@apply relative overflow-hidden;
+		@apply bg-black w-[90%] max-w-[666px] h-[420px]
+        grid place-items-center rounded-lg relative overflow-hidden;
+		padding: 20px;
 	}
 
 	.preview {

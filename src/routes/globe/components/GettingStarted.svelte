@@ -3,22 +3,22 @@
 </script>
 
 <!-- <button class="absolute top-2 left-[235px]">?</button> -->
-<DisplayCard>
-	<div>
-		<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
-		<h3 class="text-lg font-semibold my-7"><span>🏔️</span> Create a Destination</h3>
-		<p><span class="text-xl">👆</span> Double click to add a destination</p>
-		<p><span class="text-xl">🫳</span> Drag and drop the marker to reposition</p>
-		<h3 class="text-lg font-semibold my-7"><span>🌍</span> Control the Globe</h3>
-		<p><span class="text-xl">👆</span> Click the ' ' button to toggle rotation</p>
-		<p><span class="text-xl">🌏</span> `Ctrl` + mouse -> tilt and rotate globe</p>
-		<p><span class="text-xl">🌍</span> `Shift` + mouse -> center camera on area</p>
+<!-- <DisplayCard> -->
+<div>
+	<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
+	<h3 class="text-lg font-semibold my-7"><span>🏔️</span> Create a Destination</h3>
+	<p><span class="text-xl">👆</span> Double click to add a destination</p>
+	<p><span class="text-xl">🫳</span> Drag and drop the marker to reposition</p>
+	<h3 class="text-lg font-semibold my-7"><span>🌍</span> Control the Globe</h3>
+	<p><span class="text-xl">👆</span> Click the ' ' button to toggle rotation</p>
+	<p><span class="text-xl">🌏</span> `Ctrl` + mouse -> tilt and rotate globe</p>
+	<p><span class="text-xl">🌍</span> `Shift` + mouse -> center camera on area</p>
 
-		<br />
-		<button>Got it. Dismiss for now.</button>
-	</div>
-</DisplayCard>
+	<br />
+	<button>Got it. Dismiss for now.</button>
+</div>
 
+<!-- </DisplayCard> -->
 <style>
 	p {
 		@apply ml-2;

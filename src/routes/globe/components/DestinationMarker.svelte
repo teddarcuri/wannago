@@ -3,6 +3,8 @@
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
 	import destinationIcon from '$lib/img/destination.svg';
+	import mountainIcon from '$lib/img/mountain.svg';
+	import moveIcon from '$lib/img/move.svg';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
@@ -24,36 +26,61 @@
 		map,
 		lat,
 		lng,
-		icon: destinationIcon,
+		icon: mountainIcon,
 	});
 	const domElement = marker.getElement();
 	const img = getMarkerImgChildNode(domElement);
-	img.src = destinationIcon;
-	$: console.log($page.params.id, id);
+	img.src = mountainIcon;
+
 	$: isActive = $page.params.id == id;
 	$: if (isActive) {
-		console.log('DOM NODE: ', domElement);
+		activeDestinationStore.update(s => ({
+			...s,
+			marker,
+			destination,
+		}));
 		domElement.classList.add('active-destination');
 		map.flyTo({
-			zoom: map.getZoom() < 10 ? 14 : map.getZoom() + 0.25,
+			zoom: map.getZoom() < 10 ? 14 : map.getZoom(),
 			center: coordinates.coordinates,
 			pitch: 69,
 			speed: 1,
 		});
-		activeDestinationStore.update(() => ({
-			marker,
-			destination,
-		}));
+
+		// Edit location mode
+		if ($activeDestinationStore.editLocationMode) {
+			domElement.classList.add('blue');
+			marker.setDraggable(true);
+			img.src = moveIcon;
+		} else {
+			marker.setDraggable(false);
+			img.src = mountainIcon;
+			domElement.classList.remove('blue');
+		}
 	} else {
-		console.log('NOT ACTIVE:', typeof $page.params.id, typeof id);
+		marker.setDraggable(false);
+		console.log(
+			'ELSE - this is run for every marker, every time the route changes. It would behoove us to address this.',
+		);
 		domElement.classList.remove('active-destination');
 	}
 
+	// Marker Events
+	marker.on('dragend', () => {
+		activeDestinationStore.update(s => ({
+			...s,
+			newLocation: marker.getLngLat(),
+		}));
+	});
+
+	// DOM Events
 	domElement.addEventListener('click', e => {
+		if ($activeDestinationStore.editLocationMode) return;
 		goto(`/globe/destinations/${id}`);
 	});
 
 	domElement.addEventListener('mouseenter', () => {
+		if ($activeDestinationStore.editLocationMode) return;
 		if (isActive) {
 			// activeInfoDisplayStore.update(s => ({
 			// 	status: ActiveInfoDisplayStatus.Information,
@@ -68,6 +95,7 @@
 	});
 
 	domElement.addEventListener('mouseleave', () => {
+		if ($activeDestinationStore.editLocationMode) return;
 		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Normal,
 			displayText: '',
@@ -77,8 +105,8 @@
 
 <style global>
 	.mapboxgl-marker-wrapper {
-		height: 50px;
-		width: 50px;
+		height: 45px;
+		width: 45px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -138,38 +166,21 @@
 		animation: 5.555s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 	}
 
-	/* Marker States/Colors */
-	.destination {
-		background-image: linear-gradient(var(--angle), #9ba9be, #425369, #6691cd);
-	}
-
-	.blue {
-		background-image: linear-gradient(var(--angle), #35a4a4, #1271a0, #269584);
-	}
-
-	.golden {
-		background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
-	}
-
-	.golden2 {
-		background-image: linear-gradient(var(--angle), #f8f1be, #c9af77, #d8c684, #ddb990);
-	}
-
 	/* Active Destination */
 	.active-destination {
-		height: 60px;
-		width: 60px;
+		height: 70px;
+		width: 70px;
 		z-index: 10;
 	}
 
 	.active-destination .mapboxgl-marker-inner {
-		height: calc(100% - 6px);
-		width: calc(100% - 6px);
+		height: calc(100% - 8px);
+		width: calc(100% - 8px);
 	}
 
 	.active-destination .mapboxgl-marker-inner img {
 		opacity: 0.8;
-		width: 24px;
+		width: 29px;
 	}
 
 	.active-destination .mapboxgl-marker-background {
@@ -186,9 +197,21 @@
 		/* background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224); */
 	}
 
-	.active-destination .mapboxgl-marker-inner {
-		height: calc(100% - 6px);
-		width: calc(100% - 6px);
+	/* Marker States/Colors */
+	.destination {
+		background-image: linear-gradient(var(--angle), #9ba9be, #425369, #6691cd);
+	}
+
+	.blue .mapboxgl-marker-background {
+		background-image: linear-gradient(var(--angle), #35a4a4, #1271a0, #269584);
+	}
+
+	.golden .mapboxgl-marker-background {
+		background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
+	}
+
+	.golden2 .mapboxgl-marker-background {
+		background-image: linear-gradient(var(--angle), #f8f1be, #c9af77, #d8c684, #ddb990);
 	}
 
 	/* Inner Marker - dark bg + img */

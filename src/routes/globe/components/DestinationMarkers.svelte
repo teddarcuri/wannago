@@ -9,16 +9,25 @@
 
 	$: destinations = $userDestinationsStore.destinations;
 
-	async function loadData() {
-		const { error, data: destinations } = await supabaseClient
-			.from('destinations')
-			.select();
-
-		if (error) return console.error(error);
-		userDestinationsStore.update(s => ({ destinations }));
-	}
-
-	onMount(async () => await loadData());
+	// async function loadData() {
+	// 	const { error, data: destinations } = await supabaseClient.from('destinations')
+	// 		.select(`
+	//                id,
+	//                name,
+	//                coordinates,
+	//                description,
+	//                cover_photo (
+	//                    id,
+	//                    public_url,
+	//                    bucket_path
+	//                )
+	//            `);
+	//
+	// 	if (error) return console.error(error);
+	// 	userDestinationsStore.update(() => ({ destinations }));
+	// }
+	//
+	// onMount(async () => await loadData());
 </script>
 
 {#each destinations as destination}

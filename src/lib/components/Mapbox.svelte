@@ -2,15 +2,16 @@
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
 	import { onMount } from 'svelte';
-	// import { userDestinationsStore } from '$lib/stores/userDestinations';
 	// @globe
 	import bootstrapMapbox from '@globe/util/bootstrapMapbox';
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
 	import AddDestination from '@globe/components/AddDestination.svelte';
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
 	import DeveloperTools from './DeveloperTools.svelte';
+	import MyDestinations from './Dashboard/MyDestinations.svelte';
+
 	let map: Map;
-	onMount(async () => (map = await bootstrapMapbox()));
+	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
 
 	$: isRoot = $page.url.pathname === '/';
 	$: isGallery = $page.routeId === '/globe/destinations/[id]/gallery';
@@ -19,6 +20,7 @@
 </script>
 
 <div id="mapbox-mount" class:blur />
+
 <DeveloperTools />
 {#if map}
 	{#if session && !isRoot}
@@ -27,9 +29,8 @@
 	<AddDestination {map} />
 	<DestinationMarkers {map} />
 {/if}
-<slot />
 
-<style>
+<style lang="scss">
 	#mapbox-mount {
 		width: 100%;
 		height: 100%;

@@ -129,8 +129,9 @@
 		<form
 			on:submit|preventDefault={handleSubmit}
 			class="
-              bg-zinc-900 p-6
-                pt-9 w-full h-full flex flex-col
+              bg-black p-6
+            pt-9 w-full h-full
+            flex flex-col
 				rounded-sm
             "
 		>

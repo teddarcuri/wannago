@@ -7,6 +7,8 @@
 	$: adDump = JSON.stringify($activeDestinationStore.destination, null, 2);
 
 	let show = false;
+
+	$: console.log('AD STORE:', $activeDestinationStore);
 </script>
 
 <div

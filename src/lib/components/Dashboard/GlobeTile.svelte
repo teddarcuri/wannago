@@ -39,18 +39,18 @@
 		overflow-hidden
 		p-9 row-span-1 col-span-6 
 		md:col-span-3 lg:col-span-3 
-		rounded-2xl
+		rounded-md
 		mb-8
 		h-[329px]
-		border-stone-800 border-2
+		border-stone-800 border-0
 		hover:border-gray-600;
-		transition: border 0.4s ease;
+		transition: border 0.888888888s ease, box-shadow 0.88s ease;
 		transform-style: preserve-3d;
 		transform: perspective(1000px);
 	}
 
 	a:hover {
-		box-shadow: 0 0 20px 10px rgba(154, 209, 227, 0.06);
+		box-shadow: 0 0 18px 11px rgba(194, 209, 227, 0.09);
 	}
 
 	a:active {

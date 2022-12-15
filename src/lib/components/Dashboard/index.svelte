@@ -4,6 +4,7 @@
 	import LoginForm from '$lib/components/Account/LoginForm.svelte';
 	import GlobeTile from './GlobeTile.svelte';
 	import MyDestinations from './MyDestinations.svelte';
+	import GettingStarted from '@/routes/globe/components/GettingStarted.svelte';
 
 	$: session = $page.data.session;
 </script>
@@ -40,6 +41,7 @@
 					<Account session={$page.data.session} />
 				</div>
 				<div class="min-w-[320px] pt-8">
+					<!-- <GettingStarted /> -->
 					<MyDestinations />
 				</div>
 			{/if}
@@ -57,7 +59,7 @@ k
 	}
 
 	.bg {
-		@apply bg-black opacity-80
+		@apply bg-black opacity-90
 		fixed top-0 left-0
 		w-full h-full
 		z-0;

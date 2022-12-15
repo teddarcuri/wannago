@@ -8,6 +8,8 @@
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import '../app.css';
 
+	export let data;
+
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
@@ -16,7 +18,7 @@
 
 	onMount(() => {
 		const {
-			data: { subscription }
+			data: { subscription },
 		} = supabaseClient.auth.onAuthStateChange(() => {
 			invalidate('supabase:auth');
 		});
@@ -42,16 +44,16 @@
 					hover:opacity-80"
 					href={navLink}
 				>
-					<img class="mr-3" src={dashboard} width="15px" heihgt="15px" />
+					<img class="mr-3" src={dashboard} width="15px" height="15px" />
 					{navText}
 				</a>
 			{/if}
-			<!-- {#if session?.user?.user_metadata?.avatar_url}
+			{#if session?.user?.user_metadata?.avatar_url}
 				<img
 					class="rounded-full h-[40px] w-[40px] absolute right-[20px] top-[20px]"
 					src={session?.user?.user_metadata?.avatar_url}
 				/>
-			{/if} -->
+			{/if}
 		</nav>
 	</header>
 	<div id="app-body">

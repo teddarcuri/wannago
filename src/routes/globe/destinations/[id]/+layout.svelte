@@ -1,10 +1,10 @@
 <script lang="ts">
-	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
+	import { fade } from 'svelte/transition';
 	import DisplayCard from '../../components/DisplayCard.svelte';
-	import focusIcon from '$lib/img/focus.svg';
 	import closeIcon from '$lib/img/close.svg';
 	import galleryIcon from '$lib/img/gallery.svg';
 	import backIcon from '$lib/img/back.svg';
+	import mountainIcon from '$lib/img/mountain.svg';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
@@ -14,6 +14,9 @@
 	import { navigating, page } from '$app/stores';
 	import { writable } from 'svelte/store';
 	import { invalidateAll } from '$app/navigation';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import Coordinates from './components/Coordinates.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -26,21 +29,22 @@
 	export let data;
 
 	let loading = false;
+	// destination form
 	let form = writable({ name: '', description: '' }); // there has to be a better way.
 	$: destination = data?.destination;
 	$: lat = destination?.coordinates.coordinates[1];
 	$: lng = destination?.coordinates.coordinates[0];
-	$: promptUnsavedChanges = false;
+
+	// gallery
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
 	$: galleryButtonText = isGallery ? 'Exit Gallery' : 'View Gallery';
 	$: galleryLink = isGallery
 		? `/globe/destinations/${$page.params.id}`
 		: `${$page.url}/gallery`;
 
-	// $: console.log($page.routeId, $page);
 	const handleSubmit = async e => {
-		console.log($form.name, destination);
 		loading = true;
+
 		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Action,
 			displayText: 'Saving...',
@@ -57,12 +61,26 @@
 			name: $form.name || destination.name,
 			description: $form.description || destination.description,
 		};
-		// I was also forced to do an upsert here. We should find out why and change it if possible
+
+		// Update record
 		const { error, data } = await supabaseClient
 			.from('destinations')
 			.update(updates)
 			.eq('id', destination.id);
+
+		// TODO: be more specific with this invalidation
 		invalidateAll();
+
+		/* 
+            TODO
+            updateActiveInfoDisplay({
+                delay: 900,
+                error,
+                errorText: 'Something Went Wrong',
+                successText: 'Destination Saved.'
+                resetTimeout: 2200
+            })
+        */
 		setTimeout(() => {
 			loading = false;
 
@@ -86,110 +104,89 @@
 				displayText: '',
 			}));
 		}, 2200);
-
-		console.log({
-			error,
-			data,
-		});
 	};
 </script>
 
-<DisplayCard>
-	<div class="root relative z-50 bg-black min-w-[405px] w-full h-full rounded-lg ">
-		{#if $navigating || Boolean(!destination)}
-			<LoadingOverlay />
-		{/if}
+<main>
+	<DisplayCard>
+		<div class="root relative z-50 bg-black  w-full rounded-lg ">
+			<!-- {#if  Boolean(!destination)}
+				<span transition:fade>
+					<LoadingOverlay />
+				</span>
+			{/if} -->
 
-		{#if Boolean(destination)}
-			<!-- Cover Photo -->
-			<a href={galleryLink} class:active={isGallery} class="image-wrapper">
-				<img
-					alt="Destination Cover Photo"
-					class="cover"
-					src={destination?.cover_photo?.public_url ?? DefaultWallpapers.Bells}
-				/>
-				<button class:active={isGallery} class="view-gallery">
+			{#if Boolean(destination)}
+				<!-- Cover Photo -->
+				<a href={galleryLink} class:active={isGallery} class="image-wrapper">
 					<img
-						alt={galleryButtonText}
-						class="icon w-[17px] h-[17px] mr-2"
-						src={isGallery ? backIcon : galleryIcon}
+						alt="Destination Cover Photo"
+						class="cover"
+						src={destination?.cover_photo?.public_url ?? DefaultWallpapers.Bells}
 					/>
-					<span>{galleryButtonText}</span>
-				</button>
-			</a>
-			<!-- Buttons/Controls -->
-			{#if !isGallery}
-				<div class="controls absolute flex top-2 left-2 z-30">
-					<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
-				</div>
-			{/if}
-			<form on:submit|preventDefault={handleSubmit}>
-				<!-- Form -->
-				<section>
-					<div class="flex flex-col">
-						<textarea
-							name="name"
-							rows="1"
-							class="text-3xl bg-transparent font-semibold"
-							value={$form.name || destination.name}
-							on:blur={handleSubmit}
-							on:input={e => form.update(s => ({ ...s, name: e.target.value }))}
+					<button class:active={isGallery} class="view-gallery">
+						<img
+							alt={galleryButtonText}
+							class="icon w-[17px] h-[17px] mr-2"
+							src={isGallery ? backIcon : galleryIcon}
 						/>
-						{#if destination.coordinates}
-							<button class="coordinates">
-								<span>{getLatLngDisplayText(lat, lng)}</span>
-							</button>
-						{/if}
-					</div>
-					<textarea
-						name="description"
-						value={$form.description || destination.description}
-						on:blur={handleSubmit}
-						on:input={e => form.update(s => ({ ...s, description: e.target.value }))}
-						placeholder="Enter a description..."
-					/>
-				</section>
-				<!-- <h3>Links</h3> -->
-				<!-- <h3>Waypoints</h3> -->
-				{#if false || promptUnsavedChanges}
-					<div class="unsaved-changes">
-						<button class="text-sm text-zinc-400">Cancel</button>
-						<button class="ml-4 mt-0" on:click|preventDefault={handleSubmit}
-							>Save Changes</button
-						>
+						<span>{galleryButtonText}</span>
+					</button>
+				</a>
+				<!-- Buttons/Controls -->
+				{#if !loading && !isGallery}
+					<div class="controls absolute flex top-2 left-2 z-30">
+						<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
 					</div>
 				{/if}
-			</form>
-		{/if}
-	</div>
+				<form on:submit|preventDefault={handleSubmit}>
+					<!-- Form -->
+					<section>
+						<div class="flex flex-col">
+							<!-- <img width={22} src={mountainIcon} /> -->
+							<textarea
+								name="name"
+								rows="1"
+								disabled={isGallery}
+								class="text-3xl bg-transparent font-semibold"
+								value={$form.name || destination.name}
+								on:blur={handleSubmit}
+								on:input={e => form.update(s => ({ ...s, name: e.target.value }))}
+							/>
+							{#if destination.coordinates}
+								<Coordinates disabled={isGallery} {lat} {lng} />
+							{/if}
+						</div>
+						<textarea
+							name="description"
+							value={$form.description || destination.description}
+							disabled={isGallery}
+							on:blur={handleSubmit}
+							on:input={e => form.update(s => ({ ...s, description: e.target.value }))}
+							placeholder="Enter a description..."
+						/>
+					</section>
+				</form>
+			{/if}
+		</div>
+	</DisplayCard>
+
 	<div class="slot-wrapper">
 		<slot />
 	</div>
-</DisplayCard>
+</main>
 
 <style lang="scss">
+	main {
+		@apply absolute top-[50px] left-[15px];
+	}
+
 	form {
 		@apply w-full;
 	}
 
 	h3 {
 		@apply p-6 border-t-2 border-stone-800;
-	}
-
-	.coordinates {
-		@apply inline-flex w-auto p-2 px-4 flex-grow-0 ml-[-12px] rounded-full;
-
-		&:hover {
-			@apply bg-sky-800;
-
-			span {
-				display: none;
-			}
-
-			&:before {
-				content: 'Click to edit location';
-			}
-		}
 	}
 
 	[name='description'] {
@@ -201,20 +198,19 @@
 		 border-2
 		 border-transparent
 		 text-stone-300
-		 text-lg
-         mt-2;
+		 text-lg;
 
-		&:hover {
-			@apply pb-6;
+		&:hover:not([disabled]) {
+			@apply py-6;
 		}
 
-		&:focus {
-			background: rgba(255, 255, 255, 0.1111);
-			border: solid 2px rgba(222, 222, 222, 0.222);
+		&:focus:not([disabled]) {
+			@apply py-6;
+			background: #222;
 		}
 
-		&:focus-visible {
-			@apply outline-0 p-10;
+		&:focus-visible:not([disabled]) {
+			@apply outline-0;
 		}
 	}
 
@@ -225,12 +221,12 @@
 		transition: all ease 0.2s;
 		resize: none;
 
-		&:focus,
-		&:hover {
+		&:focus:not([disabled]),
+		&:hover:not([disabled]) {
 			padding: 6px;
 		}
 
-		&:focus {
+		&:focus:not([disabled]) {
 			background: rgba(255, 255, 255, 0.1111);
 			border: solid 2px rgba(222, 222, 222, 0.222);
 		}
@@ -258,14 +254,14 @@
 	}
 
 	.image-wrapper {
-		@apply pt-[155px] h-[155px] w-full rounded-t-lg;
+		@apply sticky top-0 pt-[190px] h-[190px] w-full rounded-t-lg;
 		overflow: hidden;
-		position: relative;
 		background-image: linear-gradient(0deg, #000, rgba(0, 0, 0, 1));
 		display: block;
 
 		&:hover > img,
-		&.active > img {
+		&.active > img,
+		&:focus > img {
 			transform: scale(1.1);
 			filter: blur(13px);
 		}
@@ -282,8 +278,11 @@
 			transition: all ease 0.3s;
 		}
 
-		&:hover button {
-			opacity: 1;
+		&:hover,
+		&:focus {
+			button {
+				opacity: 1;
+			}
 		}
 	}
 
@@ -309,7 +308,7 @@
         overflow-auto;
 		max-height: calc(100vh - 55px);
 		width: calc(100vw - 100%);
-		left: 100%;
+		left: 420px;
 	}
 
 	/* View Gallery */

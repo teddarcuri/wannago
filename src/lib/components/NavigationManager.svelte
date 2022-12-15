@@ -1,23 +1,33 @@
 <script lang="ts">
-	import { page, navigating } from '$app/stores';
+	import { navigating } from '$app/stores';
 	import ProgressBar from 'svelte-progress-bar';
-	import { ActiveInfoDisplayStatus, activeInfoDisplayStore } from '../stores/activeInfoDisplay';
-
+	import { activeDestinationStore } from '../stores/activeDestination';
+	import {
+		ActiveInfoDisplayStatus,
+		activeInfoDisplayStore,
+	} from '../stores/activeInfoDisplay';
 	let progress: ProgressBar;
 
 	$: {
 		if ($navigating) {
-			const {
-				to: {
-					routeId,
-					params: { slug }
-				}
-			} = $navigating;
-
+			const { from } = $navigating;
+			// progress bar kick off
 			if (progress) progress.start();
+			// Turn off edit location mode if on
+			if (
+				from.routeId === '/globe/destinations/[id]' &&
+				$activeDestinationStore.editLocationMode
+			) {
+				activeDestinationStore.update(s => ({ ...s, editLocationMode: false }));
+				activeInfoDisplayStore.update(() => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: '',
+				}));
+			}
 		}
 
 		if (!$navigating) {
+			// progress bar end
 			if (progress) progress.complete();
 		}
 	}

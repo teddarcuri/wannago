@@ -20,8 +20,6 @@ export async function load({ params }) {
 		)
 		.eq('id', params.id);
 
-	console.log('DESTINATION DATA -------- ', data);
-
 	if (data) {
 		return {
 			destination: data[0],
