@@ -1,6 +1,12 @@
 <script lang="ts">
+	import type { PageData } from './$types';
+	import { supabaseClient } from '@/lib/db';
+	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
+	import { page } from '$app/stores';
+	import { afterNavigate, invalidate, invalidateAll } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 	import DisplayCard from '../../components/DisplayCard.svelte';
+	import Coordinates from './components/Coordinates.svelte';
 	import closeIcon from '$lib/img/close.svg';
 	import galleryIcon from '$lib/img/gallery.svg';
 	import backIcon from '$lib/img/back.svg';
@@ -9,14 +15,6 @@
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
-	import { supabaseClient } from '@/lib/db';
-	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
-	import { navigating, page } from '$app/stores';
-	import { writable } from 'svelte/store';
-	import { invalidateAll } from '$app/navigation';
-	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import Coordinates from './components/Coordinates.svelte';
-	import { onDestroy, onMount } from 'svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -26,16 +24,16 @@
 		Wave = 'https://imgs.search.brave.com/4ZWXDXMDHYKmyioE20UGd_BplItXYx_S4ClUaXytSNo/rs:fit:550:826:1/g:ce/aHR0cHM6Ly9mcmVl/eW9yay5vcmcvd3At/Y29udGVudC91cGxv/YWRzLzIwMTUvMDgv/VGhlLVdhdmUtQXJp/em9uYS03LmpwZw',
 	}
 
-	export let data;
+	export let data: PageData;
 
 	let loading = false;
-	// destination form
-	let form = writable({ name: '', description: '' }); // there has to be a better way.
-	$: destination = data?.destination;
-	$: lat = destination?.coordinates.coordinates[1];
-	$: lng = destination?.coordinates.coordinates[0];
+	let destination = data.destination;
+	let name = destination.name;
+	let description = destination.description;
+	let lat = destination.coordinates.coordinates[1];
+	let lng = destination.coordinates.coordinates[0];
 
-	// gallery
+	// Gallery link
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
 	$: galleryButtonText = isGallery ? 'Exit Gallery' : 'View Gallery';
 	$: galleryLink = isGallery
@@ -50,16 +48,9 @@
 			displayText: 'Saving...',
 		}));
 
-		// TODO: Figure out a way to prevent the need
-		// to do use this OR logic here. This is a result
-		// of not having proper data binding on our form element
-		// The inputs are initialzied with Or logic, instead of
-		// the value they are bound to being the one that contains
-		// the or operator...
-
 		const updates = {
-			name: $form.name || destination.name,
-			description: $form.description || destination.description,
+			name,
+			description,
 		};
 
 		// Update record
@@ -110,12 +101,11 @@
 <main>
 	<DisplayCard>
 		<div class="root relative z-50 bg-black  w-full rounded-lg ">
-			<!-- {#if  Boolean(!destination)}
+			{#if Boolean(!destination)}
 				<span transition:fade>
 					<LoadingOverlay />
 				</span>
-			{/if} -->
-
+			{/if}
 			{#if Boolean(destination)}
 				<!-- Cover Photo -->
 				<a href={galleryLink} class:active={isGallery} class="image-wrapper">
@@ -139,8 +129,9 @@
 						<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
 					</div>
 				{/if}
+
+				<!-- Form -->
 				<form on:submit|preventDefault={handleSubmit}>
-					<!-- Form -->
 					<section>
 						<div class="flex flex-col">
 							<!-- <img width={22} src={mountainIcon} /> -->
@@ -149,9 +140,8 @@
 								rows="1"
 								disabled={isGallery}
 								class="text-3xl bg-transparent font-semibold"
-								value={$form.name || destination.name}
+								bind:value={name}
 								on:blur={handleSubmit}
-								on:input={e => form.update(s => ({ ...s, name: e.target.value }))}
 							/>
 							{#if destination.coordinates}
 								<Coordinates disabled={isGallery} {lat} {lng} />
@@ -159,10 +149,9 @@
 						</div>
 						<textarea
 							name="description"
-							value={$form.description || destination.description}
+							bind:value={description}
 							disabled={isGallery}
 							on:blur={handleSubmit}
-							on:input={e => form.update(s => ({ ...s, description: e.target.value }))}
 							placeholder="Enter a description..."
 						/>
 					</section>

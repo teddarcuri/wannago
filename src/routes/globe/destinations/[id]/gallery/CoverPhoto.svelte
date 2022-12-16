@@ -103,7 +103,7 @@
 				.from('destinations')
 				.update({ cover_photo: null })
 				.eq('id', destinationId);
-			// Remove the photo record
+			// Remove the photo db record
 			await supabaseClient.from('images').delete().eq('id', coverPhoto.id);
 			invalidateAll();
 			showDeleteConfirmation = false;
