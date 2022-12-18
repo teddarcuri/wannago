@@ -79,13 +79,14 @@
 
 				element?.classList.remove('loading');
 				loading = false;
-				addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`,
 				}));
 				// rotateCameraAroundPoint({ point, init: 0, map });
 				await goto(`/globe/destinations/${data.id}`);
+				marker?.remove();
+				addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 			}, 2200);
 
 			setTimeout(() => clearActiveInfoDisplay(), 7777);
