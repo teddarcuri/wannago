@@ -37,11 +37,6 @@
 	async function handleUpdate() {
 		if (newLocation) {
 			const { lat, lng } = newLocation;
-			console.log({
-				lat,
-				lng,
-				id: Number(destinationId),
-			});
 
 			// Supabase Postgres function to update ST_Point/Geometry
 			const { data, error } = await supabaseClient.rpc('update_destination_coordinates', {
@@ -71,7 +66,10 @@
 
 <div class="flex mt-2">
 	{#if isActive}
-		<button class="active" on:click|preventDefault={handleUpdate}
+		<button
+			disabled={!newLocation}
+			class:hasChanged={newLocation}
+			on:click|preventDefault={handleUpdate}
 			>Save new location
 		</button>
 		<button on:click|preventDefault={handleCancel}>Cancel</button>
@@ -83,7 +81,11 @@
 </div>
 
 <style lang="scss">
-	button:not([disabled]) {
+	button:disabled {
+		@apply bg-stone-600;
+	}
+
+	button {
 		@apply ml-2 inline-flex w-auto p-2 px-4 flex-grow-0 rounded-full;
 
 		&:first-child {
@@ -93,7 +95,7 @@
 			@apply bg-stone-600;
 		}
 
-		&.active {
+		&.hasChanged {
 			@apply bg-sky-800;
 			&:hover {
 				@apply bg-emerald-700;
@@ -101,7 +103,8 @@
 		}
 
 		&.inActive {
-			&:hover,
+			background: none;
+			&:not([disabled]):hover,
 			&:focus {
 				@apply bg-emerald-800;
 

@@ -16,11 +16,13 @@
 	export let map: Map;
 	export let destination: object;
 
-	const { id, name, coordinates } = destination;
-	const {
-		coordinates: [lng, lat],
-	} = coordinates;
+	const coordinates = destination?.coordinates?.coordinates;
+	const id = destination?.id;
+	const name = destination?.name;
+	const lat = coordinates?.[1];
+	const lng = coordinates?.[0];
 
+	// Create mapbox Marker instance
 	const marker = createMarker({
 		name,
 		map,
@@ -28,11 +30,18 @@
 		lng,
 		icon: mountainIcon,
 	});
+
+	// Marker DOM element
 	const domElement = marker.getElement();
 	const img = getMarkerImgChildNode(domElement);
 	img.src = mountainIcon;
 
+	// This Marker is the active destination
 	$: isActive = $page.params.id == id;
+	$: center = $activeDestinationStore.newLocation
+		? [$activeDestinationStore.newLocation?.lng, $activeDestinationStore.newLocation?.lat]
+		: coordinates;
+
 	$: if (isActive) {
 		activeDestinationStore.update(s => ({
 			...s,
@@ -42,7 +51,7 @@
 		domElement.classList.add('active-destination');
 		map.flyTo({
 			zoom: map.getZoom() < 10 ? 14 : map.getZoom(),
-			center: coordinates.coordinates,
+			center,
 			pitch: 69,
 			speed: 1,
 		});
