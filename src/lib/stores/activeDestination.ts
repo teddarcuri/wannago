@@ -5,7 +5,6 @@ import type { Marker } from 'mapbox-gl';
 export interface ActiveDestinationStore {
 	marker: Marker | null;
 	destination?: object;
-	formValues?: object; // hopefully this changes in the future
 	editLocationMode: boolean;
 	newLocation: array | null; // This is used to track the update marker location feature
 }
@@ -13,7 +12,6 @@ export interface ActiveDestinationStore {
 export const activeDestinationStore: Writable<ActiveDestinationStore> = writable({
 	marker: null,
 	destination: null,
-	formValues: null,
 	editLocationMode: false,
 	newLocation: null,
 });
