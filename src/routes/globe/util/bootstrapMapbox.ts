@@ -146,8 +146,8 @@ export default async (): Promise<Map> => {
 		});
 	});
 
-	map.on('dblclick', e => {
-		goto('/globe');
+	map.on('dblclick', async e => {
+		await goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
 		const cameraIsLow = currentZoom < lowZoom;
