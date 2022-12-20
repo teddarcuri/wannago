@@ -99,15 +99,17 @@ export default async (): Promise<Map> => {
 
 	map.on('styledata', () => {
 		// create DEM source
-		// https://en.wikipedia.org/wiki/Digital_elevation_model
-		map.addSource('mapbox-dem', {
-			type: 'raster-dem',
-			url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-			tileSize: 512,
-			maxzoom: 14,
-		});
-		// Set Terrain
-		map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.11 });
+		if (!map.getSource('mapbox-dem')) {
+			// https://en.wikipedia.org/wiki/Digital_elevation_model
+			map.addSource('mapbox-dem', {
+				type: 'raster-dem',
+				url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+				tileSize: 512,
+				maxzoom: 14,
+			});
+			// Set Terrain
+			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.11 });
+		}
 
 		// Draw Atmosphere on render
 		map.on('render', () => {
