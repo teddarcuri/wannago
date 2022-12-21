@@ -141,7 +141,7 @@
 								disabled={isGallery}
 								class="text-3xl bg-transparent font-semibold"
 								bind:value={name}
-								on:blur={handleSubmit}
+								on:blur={name !== destination.name ? handleSubmit : null}
 							/>
 							{#if destination.coordinates}
 								<Coordinates disabled={isGallery} {lat} {lng} />
@@ -151,7 +151,7 @@
 							name="description"
 							bind:value={description}
 							disabled={isGallery}
-							on:blur={handleSubmit}
+							on:blur={description !== destination.description ? handleSubmit : null}
 							placeholder="Enter a description..."
 						/>
 					</section>
