@@ -57,7 +57,6 @@
 
 			activeDestinationStore.update(s => ({
 				...s,
-				newLocation: null,
 				editLocationMode: false,
 			}));
 			activeInfoDisplayStore.update(s => ({
