@@ -9,7 +9,14 @@
 </script>
 
 {#each destinations as destination}
-	<!-- I do not like this... forcing rerender -->
+	<!-- 
+		I do not like this...
+		This means our marker rerenders anytime the destination updates.
+		I have decided to take this approach so that the marker rerenders
+		after I invalidate all caches. Namely the DestinationMarkers cache
+		after updating the destination location. We have to have those new
+		coordinates to update the marker position. 
+	-->
 	{#key destination}
 		<DestinationMarker {map} {destination} />
 	{/key}

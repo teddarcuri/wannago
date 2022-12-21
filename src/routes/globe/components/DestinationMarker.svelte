@@ -37,8 +37,10 @@
 	const img: HTMLImageElement = getMarkerImgChildNode(domElement);
 	img.src = mountainIcon;
 
+	// When user is editing the destination location
+	// we update the newCenter variable to determine
+	// where we should focus the camera on state change
 	let newCenter: [number, number] | undefined;
-
 	$: if ($activeDestinationStore.newLocation) {
 		newCenter = [
 			$activeDestinationStore.newLocation.lng,

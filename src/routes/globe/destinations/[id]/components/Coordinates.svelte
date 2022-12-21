@@ -42,6 +42,7 @@
 	async function handleUpdate() {
 		if (newLocation) {
 			const { lat, lng } = newLocation;
+
 			// Supabase Postgres function to update ST_Point/Geometry
 			const { data, error } = await supabaseClient.rpc('update_destination_coordinates', {
 				lat,
@@ -50,9 +51,15 @@
 			});
 
 			if (error) return console.error(error);
+
+			// yuck
 			invalidateAll();
 
-			activeDestinationStore.update(s => ({ ...s, editLocationMode: false }));
+			activeDestinationStore.update(s => ({
+				...s,
+				newLocation: null,
+				editLocationMode: false,
+			}));
 			activeInfoDisplayStore.update(s => ({
 				status: ActiveInfoDisplayStatus.Success,
 				displayText: 'New location saved',
