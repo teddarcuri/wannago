@@ -12,7 +12,7 @@
 	import createMarker from '../util/createMarker';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	export let map: Map;
 	export let destination: object;
@@ -125,6 +125,15 @@
 		}));
 	});
 
+	// Lifecycle
+	onMount(() => {
+		console.log(
+			`--------------------- MOUNTED ${destination.name} ---------------------`,
+		);
+		console.log(
+			`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
+		);
+	});
 	onDestroy(() => {
 		marker.remove();
 	});
