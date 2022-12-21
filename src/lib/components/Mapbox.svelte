@@ -10,7 +10,7 @@
 	import DeveloperTools from './DeveloperTools.svelte';
 	import MyDestinations from './Dashboard/MyDestinations.svelte';
 
-	let map: Map;
+	export let map: Map;
 	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
 
 	$: isRoot = $page.url.pathname === '/';
@@ -34,7 +34,7 @@
 	#mapbox-mount {
 		width: 100%;
 		height: 100%;
-		transition: all ease-in-out 1s;
+		transition: all ease-in-out 0.69s;
 	}
 
 	:global(.mapboxgl-canvas) {
@@ -43,6 +43,6 @@
 
 	.blur {
 		@apply blur-md;
-		transform: scale(1.11);
+		transform: scale(1.069);
 	}
 </style>

@@ -24,6 +24,13 @@
 					displayText: '',
 				}));
 			}
+			// Clear any new location
+			if (
+				from.routeId === '/globe/destinations/[id]' &&
+				$activeDestinationStore.newLocation
+			) {
+				activeDestinationStore.update(s => ({ ...s, newLocation: null }));
+			}
 		}
 
 		if (!$navigating) {

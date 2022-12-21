@@ -1,3 +1,4 @@
+<!-- TODO - THIS FILE IS RIPE FOR A CLEANUP-->
 <script lang="ts">
 	import type { Map } from 'mapbox-gl';
 	import { goto } from '$app/navigation';

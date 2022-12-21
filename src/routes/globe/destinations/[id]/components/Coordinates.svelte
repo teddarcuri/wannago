@@ -22,12 +22,17 @@
 		activeDestinationStore.update(s => ({ ...s, editLocationMode: !s.editLocationMode }));
 		activeInfoDisplayStore.update(() => ({
 			status: ActiveInfoDisplayStatus.Action,
-			displayText: 'Drag and drop marker',
+			displayText: 'Editing Location',
 		}));
 	}
 
 	function handleCancel() {
-		activeDestinationStore.update(s => ({ ...s, editLocationMode: false }));
+		activeDestinationStore.update(s => ({
+			...s,
+			newLocation: null,
+			editLocationMode: false,
+		}));
+		$activeDestinationStore.marker?.setLngLat([lng, lat]);
 		activeInfoDisplayStore.update(() => ({
 			status: ActiveInfoDisplayStatus.Normal,
 			displayText: '',
@@ -37,7 +42,6 @@
 	async function handleUpdate() {
 		if (newLocation) {
 			const { lat, lng } = newLocation;
-
 			// Supabase Postgres function to update ST_Point/Geometry
 			const { data, error } = await supabaseClient.rpc('update_destination_coordinates', {
 				lat,
@@ -66,13 +70,12 @@
 
 <div class="flex mt-2">
 	{#if isActive}
-		<button
-			disabled={!newLocation}
-			class:hasChanged={newLocation}
-			on:click|preventDefault={handleUpdate}
-			>Save new location
-		</button>
-		<button on:click|preventDefault={handleCancel}>Cancel</button>
+		{#if newLocation}
+			<button class:hasChanged={newLocation} on:click|preventDefault={handleUpdate}
+				>Save new location
+			</button>
+		{/if}
+		<button class:cancel={true} on:click|preventDefault={handleCancel}>Cancel</button>
 	{:else}
 		<button {disabled} class="inActive" on:click|preventDefault={handleClick}>
 			<span>{getLatLngDisplayText(lat, lng)}</span>
@@ -81,7 +84,7 @@
 </div>
 
 <style lang="scss">
-	button:disabled {
+	.cancel {
 		@apply bg-stone-600;
 	}
 

@@ -4,7 +4,7 @@
 	import { activeDestinationStore } from '../stores/activeDestination';
 	$: session = $page.data.session;
 	$: udDump = JSON.stringify($userDestinationsStore, null, 2);
-	$: adDump = JSON.stringify($activeDestinationStore.destination, null, 2);
+	$: adDump = JSON.stringify($activeDestinationStore.newLocation, null, 2);
 
 	let show = false;
 
@@ -21,10 +21,10 @@
 		>{show ? 'x' : '<'}</button
 	>
 	<pre class="p-7 text-xs overflow-auto w-[500px] opacity-90 h-full bg-gray-900">
-	<h4>Session</h4>
+	<!-- <h4>Session</h4>
 	{JSON.stringify(session, null, 2)}
 	<h4>User Destinations</h4>
-	{udDump}
+	{udDump} -->
 	<h4>Active Destination</h4>
 	{adDump}
     </pre>

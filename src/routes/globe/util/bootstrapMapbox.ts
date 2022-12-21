@@ -1,7 +1,6 @@
-import { goto } from '$app/navigation';
 import type { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import searchIcon from '$lib/img/search-icon.svg';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import {
@@ -17,6 +16,9 @@ import addIcon from '$lib/img/add-icon.svg';
 import createMarker, { MarkerType } from './createMarker';
 import rotateGlobe from './rotateGlobe';
 import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
+import { activeDestinationStore } from '@/lib/stores/activeDestination';
+import { goto } from '$app/navigation';
+import { get } from 'svelte/store';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe(d => {
@@ -147,6 +149,7 @@ export default async (): Promise<Map> => {
 	});
 
 	map.on('dblclick', async e => {
+		if (get(activeDestinationStore).editLocationMode) return;
 		await goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
@@ -163,7 +166,7 @@ export default async (): Promise<Map> => {
 			displayText: "What's here?",
 		}));
 
-		// // Fly to destination
+		// Fly to destination
 		map.flyTo({
 			zoom: cameraIsLow ? lowZoom : currentZoom,
 			center: [lng, lat],

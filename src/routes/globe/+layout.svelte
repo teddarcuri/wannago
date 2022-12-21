@@ -11,7 +11,7 @@
     props (name, descrtiption, etc) are not reactive. Thus 
     we need to force the layout to re-render. 
 
-    This could cause issues? TBD. If issues arise, look here.default
+    This could cause issues? TBD. If issues arise, look here.
 -->
 {#key $page.data}
 	<slot />

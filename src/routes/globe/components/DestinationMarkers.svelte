@@ -9,5 +9,8 @@
 </script>
 
 {#each destinations as destination}
-	<DestinationMarker {map} {destination} />
+	<!-- I do not like this... forcing rerender -->
+	{#key destination}
+		<DestinationMarker {map} {destination} />
+	{/key}
 {/each}

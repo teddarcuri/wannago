@@ -12,6 +12,7 @@
 	import createMarker from '../util/createMarker';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { onDestroy } from 'svelte';
 
 	export let map: Map;
 	export let destination: object;
@@ -32,15 +33,24 @@
 	});
 
 	// Marker DOM element
-	const domElement = marker.getElement();
-	const img = getMarkerImgChildNode(domElement);
+	const domElement: HTMLElement = marker.getElement();
+	const img: HTMLImageElement = getMarkerImgChildNode(domElement);
 	img.src = mountainIcon;
+
+	let newCenter: [number, number] | undefined;
+
+	$: if ($activeDestinationStore.newLocation) {
+		newCenter = [
+			$activeDestinationStore.newLocation.lng,
+			$activeDestinationStore.newLocation.lat,
+		];
+	} else {
+		newCenter = undefined;
+	}
 
 	// This Marker is the active destination
 	$: isActive = $page.params.id == id;
-	$: center = $activeDestinationStore.newLocation
-		? [$activeDestinationStore.newLocation?.lng, $activeDestinationStore.newLocation?.lat]
-		: coordinates;
+	$: center = newCenter || coordinates;
 
 	$: if (isActive) {
 		activeDestinationStore.update(s => ({
@@ -76,9 +86,11 @@
 
 	// Marker Events
 	marker.on('dragend', () => {
+		const newLocation = marker.getLngLat();
+		newCenter = [newLocation.lng, newLocation.lat];
 		activeDestinationStore.update(s => ({
 			...s,
-			newLocation: marker.getLngLat(),
+			newLocation,
 		}));
 	});
 
@@ -109,6 +121,10 @@
 			status: ActiveInfoDisplayStatus.Normal,
 			displayText: '',
 		}));
+	});
+
+	onDestroy(() => {
+		marker.remove();
 	});
 </script>
 
