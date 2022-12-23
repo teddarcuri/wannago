@@ -17,6 +17,7 @@
 	$: isActive = $activeDestinationStore.editLocationMode;
 	$: newLocation = $activeDestinationStore.newLocation;
 	$: destinationId = $page.params.id;
+	$: isGallery = $page.url.pathname.includes('gallery');
 
 	async function handleClick() {
 		activeDestinationStore.update(s => ({ ...s, editLocationMode: !s.editLocationMode }));
@@ -74,7 +75,7 @@
 	}
 </script>
 
-<div class="flex mt-2">
+<div class:isGallery class="root flex mt-2">
 	{#if isActive}
 		{#if newLocation}
 			<button class:hasChanged={newLocation} on:click|preventDefault={handleUpdate}
@@ -86,16 +87,41 @@
 		<button {disabled} class="inActive" on:click|preventDefault={handleClick}>
 			<span>{getLatLngDisplayText(lat, lng)}</span>
 		</button>
+		<button class="delete">Delete</button>
 	{/if}
 </div>
 
 <style lang="scss">
+	.root:not(.isGallery) {
+		&:hover {
+			.delete {
+				display: block;
+			}
+
+			button.inActive {
+				@apply bg-emerald-800;
+
+				span {
+					display: none;
+				}
+
+				&:before {
+					content: 'Change  Location';
+				}
+			}
+		}
+	}
+
+	.delete {
+		@apply bg-red-800;
+		display: none;
+	}
 	.cancel {
 		@apply bg-stone-600;
 	}
 
 	button {
-		@apply ml-2 inline-flex w-auto p-2 px-4 flex-grow-0 rounded-full;
+		@apply tracking-wide ml-2 inline-flex w-auto p-2 px-3 flex-grow-0 rounded-md;
 
 		&:first-child {
 			@apply ml-[-12px];
@@ -113,7 +139,7 @@
 
 		&.inActive {
 			background: none;
-			&:not([disabled]):hover,
+
 			&:focus {
 				@apply bg-emerald-800;
 
@@ -122,7 +148,7 @@
 				}
 
 				&:before {
-					content: 'Change Marker Location';
+					content: 'Change Location';
 				}
 			}
 		}
