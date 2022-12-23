@@ -178,7 +178,7 @@
 	main {
 		@apply absolute top-[50px] left-[15px];
 
-		&:hover .image-wrapper > img {
+		&:hover .image-wrapper {
 			animation: barberpole 22s linear infinite;
 		}
 	}
@@ -266,7 +266,6 @@
 
 	.image-wrapper {
 		@apply sticky top-0 pt-[155px] h-[155px] w-full rounded-t-lg;
-		animation: barberpole 33s linear infinite;
 		background: repeating-linear-gradient(120deg, #000, #000 11px, #555 11px, #555 12px);
 		background-size: 200%;
 		overflow: hidden;
