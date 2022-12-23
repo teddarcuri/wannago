@@ -39,6 +39,7 @@
 	$: galleryLink = isGallery
 		? `/globe/destinations/${$page.params.id}`
 		: `${$page.url}/gallery`;
+	$: coverPhoto = destination?.cover_photo?.public_url;
 
 	const handleSubmit = async e => {
 		loading = true;
@@ -108,12 +109,20 @@
 			{/if}
 			{#if Boolean(destination)}
 				<!-- Cover Photo -->
-				<a href={galleryLink} class:active={isGallery} class="image-wrapper">
-					<img
-						alt="Destination Cover Photo"
-						class="cover"
-						src={destination?.cover_photo?.public_url ?? DefaultWallpapers.Bells}
-					/>
+				<a
+					href={galleryLink}
+					class:active={isGallery}
+					class:hasImage={Boolean(coverPhoto)}
+					class="image-wrapper"
+				>
+					{#if coverPhoto}
+						<img
+							alt="Destination Cover Photo"
+							class="cover"
+							src={coverPhoto ?? DefaultWallpapers.Bells}
+						/>q
+					{/if}
+
 					<button class:active={isGallery} class="view-gallery">
 						<img
 							alt={galleryButtonText}
@@ -168,6 +177,10 @@
 <style lang="scss">
 	main {
 		@apply absolute top-[50px] left-[15px];
+
+		&:hover .image-wrapper > img {
+			animation: barberpole 22s linear infinite;
+		}
 	}
 
 	form {
@@ -242,11 +255,26 @@
 		transition: all ease 0.2s;
 	}
 
+	@keyframes barberpole {
+		0% {
+			background-position: 0% 0%;
+		}
+		100% {
+			background-position: 100% 100%;
+		}
+	}
+
 	.image-wrapper {
-		@apply sticky top-0 pt-[190px] h-[190px] w-full rounded-t-lg;
+		@apply sticky top-0 pt-[155px] h-[155px] w-full rounded-t-lg;
+		animation: barberpole 33s linear infinite;
+		background: repeating-linear-gradient(120deg, #000, #000 11px, #555 11px, #555 12px);
+		background-size: 200%;
 		overflow: hidden;
-		background-image: linear-gradient(0deg, #000, rgba(0, 0, 0, 1));
 		display: block;
+
+		&.hasImage {
+			background: none;
+		}
 
 		&:hover > img,
 		&.active > img,
@@ -259,9 +287,7 @@
 			filter: blur(15px);
 			transform: scale(1.15);
 		}
-	}
 
-	.image-wrapper {
 		button {
 			opacity: 0;
 			transition: all ease 0.3s;
@@ -303,7 +329,7 @@
 	/* View Gallery */
 	.view-gallery {
 		@apply absolute top-1/2 left-1/2 text-sm
-            -mt-[16px] py-2 px-4 rounded-full
+            -mt-[16px] py-2 px-4 rounded-md
 			-translate-y-[50%] -translate-x-[50%]
 			 flex items-center;
 		background: rgba(255, 255, 255, 0.1);
