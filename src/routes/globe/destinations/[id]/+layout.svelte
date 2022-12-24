@@ -15,6 +15,7 @@
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
+	import Textarea from '@/lib/components/Textarea.svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -41,7 +42,13 @@
 		: `${$page.url}/gallery`;
 	$: coverPhoto = destination?.cover_photo?.public_url;
 
-	const handleSubmit = async e => {
+	enum Fields {
+		name,
+		description,
+	}
+	const handleSubmit = async field => {
+		if (field === Fields.name && name === destination.name) return;
+		if (field === Fields.description && description === destination.description) return;
 		loading = true;
 
 		activeInfoDisplayStore.update(s => ({
@@ -150,17 +157,17 @@
 								disabled={isGallery}
 								class="text-3xl bg-transparent font-semibold"
 								bind:value={name}
-								on:blur={name !== destination.name ? handleSubmit : null}
+								on:blur={() => handleSubmit(Fields.name)}
 							/>
 							{#if destination.coordinates}
 								<Coordinates disabled={isGallery} {lat} {lng} />
 							{/if}
 						</div>
-						<textarea
+						<Textarea
 							name="description"
 							bind:value={description}
 							disabled={isGallery}
-							on:blur={description !== destination.description ? handleSubmit : null}
+							onBlur={() => handleSubmit(Fields.description)}
 							placeholder="Enter a description..."
 						/>
 					</section>
@@ -177,7 +184,6 @@
 <style lang="scss">
 	main {
 		@apply absolute top-[50px] left-[15px];
-
 		&:hover .image-wrapper {
 			animation: barberpole 22s linear infinite;
 		}
@@ -191,48 +197,20 @@
 		@apply p-6 border-t-2 border-stone-800;
 	}
 
-	[name='description'] {
-		transition: padding ease 0.2s;
-		@apply bg-black
-        resize-none
-		 w-full 
-		 p-8 py-4 
-		 border-2
-		 border-transparent
-		 text-stone-300
-		 text-lg;
-
-		&:hover:not([disabled]) {
-			@apply py-6;
-		}
-
-		&:focus:not([disabled]) {
-			@apply py-6;
-			background: #222;
-		}
-
-		&:focus-visible:not([disabled]) {
-			@apply outline-0;
-		}
-	}
-
 	[name='name'] {
 		@apply rounded-md;
 		padding: 6px 0px;
 		border: solid 2px transparent;
 		transition: all ease 0.2s;
 		resize: none;
-
 		&:focus:not([disabled]),
 		&:hover:not([disabled]) {
 			padding: 6px;
 		}
-
 		&:focus:not([disabled]) {
 			background: rgba(255, 255, 255, 0.1111);
 			border: solid 2px rgba(222, 222, 222, 0.222);
 		}
-
 		&:focus-visible {
 			@apply outline-0;
 		}
@@ -266,6 +244,7 @@
 
 	.image-wrapper {
 		@apply sticky top-0 pt-[155px] h-[155px] w-full rounded-t-lg;
+		transition: all ease 0.3s;
 		background: repeating-linear-gradient(120deg, #000, #000 11px, #555 11px, #555 12px);
 		background-size: 200%;
 		overflow: hidden;
