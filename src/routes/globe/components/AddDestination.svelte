@@ -14,6 +14,7 @@
 	import rotateCameraAroundPoint from '../util/rotateCameraAroundPoint';
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
+	import confetti from 'canvas-confetti';
 
 	export let map: Map;
 
@@ -80,6 +81,39 @@
 
 				element?.classList.remove('loading');
 				loading = false;
+				const colors = ['#65c597', '#307f6e', '#6fdbf6', '#c3cd40', '#3e7fbb'];
+				// lunch center
+				confetti({
+					particleCount: 300,
+					startVelocity: 60,
+					spread: 111,
+					scalar: 0.69,
+					ticks: 300,
+					gravity: 0.5,
+					colors,
+					origin: { y: 1 },
+				});
+
+				// launch a few confetti from the left edge
+				confetti({
+					particleCount: 333,
+					angle: 60,
+					spread: 55,
+					scalar: 0.69,
+					origin: { x: 0, y: 1 },
+					colors,
+				});
+
+				// and launch a few from the right edge
+				confetti({
+					particleCount: 333,
+					angle: 120,
+					spread: 55,
+					scalar: 0.69,
+					origin: { x: 1, y: 1 },
+					colors,
+				});
+
 				activeInfoDisplayStore.update(s => ({
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`,
