@@ -7,8 +7,6 @@
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
 	import AddDestination from '@globe/components/AddDestination.svelte';
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
-	import DeveloperTools from './DeveloperTools.svelte';
-	import MyDestinations from './Dashboard/MyDestinations.svelte';
 
 	export let map: Map;
 	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
@@ -21,7 +19,6 @@
 
 <div id="mapbox-mount" class:blur />
 
-<DeveloperTools />
 {#if map}
 	{#if session && !isRoot}
 		<ActiveInfoDisplay />
@@ -32,8 +29,12 @@
 
 <style lang="scss">
 	#mapbox-mount {
-		width: 100%;
+		flex: 1 1 100%;
 		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
 		transition: all ease-in-out 0.69s;
 	}
 

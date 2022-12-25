@@ -78,7 +78,7 @@
 <div class:isGallery class="root flex mt-2">
 	{#if isActive}
 		{#if newLocation}
-			<button class:hasChanged={newLocation} on:click|preventDefault={handleUpdate}
+			<button class:save={true} on:click|preventDefault={handleUpdate}
 				>Save new location
 			</button>
 		{/if}
@@ -87,14 +87,26 @@
 		<button {disabled} class="inActive" on:click|preventDefault={handleClick}>
 			<span>{getLatLngDisplayText(lat, lng)}</span>
 		</button>
-		<button class="delete">Delete</button>
 	{/if}
 </div>
 
 <style lang="scss">
+	.root {
+		:global([ref='delete']) {
+			display: none;
+		}
+	}
+
+	.save {
+		@apply bg-sky-800;
+		&:hover {
+			@apply bg-emerald-700;
+		}
+	}
+
 	.root:not(.isGallery) {
 		&:hover {
-			.delete {
+			:global([ref='delete']) {
 				display: block;
 			}
 
@@ -106,21 +118,13 @@
 				}
 
 				&:before {
-					content: 'Change  Location';
+					content: 'Change Location';
 				}
 			}
 		}
 	}
 
-	.delete {
-		@apply bg-red-800;
-		display: none;
-	}
-	.cancel {
-		@apply bg-stone-600;
-	}
-
-	button {
+	.root :global(button) {
 		@apply tracking-wide ml-2 inline-flex w-auto p-2 px-3 flex-grow-0 rounded-md;
 
 		&:first-child {
@@ -128,13 +132,6 @@
 		}
 		&:hover {
 			@apply bg-stone-600;
-		}
-
-		&.hasChanged {
-			@apply bg-sky-800;
-			&:hover {
-				@apply bg-emerald-700;
-			}
 		}
 
 		&.inActive {

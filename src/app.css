@@ -54,12 +54,5 @@ input[type='text'] {
 .svelte-progress-bar,
 .svelte-progress-bar-leader {
 	background-color: rgb(101, 197, 133);
-	background-image: linear-gradient(
-		90deg,
-		rgb(101, 197, 133),
-		#307f6e,
-		#6fdbf6,
-		rgb(195, 205, 64),
-		rgb(62, 127, 187)
-	);
+	background-image: linear-gradient(90deg, #65c597, #307f6e, #6fdbf6, #c3cd40, #3e7fbb);
 }

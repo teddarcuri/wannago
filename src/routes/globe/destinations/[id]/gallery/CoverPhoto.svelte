@@ -149,9 +149,6 @@
 		</div>
 	{:else}
 		<div class="grid place-items-center">
-			<h4>Upload a Cover Photo</h4>
-			{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
-			<p class="text-stone-300 text-sm">This photo must be at least 880px wide</p>
 			<ImageUpload
 				onChange={(file, base64, dimensions) => {
 					preview = base64;
@@ -160,6 +157,9 @@
 				}}
 				onError={error => (uploadError = error)}
 			/>
+			<h4>Upload a Cover Photo</h4>
+			{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
+			<p class="text-stone-300 text-sm">This photo must be at least 880px wide</p>
 		</div>
 	{/if}
 </section>
@@ -169,6 +169,14 @@
 		@apply bg-black w-[90%] max-w-[666px] h-[420px]
         grid place-items-center rounded-lg relative overflow-hidden;
 		padding: 20px;
+
+		&:hover {
+			@apply bg-slate-800;
+
+			button {
+				transform: scale(1.2);
+			}
+		}
 	}
 
 	.preview {

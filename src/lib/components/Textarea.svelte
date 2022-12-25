@@ -80,7 +80,7 @@
 		&.focus {
 			&::after,
 			textarea {
-				@apply py-8 pb-10 bg-zinc-900;
+				@apply py-8 pb-10;
 			}
 			textarea {
 				@apply outline-0;

@@ -1,7 +1,7 @@
 import type { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import searchIcon from '$lib/img/search-icon.svg';
+import searchIcon from '$lib/img/search.svg';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import {
 	type AddDestinationStore,

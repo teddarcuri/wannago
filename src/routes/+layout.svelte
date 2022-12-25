@@ -2,19 +2,12 @@
 	import { supabaseClient } from '$lib/db';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import dashboard from '$lib/img/dashboard.svg';
+	import Header from '@/lib/components/Header.svelte';
 	import Mapbox from '$lib/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import '../app.css';
-
-	export let data;
-
-	$: pathname = $page.url.pathname;
-	$: isRoot = pathname === '/';
-	$: navLink = isRoot ? '/globe' : '/';
-	$: navText = isRoot ? 'View Globe' : 'Dashboard';
-	$: session = $page.data.session;
+	import MyDestinations from '@/lib/components/Dashboard/MyDestinations.svelte';
+	import { globalUIStore } from '@/lib/stores/globalUI';
 
 	onMount(() => {
 		const {
@@ -30,42 +23,20 @@
 </script>
 
 <div id="app-wrapper">
-	<header id="app-nav">
-		<div id="logo" class="mr-7">wannago</div>
-		<nav>
-			{#if session}
-				<a
-					class:active={isRoot}
-					class="
-					duration-999 flex items-center 
-					text-xs uppercase tracking-widest 
-					opacity-50 transition-all ease-in-out 
-					p-4
-					hover:opacity-80"
-					href={navLink}
-				>
-					<img class="mr-3" src={dashboard} width="15px" height="15px" />
-					{navText}
-				</a>
-			{/if}
-			{#if session?.user?.user_metadata?.avatar_url}
-				<img
-					class="rounded-full h-[40px] w-[40px] absolute right-[20px] top-[20px]"
-					src={session?.user?.user_metadata?.avatar_url}
-				/>
-			{/if}
-		</nav>
-	</header>
+	<Header />
 	<div id="app-body">
 		<NavigationManager />
-		{#if session || true}
+		<div class="w-full h-full flex absolute">
 			<Mapbox />
-		{/if}
-		<slot />
+			<slot />
+			<div class:active={$globalUIStore.sidebarActive} class="sidebar">
+				<MyDestinations />
+			</div>
+		</div>
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	#app-wrapper {
 		position: fixed;
 		top: 0;
@@ -73,30 +44,25 @@
 		width: 100vw;
 		height: 100vh;
 		display: flex;
-		flex-flow: column;
+		flex-flow: column nowrap;
 		overflow: hidden;
 	}
 
-	#app-nav {
-		flex: 0 0 70px;
-		display: flex;
-		align-items: center;
-		background: black;
-		z-index: 99;
-	}
-
-	nav a.active {
-		@apply opacity-90;
-		transform: scale(1.1);
-	}
-
 	#app-body {
-		flex-grow: 1;
+		height: calc(100vh - 70px);
+		display: flex;
 		position: relative;
 	}
 
-	#logo {
-		font-size: 23px;
-		padding-left: 28px;
+	$sidebarWidth: 380px;
+	.sidebar {
+		@apply z-50 min-w-[300px] max-w-[555px] bg-black overflow-auto h-full;
+		width: $sidebarWidth;
+		margin-right: -$sidebarWidth;
+		transition: all ease 0.5s;
+
+		&.active {
+			margin-right: 0;
+		}
 	}
 </style>

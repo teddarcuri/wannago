@@ -16,6 +16,7 @@
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
 	import Textarea from '@/lib/components/Textarea.svelte';
+	import GlobePageLayout from '../../_globePageLayout.svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -70,16 +71,6 @@
 		// TODO: be more specific with this invalidation
 		invalidateAll();
 
-		/* 
-            TODO
-            updateActiveInfoDisplay({
-                delay: 900,
-                error,
-                errorText: 'Something Went Wrong',
-                successText: 'Destination Saved.'
-                resetTimeout: 2200
-            })
-        */
 		setTimeout(() => {
 			loading = false;
 
@@ -106,86 +97,93 @@
 	};
 </script>
 
-<main>
-	<DisplayCard>
-		<div class="root relative z-50 bg-black  w-full rounded-lg ">
-			{#if Boolean(!destination)}
-				<span transition:fade>
-					<LoadingOverlay />
-				</span>
-			{/if}
-			{#if Boolean(destination)}
-				<!-- Cover Photo -->
-				<a
-					href={galleryLink}
-					class:active={isGallery}
-					class:hasImage={Boolean(coverPhoto)}
-					class="image-wrapper"
-				>
-					{#if coverPhoto}
-						<img
-							alt="Destination Cover Photo"
-							class="cover"
-							src={coverPhoto ?? DefaultWallpapers.Bells}
-						/>q
+{#key $page.data.destination.id}
+	<GlobePageLayout>
+		<main>
+			<DisplayCard>
+				<div class="root relative z-50 bg-black  w-full rounded-lg ">
+					{#if Boolean(!destination)}
+						<span transition:fade>
+							<LoadingOverlay />
+						</span>
 					{/if}
-
-					<button class:active={isGallery} class="view-gallery">
-						<img
-							alt={galleryButtonText}
-							class="icon w-[17px] h-[17px] mr-2"
-							src={isGallery ? backIcon : galleryIcon}
-						/>
-						<span>{galleryButtonText}</span>
-					</button>
-				</a>
-				<!-- Buttons/Controls -->
-				{#if !loading && !isGallery}
-					<div class="controls absolute flex top-2 left-2 z-30">
-						<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
-					</div>
-				{/if}
-
-				<!-- Form -->
-				<form on:submit|preventDefault={handleSubmit}>
-					<section>
-						<div class="flex flex-col">
-							<!-- <img width={22} src={mountainIcon} /> -->
-							<textarea
-								name="name"
-								rows="1"
-								disabled={isGallery}
-								class="text-3xl bg-transparent font-semibold"
-								bind:value={name}
-								on:blur={() => handleSubmit(Fields.name)}
-							/>
-							{#if destination.coordinates}
-								<Coordinates disabled={isGallery} {lat} {lng} />
+					{#if Boolean(destination)}
+						<!-- Cover Photo -->
+						<a
+							href={galleryLink}
+							class:active={isGallery}
+							class:hasImage={Boolean(coverPhoto)}
+							class="image-wrapper"
+						>
+							{#if coverPhoto}
+								<img
+									alt="Destination Cover Photo"
+									class="cover"
+									src={coverPhoto ?? DefaultWallpapers.Bells}
+								/>q
 							{/if}
-						</div>
-						<Textarea
-							name="description"
-							bind:value={description}
-							disabled={isGallery}
-							onBlur={() => handleSubmit(Fields.description)}
-							placeholder="Enter a description..."
-						/>
-					</section>
-				</form>
-			{/if}
-		</div>
-	</DisplayCard>
 
-	<div class="slot-wrapper">
-		<slot />
-	</div>
-</main>
+							<button class:active={isGallery} class="view-gallery">
+								<img
+									alt={galleryButtonText}
+									class="icon w-[17px] h-[17px] mr-2"
+									src={isGallery ? backIcon : galleryIcon}
+								/>
+								<span>{galleryButtonText}</span>
+							</button>
+						</a>
+						<!-- Buttons/Controls -->
+						{#if !loading && !isGallery}
+							<div class="controls absolute flex top-2 left-2 z-30">
+								<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
+							</div>
+						{/if}
+
+						<!-- Form -->
+						<form on:submit|preventDefault={handleSubmit}>
+							<section>
+								<div class="flex flex-col">
+									<!-- <img width={22} src={mountainIcon} /> -->
+									<textarea
+										name="name"
+										rows="1"
+										disabled={isGallery}
+										class="text-3xl bg-transparent font-semibold"
+										bind:value={name}
+										on:blur={() => handleSubmit(Fields.name)}
+									/>
+									{#if destination.coordinates}
+										<Coordinates disabled={isGallery} {lat} {lng} />
+									{/if}
+								</div>
+								<Textarea
+									name="description"
+									bind:value={description}
+									disabled={isGallery}
+									onBlur={() => handleSubmit(Fields.description)}
+									placeholder="Enter a description..."
+								/>
+							</section>
+						</form>
+					{/if}
+				</div>
+			</DisplayCard>
+		</main>
+		<slot slot="content" />
+	</GlobePageLayout>
+{/key}
 
 <style lang="scss">
 	main {
-		@apply absolute top-[50px] left-[15px];
+		position: relative;
 		&:hover .image-wrapper {
 			animation: barberpole 22s linear infinite;
+		}
+
+		&:hover {
+			.hasImage img {
+				opacity: 0.9;
+			}
 		}
 	}
 
@@ -251,7 +249,11 @@
 		display: block;
 
 		&.hasImage {
+			@apply pt-[180px] h-[180px];
 			background: none;
+			& > img {
+				opacity: 0.69;
+			}
 		}
 
 		&:hover > img,
@@ -294,14 +296,6 @@
 		@apply px-8;
 		margin-top: -70px;
 		background-image: linear-gradient(0deg, #000 20%, rgba(0, 0, 0, 0));
-	}
-
-	.slot-wrapper {
-		@apply absolute -top-[50px] 
-        overflow-auto;
-		max-height: calc(100vh - 55px);
-		width: calc(100vw - 100%);
-		left: 420px;
 	}
 
 	/* View Gallery */
