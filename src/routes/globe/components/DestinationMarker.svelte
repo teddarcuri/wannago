@@ -13,6 +13,7 @@
 	import getMarkerImgChildNode from '../util/getMarkerImgChildNode';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { onDestroy, onMount } from 'svelte';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 
 	export let map: Map;
 	export let destination: object;
@@ -102,8 +103,14 @@
 		goto(`/globe/destinations/${id}`);
 	});
 
+	const bail = () => {
+		if ($activeDestinationStore.editLocationMode) return true;
+		if ($addWaypointStore.active) return true;
+		return false;
+	};
+
 	domElement.addEventListener('mouseenter', () => {
-		if ($activeDestinationStore.editLocationMode) return;
+		if (bail()) return;
 		if (isActive) {
 			// activeInfoDisplayStore.update(s => ({
 			// 	status: ActiveInfoDisplayStatus.Information,
@@ -118,7 +125,7 @@
 	});
 
 	domElement.addEventListener('mouseleave', () => {
-		if ($activeDestinationStore.editLocationMode) return;
+		if (bail()) return;
 		activeInfoDisplayStore.update(s => ({
 			status: ActiveInfoDisplayStatus.Normal,
 			displayText: '',
@@ -139,22 +146,27 @@
 	});
 </script>
 
-<style global>
+<style global lang="scss">
 	.mapboxgl-marker-wrapper {
-		height: 45px;
-		width: 45px;
+		height: 48px;
+		width: 48px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		transition: height ease-in-out 0.1s, width ease-in-out 0.15s;
 		z-index: 1;
+
+		&.add-destination {
+			height: 55px;
+			width: 55px;
+		}
 	}
 
-	.mapboxgl-marker-wrapper:not(.active-destination):hover {
+	.mapboxgl-marker-wrapper:not(.add-destination):not(.active-destination):hover {
 		cursor: pointer;
 		z-index: 2;
-		height: 55px;
-		width: 55px;
+		height: 60px;
+		width: 60px;
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover

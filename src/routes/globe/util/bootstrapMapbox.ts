@@ -17,6 +17,7 @@ import createMarker, { MarkerType } from './createMarker';
 import rotateGlobe from './rotateGlobe';
 import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 import { activeDestinationStore } from '@/lib/stores/activeDestination';
+import { addWaypointStore } from '@/lib/stores/addWaypoint';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 
@@ -148,7 +149,20 @@ export default async (): Promise<Map> => {
 		});
 	});
 
+	// When i click the map if add waypoint is active add marker to waypoint store
+	map.on('click', async e => {
+		if (get(addWaypointStore).active) {
+			const { lngLat } = e;
+			const { lat, lng } = lngLat;
+			addWaypointStore.update(s => ({
+				...s,
+				coordinates: [lat, lng],
+			}));
+		}
+	});
+
 	map.on('dblclick', async e => {
+		if (get(addWaypointStore).active) return;
 		if (get(activeDestinationStore).editLocationMode) return;
 		await goto('/globe');
 		const lowZoom = 12;
@@ -162,8 +176,7 @@ export default async (): Promise<Map> => {
 
 		// Show user they are adding a destination
 		activeInfoDisplayStore.update(() => ({
-			status: ActiveInfoDisplayStatus.Information,
-			displayText: "What's here?",
+			hide: true,
 		}));
 
 		// Fly to destination
@@ -195,6 +208,7 @@ export default async (): Promise<Map> => {
 
 	map.on('mousemove', e => {
 		// Get Lat, Lng for ActiveInfoDisplay
+		// if (get(addWaypointStore).active) return;
 		if (activeInfoDisplayStatus === ActiveInfoDisplayStatus.Normal) {
 			const { lngLat } = e;
 			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;

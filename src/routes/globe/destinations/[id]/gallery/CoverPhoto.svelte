@@ -128,7 +128,7 @@
 					{:else}
 						<button>View</button>
 						<button class="red" on:click={() => (showDeleteConfirmation = true)}
-							>Remove</button
+							>Delete</button
 						>
 					{/if}
 				</div>
@@ -172,10 +172,6 @@
 
 		&:hover {
 			@apply bg-slate-800;
-
-			button {
-				transform: scale(1.2);
-			}
 		}
 	}
 
@@ -188,7 +184,7 @@
 
 	.buttons {
 		button {
-			@apply uppercase text-xs  tracking-widest text-stone-200 bg-emerald-600 py-3 px-5 rounded-full;
+			@apply uppercase text-xs tracking-widest text-stone-200 bg-emerald-600 py-2 px-3 mr-2 rounded-md;
 
 			&.red {
 				@apply bg-red-800;

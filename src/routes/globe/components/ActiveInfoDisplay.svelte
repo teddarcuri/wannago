@@ -4,12 +4,19 @@
 		activeInfoDisplayStore,
 		ActiveInfoDisplayStatus,
 	} from '$lib/stores/activeInfoDisplay';
+	import { addDestinationStore } from '@/lib/stores/addDestination';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { fade } from 'svelte/transition';
 
 	const DEFAULT_DISPLAY_TEXT = 'Document Your World.';
 	let bgColor: string = 'bg-zinc-900';
 	let displayText: string;
 	let status: ActiveInfoDisplayStatus;
 
+	$: hide =
+		$activeInfoDisplayStore.hide ||
+		$addWaypointStore.active ||
+		$addDestinationStore.marker;
 	$: session = $page.data.session;
 	$: status = $activeInfoDisplayStore.status;
 	$: displayText = !session
@@ -26,18 +33,18 @@
 	}[status];
 </script>
 
-<div class={bgColor}>
-	{displayText}
-</div>
+{#if !hide}
+	<div in:fade class={bgColor}>
+		{displayText}
+	</div>
+{/if}
 
 <style>
 	div {
 		@apply absolute top-0 left-0 z-50 min-w-[220px] 
-		 px-7 py-2 text-center opacity-80
+		 px-7 py-2 text-center opacity-100
 		rounded-br-sm
 		text-sm tracking-widest;
 		z-index: 999;
-
-		transition: all ease 0.6s;
 	}
 </style>

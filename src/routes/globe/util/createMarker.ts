@@ -16,6 +16,7 @@ interface Options {
 	lat: number;
 	lng: number;
 	draggable?: boolean;
+	isWaypoint?: boolean;
 }
 
 export default function ({
@@ -29,8 +30,11 @@ export default function ({
 	isWaypoint,
 }: Options): Marker {
 	if (isWaypoint) {
-		const element = createWaypointCanvas('Test', 'bada55');
-		return new Marker({ element, draggable }).setLngLat([lng, lat]).addTo(map);
+		const element = document.createElement('div');
+		element.classList.add('add-waypoint-marker');
+		const img = createWaypointCanvas(name, '47A582');
+		element.append(img);
+		return new Marker({ element, draggable: 'true' }).setLngLat([lng, lat]).addTo(map);
 	}
 
 	// Outer wrapper

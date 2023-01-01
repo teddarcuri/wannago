@@ -9,6 +9,7 @@
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
+	import Delete from './Delete.svelte';
 
 	export let lat: number;
 	export let lng: number;
@@ -87,6 +88,7 @@
 		<button {disabled} class="inActive" on:click|preventDefault={handleClick}>
 			<span>{getLatLngDisplayText(lat, lng)}</span>
 		</button>
+		<Delete ref="delete" />
 	{/if}
 </div>
 

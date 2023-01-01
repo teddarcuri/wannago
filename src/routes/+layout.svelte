@@ -1,13 +1,14 @@
 <script lang="ts">
+	import '../app.css';
 	import { supabaseClient } from '$lib/db';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Header from '@/lib/components/Header.svelte';
-	import Mapbox from '$lib/components/Mapbox.svelte';
+	import Mapbox from '@/routes/globe/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
-	import '../app.css';
 	import MyDestinations from '@/lib/components/Dashboard/MyDestinations.svelte';
 	import { globalUIStore } from '@/lib/stores/globalUI';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 
 	onMount(() => {
 		const {
@@ -29,7 +30,10 @@
 		<div class="w-full h-full flex absolute">
 			<Mapbox />
 			<slot />
-			<div class:active={$globalUIStore.sidebarActive} class="sidebar">
+			<div
+				class:active={$globalUIStore.sidebarActive && !$addWaypointStore.active}
+				class="sidebar"
+			>
 				<MyDestinations />
 			</div>
 		</div>
@@ -52,6 +56,7 @@
 		height: calc(100vh - 70px);
 		display: flex;
 		position: relative;
+		background: #000;
 	}
 
 	$sidebarWidth: 380px;

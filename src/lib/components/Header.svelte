@@ -3,6 +3,8 @@
 	import sidebar from '$lib/img/sidebar.svg';
 	import { page } from '$app/stores';
 	import { globalUIStore } from '../stores/globalUI';
+	import { addWaypointStore } from '../stores/addWaypoint';
+	import { addDestinationStore } from '../stores/addDestination';
 
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
@@ -15,7 +17,7 @@
 <header id="app-nav">
 	<div id="logo" class="mr-7">wannago</div>
 	<nav>
-		{#if session}
+		{#if !$addWaypointStore.active && !$addDestinationStore.marker}
 			<a
 				class:active={isRoot}
 				class="
@@ -31,13 +33,15 @@
 			</a>
 		{/if}
 	</nav>
-	<button
-		on:click={() => {
-			$globalUIStore.sidebarActive = !$globalUIStore.sidebarActive;
-		}}
-		class:active={sidebarActive}
-		class="sidebar"><img width="15px" height="15px" src={sidebar} /></button
-	>
+	{#if !$addWaypointStore.active && !$addDestinationStore.marker}
+		<button
+			on:click={() => {
+				$globalUIStore.sidebarActive = !$globalUIStore.sidebarActive;
+			}}
+			class:active={sidebarActive}
+			class="sidebar"><img width="15px" height="15px" src={sidebar} /></button
+		>
+	{/if}
 </header>
 
 <style lang="scss">
@@ -51,7 +55,7 @@
 		display: flex;
 		width: 100%;
 		align-items: center;
-		background: black;
+		// background: black;
 		z-index: 99;
 	}
 

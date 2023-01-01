@@ -6,6 +6,7 @@
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '../stores/activeInfoDisplay';
+	import { addWaypointStore } from '../stores/addWaypoint';
 	let progress: ProgressBar;
 
 	$: {
@@ -30,6 +31,15 @@
 				$activeDestinationStore.newLocation
 			) {
 				activeDestinationStore.update(s => ({ ...s, newLocation: null }));
+			}
+
+			// Clear add waypoint active
+			if (from.routeId === '/globe/destinations/[id]' && $addWaypointStore.active) {
+				addWaypointStore.update(s => ({ ...s, active: false }));
+				activeInfoDisplayStore.update(() => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: '',
+				}));
 			}
 		}
 

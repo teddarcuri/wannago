@@ -3,18 +3,9 @@
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import search from '$lib/img/search.svg';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { onMount } from 'svelte';
 	$: destinations = $userDestinationsStore.destinations;
 
-	// filter destinations by search query and then make sure the active destination is always at the top of the list
-	// $: filteredDestinations = destinations
-	// 	.filter(destination => {
-	// 		return destination.name.toLowerCase().includes(searchQuery.toLowerCase());
-	// 	})
-	// 	.sort((a, b) => {
-	// 		if (a.id === $activeDestinationStore.destination.id) return -1;
-	// 		if (b.id === $activeDestinationStore.destination.id) return 1;
-	// 		return 0;
-	// 	});
 	$: filteredDestinations = destinations.filter(destination => {
 		return destination.name.toLowerCase().includes(searchQuery.toLowerCase());
 	});
@@ -145,7 +136,7 @@
 		&.active {
 			opacity: 1;
 			a {
-				@apply border-stone-400 rounded-md;
+				@apply border-stone-400;
 			}
 		}
 	}

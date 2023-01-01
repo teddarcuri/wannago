@@ -7,8 +7,8 @@ export default (label, color): Options => {
 	if (typeof document === 'undefined') return;
 	var canvas = document.createElement('canvas');
 	var context = canvas.getContext('2d');
-	var rectHeight = 44;
-	var rectWidth = 30;
+	var rectHeight = 35;
+	var rectWidth = 35;
 	var rectX = 0;
 	var rectY = 0;
 
@@ -33,14 +33,12 @@ export default (label, color): Options => {
 	grd.addColorStop(1, 'black');
 
 	context.fillStyle = grd;
-	context.roundRect(rectX, rectY, rectWidth, rectHeight, 10).fill();
+	context.roundRect(rectX, rectY, rectWidth, rectHeight, 35).fill();
 	context.font = '22px Proxima Nova';
 	context.textAlign = 'center';
 	context.textBaseline = 'middle';
 	context.fillStyle = '#ffffff';
 
-	context.fillText(label, rectX + rectWidth / 2, rectY + rectHeight / 2);
-	const img = document.createElement('img');
-	img.src = canvas;
-	return img;
+	context.fillText(label.charAt(0), rectX + rectWidth / 2, rectY + rectHeight / 2);
+	return canvas;
 };

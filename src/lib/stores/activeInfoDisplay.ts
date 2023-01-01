@@ -8,15 +8,17 @@ export enum ActiveInfoDisplayStatus {
 	Error,
 	Information,
 	Loading,
-	Black
+	Black,
 }
 
 export interface ActiveInfoDisplayStore {
 	status: ActiveInfoDisplayStatus;
 	displayText: string;
+	hide: boolean;
 }
 
 export const activeInfoDisplayStore: Writable<ActiveInfoDisplayStore> = writable({
 	status: ActiveInfoDisplayStatus.Normal,
-	displayText: 'Document your World.'
+	displayText: 'Document your World.',
+	hide: false,
 });

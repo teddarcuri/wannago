@@ -17,6 +17,8 @@
 	} from '@/lib/stores/activeInfoDisplay';
 	import Textarea from '@/lib/components/Textarea.svelte';
 	import GlobePageLayout from '../../_globePageLayout.svelte';
+	import Waypoints from './components/Waypoints.svelte';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -29,6 +31,11 @@
 	export let data: PageData;
 
 	let loading = false;
+
+	// TODO IN THE MORNING: Had to make this reactive again
+	// but this is breaking the edit/form
+	// how do we preserve reactivity? but also make it editable? hmmmmmm....
+
 	let destination = data.destination;
 	let name = destination.name;
 	let description = destination.description;
@@ -47,6 +54,7 @@
 		name,
 		description,
 	}
+
 	const handleSubmit = async field => {
 		if (field === Fields.name && name === destination.name) return;
 		if (field === Fields.description && description === destination.description) return;
@@ -97,8 +105,8 @@
 	};
 </script>
 
-{#key $page.data.destination.id}
-	<GlobePageLayout>
+<GlobePageLayout>
+	{#if !$addWaypointStore.active}
 		<main>
 			<DisplayCard>
 				<div class="root relative z-50 bg-black  w-full rounded-lg ">
@@ -168,10 +176,11 @@
 					{/if}
 				</div>
 			</DisplayCard>
+			<Waypoints />
 		</main>
-		<slot slot="content" />
-	</GlobePageLayout>
-{/key}
+	{/if}
+	<slot slot="content" />
+</GlobePageLayout>
 
 <style lang="scss">
 	main {
@@ -249,7 +258,7 @@
 		display: block;
 
 		&.hasImage {
-			@apply pt-[180px] h-[180px];
+			// @apply pt-[180px] h-[180px];
 			background: none;
 			& > img {
 				opacity: 0.69;
