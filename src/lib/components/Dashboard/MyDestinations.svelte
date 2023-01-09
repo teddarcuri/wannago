@@ -13,10 +13,10 @@
 	let searchQuery = '';
 </script>
 
-<div class="root relative z-10 col-span-3">
+<div class="root bg-black relative z-10 col-span-3">
 	<div class="input-wrapper">
-		<img src={search} height="12px" width="12px" />
-		<input placeholder="Find a Destination" bind:value={searchQuery} />
+		<!-- <img src={search} height="14px" width="14px" /> -->
+		<input placeholder="Search your destinations" bind:value={searchQuery} />
 		{#if searchQuery}
 			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
 		{/if}
@@ -29,10 +29,10 @@
 					<img src={destination.cover_photo.public_url} />
 				{/if}
 				<a
-					class="p-2 flex bg-black flex-col hover:bg-gray-900"
+					class="p-3 flex bg-black flex-col hover:bg-gray-900"
 					href={`/globe/destinations/${destination.id}`}
 				>
-					<h4 class="text-lg">
+					<h4 class="text-md">
 						{destination.name}
 					</h4>
 					<!-- <p>
@@ -49,7 +49,8 @@
 
 <style lang="scss">
 	.input-wrapper {
-		@apply flex relative;
+		@apply flex relative
+		overflow-hidden;
 
 		img {
 			position: absolute;
@@ -58,7 +59,7 @@
 			transform: translateY(-50%);
 			transition: all ease 0.3s;
 			visibility: visible;
-			opacity: 1;
+			opacity: 0.7;
 		}
 
 		&:focus-within {
@@ -69,9 +70,12 @@
 		}
 
 		input {
+			@apply border border-stone-600 
+			text-left
+			overflow-hidden;
 			background: black;
-			height: 55px;
-			padding-left: 45px;
+			height: 40px;
+			padding-left: 13px;
 			width: 100%;
 			border-bottom: solid 1px #444;
 			transition: all ease 0.3s;
@@ -81,10 +85,9 @@
 			}
 
 			&:focus {
-				padding-left: 20px;
-				background: #222;
-				outline: none;
-				border-color: #ccc;
+				@apply border outline-none 
+				bg-stone-800
+				pl-[px] border-stone-400;
 			}
 		}
 
@@ -112,7 +115,7 @@
 		opacity: 0.5;
 
 		a {
-			@apply border-2 border-transparent;
+			@apply border border-transparent;
 			background: linear-gradient(90deg, black 40%, rgba(0, 0, 0, 0.7), transparent);
 
 			&:hover {
@@ -133,11 +136,11 @@
 			opacity: 1;
 		}
 
-		&.active {
-			opacity: 1;
-			a {
-				@apply border-stone-400;
-			}
-		}
+		// &.active {
+		// 	opacity: 1;
+		// 	a {
+		// 		@apply border-4 border-stone-500;
+		// 	}
+		// }
 	}
 </style>

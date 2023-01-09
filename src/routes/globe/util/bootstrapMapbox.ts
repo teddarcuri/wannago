@@ -159,17 +159,49 @@ export default async (): Promise<Map> => {
 				coordinates: [lat, lng],
 			}));
 		}
+
+		if (get(addDestinationStore).active) {
+			const { lngLat } = e;
+			const { lat, lng } = lngLat;
+			addDestinationFlow(lat, lng);
+		}
 	});
 
 	map.on('dblclick', async e => {
 		if (get(addWaypointStore).active) return;
 		if (get(activeDestinationStore).editLocationMode) return;
+		const { lngLat } = e;
+		const { lat, lng } = lngLat;
+		addDestinationStore.update(s => ({ ...s, active: true }));
+		await addDestinationFlow(lat, lng);
+	});
+
+	map.on('mousemove', e => {
+		// Get Lat, Lng for ActiveInfoDisplay
+		// if (get(addWaypointStore).active) return;
+
+		// if addWaypoint is active, log the mouse position to the console
+		if (get(addWaypointStore).active) {
+			addWaypointStore.update(s => ({ ...s, mousePos: e.point }));
+		}
+
+		if (activeInfoDisplayStatus === ActiveInfoDisplayStatus.Normal) {
+			const { lngLat } = e;
+			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;
+			const lng = `${Math.abs(lngLat.lng.toFixed(3))}° ${lngLat.lng > 0 ? 'E' : 'W'}`;
+			const displayText = getLatLngDisplayText(lngLat.lat, lngLat.lng);
+			activeInfoDisplayStore.update(() => ({
+				status: ActiveInfoDisplayStatus.Normal,
+				displayText,
+			}));
+		}
+	});
+
+	const addDestinationFlow = async (lat, lng) => {
 		await goto('/globe');
 		const lowZoom = 12;
 		const currentZoom = map.getZoom();
 		const cameraIsLow = currentZoom < lowZoom;
-		const { lngLat } = e;
-		const { lat, lng } = lngLat;
 
 		// Remove old marker if exist
 		if (addDestination?.marker) addDestination.marker.remove();
@@ -183,7 +215,6 @@ export default async (): Promise<Map> => {
 		map.flyTo({
 			zoom: cameraIsLow ? lowZoom : currentZoom,
 			center: [lng, lat],
-			pitch: map.getPitch() + 5,
 			speed: cameraIsLow ? 1 : 0.666,
 			curve: 1,
 			essential: true, // this animation is considered essential with respect to prefers-reduced-motion
@@ -204,22 +235,7 @@ export default async (): Promise<Map> => {
 			...s,
 			marker,
 		}));
-	});
-
-	map.on('mousemove', e => {
-		// Get Lat, Lng for ActiveInfoDisplay
-		// if (get(addWaypointStore).active) return;
-		if (activeInfoDisplayStatus === ActiveInfoDisplayStatus.Normal) {
-			const { lngLat } = e;
-			const lat = `${Math.abs(lngLat.lat.toFixed(3))}° ${lngLat.lat > 0 ? 'N' : 'S'}`;
-			const lng = `${Math.abs(lngLat.lng.toFixed(3))}° ${lngLat.lng > 0 ? 'E' : 'W'}`;
-			const displayText = getLatLngDisplayText(lngLat.lat, lngLat.lng);
-			activeInfoDisplayStore.update(() => ({
-				status: ActiveInfoDisplayStatus.Normal,
-				displayText,
-			}));
-		}
-	});
+	};
 
 	return map;
 };

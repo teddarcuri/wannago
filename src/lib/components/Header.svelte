@@ -5,16 +5,17 @@
 	import { globalUIStore } from '../stores/globalUI';
 	import { addWaypointStore } from '../stores/addWaypoint';
 	import { addDestinationStore } from '../stores/addDestination';
-
+	import { activeDestinationStore } from '../stores/activeDestination';
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
 	$: navText = isRoot ? 'View Globe' : 'Dashboard';
 	$: session = $page.data.session;
 	$: sidebarActive = $globalUIStore.sidebarActive;
+	$: transparent = $activeDestinationStore.deleteMode;
 </script>
 
-<header id="app-nav">
+<header class:transparent id="app-nav">
 	<div id="logo" class="mr-7">wannago</div>
 	<nav>
 		{#if !$addWaypointStore.active && !$addDestinationStore.marker}
@@ -33,7 +34,7 @@
 			</a>
 		{/if}
 	</nav>
-	{#if !$addWaypointStore.active && !$addDestinationStore.marker}
+	<!-- {#if !$addWaypointStore.active && !$addDestinationStore.marker}
 		<button
 			on:click={() => {
 				$globalUIStore.sidebarActive = !$globalUIStore.sidebarActive;
@@ -41,7 +42,7 @@
 			class:active={sidebarActive}
 			class="sidebar"><img width="15px" height="15px" src={sidebar} /></button
 		>
-	{/if}
+	{/if} -->
 </header>
 
 <style lang="scss">
@@ -51,12 +52,16 @@
 	}
 
 	#app-nav {
+		@apply bg-black;
 		flex: 0 0 70px;
 		display: flex;
 		width: 100%;
 		align-items: center;
-		// background: black;
 		z-index: 99;
+
+		&.transparent {
+			@apply bg-transparent;
+		}
 	}
 
 	nav a.active {

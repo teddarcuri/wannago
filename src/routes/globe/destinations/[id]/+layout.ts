@@ -2,6 +2,7 @@ import { supabaseClient } from '$lib/db';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
+
 export async function load({ params }) {
 	const { data } = await supabaseClient
 		.from('destinations')
@@ -20,9 +21,26 @@ export async function load({ params }) {
 		)
 		.eq('id', params.id);
 
+	const { data: waypoints } = await supabaseClient
+		.from('waypoints')
+		.select(
+			`
+            id,
+            name,
+            coordinates,
+            hex
+        `,
+		)
+		.eq('parent_destination_id', params.id);
+
+	const destination = {
+		...data[0],
+		waypoints,
+	};
+
 	if (data) {
 		return {
-			destination: data[0],
+			destination,
 		};
 	}
 

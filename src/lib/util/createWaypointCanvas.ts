@@ -1,14 +1,15 @@
 interface Options {
 	label: string;
 	color: string;
+	fontSize?: number;
 }
 
-export default (label, color): Options => {
+export default (label, color, fontSize = 12): Options => {
 	if (typeof document === 'undefined') return;
 	var canvas = document.createElement('canvas');
 	var context = canvas.getContext('2d');
-	var rectHeight = 35;
-	var rectWidth = 35;
+	var rectHeight = 36;
+	var rectWidth = 26;
 	var rectX = 0;
 	var rectY = 0;
 
@@ -33,12 +34,17 @@ export default (label, color): Options => {
 	grd.addColorStop(1, 'black');
 
 	context.fillStyle = grd;
-	context.roundRect(rectX, rectY, rectWidth, rectHeight, 35).fill();
-	context.font = '22px Proxima Nova';
+	context.roundRect(rectX, rectY, rectWidth, rectHeight, 10).fill();
+	context.font = `bold ${fontSize}px Proxima Nova`;
 	context.textAlign = 'center';
 	context.textBaseline = 'middle';
 	context.fillStyle = '#ffffff';
 
-	context.fillText(label.charAt(0), rectX + rectWidth / 2, rectY + rectHeight / 2);
+	// first letter to uppercase of string
+	context.fillText(
+		label.charAt(0).toUpperCase(),
+		rectX + rectWidth / 2,
+		rectY + rectHeight / 2,
+	);
 	return canvas;
 };

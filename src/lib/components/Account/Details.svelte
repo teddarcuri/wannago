@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabaseClient } from '$lib/db';
+	import { fly } from 'svelte/transition';
 
 	export let session: AuthSession;
 
@@ -51,7 +52,7 @@
 				username,
 				website,
 				avatar_url: avatarUrl,
-				updated_at: new Date()
+				updated_at: new Date(),
 			};
 
 			let { error } = await supabaseClient.from('profiles').upsert(updates);
@@ -81,7 +82,7 @@
 	}
 </script>
 
-<div class="col-span-3 row-start-2 relative grid">
+<div in:fly={{ delay: 669, duration: 1000 }} class="col-span-3 row-start-2 relative grid">
 	<!-- <h1 class="text-xl pb-4">My Account</h1> -->
 	<form
 		class="w-full relative

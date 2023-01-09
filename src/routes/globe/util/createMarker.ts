@@ -15,8 +15,10 @@ interface Options {
 	icon?: string;
 	lat: number;
 	lng: number;
+	fontSize?: number;
 	draggable?: boolean;
 	isWaypoint?: boolean;
+	color: string;
 }
 
 export default function ({
@@ -26,14 +28,24 @@ export default function ({
 	lat,
 	lng,
 	name,
+	color = '222222',
+	fontSize,
 	draggable,
 	isWaypoint,
 }: Options): Marker {
 	if (isWaypoint) {
 		const element = document.createElement('div');
-		element.classList.add('add-waypoint-marker');
-		const img = createWaypointCanvas(name, '47A582');
+		element.classList.add('waypoint-marker');
+		const img = createWaypointCanvas(name, color, fontSize);
 		element.append(img);
+		if (name) {
+			// name bubble
+			var bubble = document.createElement('div');
+			bubble.classList.add('name-bubble');
+			bubble.innerText = name;
+			element.append(bubble);
+		}
+
 		return new Marker({ element, draggable: 'true' }).setLngLat([lng, lat]).addTo(map);
 	}
 
@@ -60,14 +72,6 @@ export default function ({
 		background.classList.add('blue');
 	}
 
-	if (name) {
-		// name bubble
-		var bubble = document.createElement('div');
-		bubble.classList.add('name-bubble');
-		bubble.innerText = name;
-		// wrapper.append(bubble);
-	}
-
 	// icon
 	if (icon) {
 		var img = document.createElement('img');
@@ -78,6 +82,14 @@ export default function ({
 	// append dat shiz
 	wrapper.append(inner);
 	wrapper.append(background);
+
+	if (name) {
+		// name bubble
+		var bubble = document.createElement('div');
+		bubble.classList.add('name-bubble');
+		bubble.innerText = name;
+		wrapper.append(bubble);
+	}
 
 	return new Marker({ element: wrapper, draggable }).setLngLat([lng, lat]).addTo(map);
 }

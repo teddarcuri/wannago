@@ -1,23 +1,39 @@
 <script lang="ts">
 	import { each } from 'svelte/internal';
+	import { fade } from 'svelte/transition';
 	import CoverPhoto from './CoverPhoto.svelte';
 	$: coverPhoto = $$props.data.destination.cover_photo;
 
-	const gallery = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	$: backLink = `/globe/destinations/${$$props.data.destination.id}`;
 </script>
 
-<div class="fixed pointer-events-none bg-black top-0 left-0 opacity-50 w-full h-full" />
-<main>
+<div
+	class=" bg fixed pointer-events-none bg-black top-0 left-0 opacity-40 w-full h-full"
+/>
+<div class="sidebar">
+	<a href={backLink}>&#8592</a>
+	<button>+</button>
+</div>
+<main in:fade={{ delay: 222, duration: 222 }}>
 	<CoverPhoto {coverPhoto} />
-	<!-- <div class="w-full mt-8 h-[9000px]"> -->
-	<!-- 	{#each gallery as photo} -->
-	<!-- 		<div class="bg-white h-[200px] w-[200px]" /> -->
-	<!-- 	{/each} -->
-	<!-- </div> -->
 </main>
 
 <style lang="scss">
 	main {
-		padding: 50px 20px;
+		padding: 20px 20px 50px 100px;
+	}
+
+	.sidebar {
+		@apply absolute left-0 top-[60px] flex flex-col;
+
+		button,
+		a {
+			@apply bg-black w-[55px] h-[55px] rounded-md mb-4 grid place-items-center
+			text-xl;
+
+			&:hover {
+				@apply bg-gray-800;
+			}
+		}
 	}
 </style>

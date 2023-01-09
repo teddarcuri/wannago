@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	// @globe
 	import bootstrapMapbox from '@globe/util/bootstrapMapbox';
 	import AddWaypointMarker from './AddWaypointMarker.svelte';
@@ -9,22 +9,43 @@
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
 	import { addWaypointStore } from '$lib/stores/addWaypoint';
 	import { addDestinationStore } from '$lib/stores/addDestination';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import Tools from './Tools.svelte';
+	import WaypointMarkers from './WaypointMarkers.svelte';
 
 	export let map: Map;
 	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
+	setContext('map', { getMap: () => map }); // Provide map context - getMap is used instead of map because map is undefined onMount
 
 	$: isRoot = $page.url.pathname === '/';
+	$: isGlobe = $page.url.pathname === '/globe';
+
 	$: isGallery = $page.routeId === '/globe/destinations/[id]/gallery';
 	$: blur = isRoot || isGallery ? 'blur' : '';
 	$: session = $page.data.session;
-	$: border = $addWaypointStore.active || $addDestinationStore.marker;
+	$: border =
+		$addWaypointStore.active ||
+		$addDestinationStore.active ||
+		$activeDestinationStore.deleteMode;
+	$: showCursor = $addWaypointStore.active || $addDestinationStore.active;
 </script>
 
-<div id="mapbox-mount" class:blur class:border />
+<div id="mapbox-mount" class:blur class:border class:showCursor />
+<slot />
 
+{#if $addWaypointStore.mousePos}
+	<div
+		style:left={$addWaypointStore?.mousePos?.x + 'px'}
+		style:top={$addWaypointStore?.mousePos?.y + 160 + 'px'}
+		class="cursor"
+	/>
+{/if}
 {#if map}
 	{#if session && !isRoot}
 		<ActiveInfoDisplay />
+	{/if}
+	{#if isGlobe}
+		<Tools />
 	{/if}
 	<DestinationMarkers {map} />
 	{#if $addWaypointStore.coordinates}
@@ -44,9 +65,39 @@
 		border: 0px solid transparent;
 
 		&.border {
-			border-radius: 20px;
-			overflow: hidden;
-			border-top: 55px solid transparent;
+			border-top: 70px solid transparent;
+		}
+
+		@media screen and (max-width: 1268px) {
+			&.border {
+				border-top: 120px solid transparent;
+			}
+		}
+
+		@media screen and (max-width: 768px) {
+			&.border {
+				border-top: 150px solid transparent;
+			}
+		}
+	}
+
+	.cursor {
+		@apply h-6 w-6 
+		border-4 border-black
+		rounded-full
+		 z-10 pointer-events-none
+		fixed top-1/2 left-1/2
+		-translate-x-1/2;
+
+		// psuedo element that is a slightly transparent white orb background behind the cursor
+		&::before {
+			@apply absolute
+			h-6 w-6
+			border-4 border-white
+			rounded-full
+			-translate-x-1/2 -translate-y-1/2
+			opacity-50;
+			content: '';
 		}
 	}
 

@@ -4,6 +4,7 @@
 		activeInfoDisplayStore,
 		ActiveInfoDisplayStatus,
 	} from '$lib/stores/activeInfoDisplay';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { fade } from 'svelte/transition';
@@ -16,7 +17,8 @@
 	$: hide =
 		$activeInfoDisplayStore.hide ||
 		$addWaypointStore.active ||
-		$addDestinationStore.marker;
+		$addDestinationStore.active ||
+		$activeDestinationStore.deleteMode;
 	$: session = $page.data.session;
 	$: status = $activeInfoDisplayStore.status;
 	$: displayText = !session
@@ -34,7 +36,7 @@
 </script>
 
 {#if !hide}
-	<div in:fade class={bgColor}>
+	<div in:fade={{ delay: 333, duration: 333 }} class={bgColor}>
 		{displayText}
 	</div>
 {/if}
@@ -45,6 +47,6 @@
 		 px-7 py-2 text-center opacity-100
 		rounded-br-sm
 		text-sm tracking-widest;
-		z-index: 999;
+		z-index: 99;
 	}
 </style>

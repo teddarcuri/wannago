@@ -1,16 +1,49 @@
 <script>
 	import { addWaypointStore } from '../stores/addWaypoint';
+	import { activeDestinationStore } from '../stores/activeDestination';
 	import { fade } from 'svelte/transition';
+	import { supabaseClient } from '../db';
+	import {
+		ActiveInfoDisplayStatus,
+		activeInfoDisplayStore,
+	} from '../stores/activeInfoDisplay';
+	import { invalidateAll } from '$app/navigation';
+	import WaypointTypeSelector from './WaypointTypeSelector.svelte';
 
 	let waypointName;
+	$: color = $addWaypointStore?.color?.hex;
 
 	let loading = false;
 
-	const handleSubmit = () => {
-		// addWaypointStore.update(s => ({
-		//     active: false,
-		//     coordinates: null,
-		// }));
+	const handleSubmit = async () => {
+		const { data, error } = await supabaseClient.rpc('new_waypoint_from_lng_lat', {
+			name: waypointName,
+			lng: $addWaypointStore?.coordinates?.[0],
+			lat: $addWaypointStore?.coordinates?.[1],
+			parent_destination_id: $activeDestinationStore?.destination?.id,
+			color,
+		});
+
+		if (data) {
+			addWaypointStore.update(s => ({
+				active: false,
+				coordinates: null,
+			}));
+
+			activeInfoDisplayStore.update(s => ({
+				status: ActiveInfoDisplayStatus.Success,
+				displayText: 'Waypoint Created',
+			}));
+
+			invalidateAll();
+		}
+
+		if (error) {
+			activeInfoDisplayStore.update(s => ({
+				status: ActiveInfoDisplayStatus.Error,
+				displayText: error.message,
+			}));
+		}
 	};
 
 	const handleCancel = () => {
@@ -23,7 +56,7 @@
 
 <form
 	on:submit|preventDefault={handleSubmit}
-	class="w-full h-full justify-center align-center items-center relative flex flex-row"
+	class="w-auto h-full justify-center align-center items-center relative flex flex-row"
 >
 	{#if loading}
 		<div
@@ -34,17 +67,22 @@
 		</div>
 	{/if}
 
+	<WaypointTypeSelector {waypointName} />
+
 	{#if $addWaypointStore.coordinates}
-		<input in:fade placeholder="Enter Waypoint Name" bind:this={waypointName} />
+		<input in:fade placeholder="Enter Waypoint Name" bind:value={waypointName} />
 	{:else}
-		<h3 in:fade>Click anywhere on map to add new waypoint</h3>
+		<div class="flex flex-col  h-full">
+			<h3 in:fade>New waypoint</h3>
+			<p class="opacity-60">Click anywhere on map</p>
+		</div>
 	{/if}
 
 	<div class="buttons">
 		{#if $addWaypointStore.coordinates}
 			<button class="create" type="submit">Create</button>
 		{/if}
-		<button class="cancel" in:fade on:click={handleCancel}>Cancel</button>
+		<button class="cancel" in:fade on:click|preventDefault={handleCancel}>Cancel</button>
 	</div>
 </form>
 
@@ -54,8 +92,12 @@
 		background-image: linear-gradient(var(--angle), #2b3441, #3a4554);
 	}
 
+	.add-waypoint-marker {
+		position: relative !important;
+	}
+
 	h3 {
-		@apply text-xl text-stone-500;
+		@apply text-xl text-stone-300;
 	}
 
 	.loading {
@@ -69,7 +111,7 @@
 	}
 
 	.buttons {
-		@apply ml-4;
+		@apply mx-6 flex;
 	}
 
 	button {
@@ -102,7 +144,7 @@
 	input {
 		@apply text-2xl
 		bg-transparent
-		py-3
+		py-3 w-full
 		text-white
 		border-b
 		border-solid

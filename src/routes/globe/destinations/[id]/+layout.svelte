@@ -9,6 +9,7 @@
 	import Coordinates from './components/Coordinates.svelte';
 	import closeIcon from '$lib/img/close.svg';
 	import galleryIcon from '$lib/img/gallery.svg';
+	import centerIcon from '$lib/img/center.svg';
 	import backIcon from '$lib/img/back.svg';
 	import mountainIcon from '$lib/img/mountain.svg';
 	import {
@@ -19,6 +20,9 @@
 	import GlobePageLayout from '../../_globePageLayout.svelte';
 	import Waypoints from './components/Waypoints.svelte';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
+	import { getContext } from 'svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -29,6 +33,8 @@
 	}
 
 	export let data: PageData;
+	const { getMap } = getContext('map');
+	const map = getMap();
 
 	let loading = false;
 
@@ -36,11 +42,12 @@
 	// but this is breaking the edit/form
 	// how do we preserve reactivity? but also make it editable? hmmmmmm....
 
-	let destination = data.destination;
-	let name = destination.name;
-	let description = destination.description;
-	let lat = destination.coordinates.coordinates[1];
-	let lng = destination.coordinates.coordinates[0];
+	$: destination = data.destination;
+	$: name = destination.name;
+	$: description = destination.description;
+	$: lat = destination.coordinates.coordinates[1];
+	$: lng = destination.coordinates.coordinates[0];
+	$: waypoints = destination.waypoints;
 
 	// Gallery link
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
@@ -54,6 +61,13 @@
 		name,
 		description,
 	}
+
+	const handleFlyTo = () => {
+		map.flyTo({
+			center: [lng, lat],
+			zoom: 15,
+		});
+	};
 
 	const handleSubmit = async field => {
 		if (field === Fields.name && name === destination.name) return;
@@ -106,10 +120,10 @@
 </script>
 
 <GlobePageLayout>
-	{#if !$addWaypointStore.active}
-		<main>
+	{#if !$addWaypointStore.active && !$activeDestinationStore.deleteMode && !isGallery}
+		<main in:fade={{ delay: 222, duration: 111 }}>
 			<DisplayCard>
-				<div class="root relative z-50 bg-black  w-full rounded-lg ">
+				<div class="root group relative z-50 bg-black w-full rounded-lg">
 					{#if Boolean(!destination)}
 						<span transition:fade>
 							<LoadingOverlay />
@@ -128,7 +142,7 @@
 									alt="Destination Cover Photo"
 									class="cover"
 									src={coverPhoto ?? DefaultWallpapers.Bells}
-								/>q
+								/>
 							{/if}
 
 							<button class:active={isGallery} class="view-gallery">
@@ -141,9 +155,19 @@
 							</button>
 						</a>
 						<!-- Buttons/Controls -->
+						<div class="fly-to control-button">
+							<button on:click={handleFlyTo}>
+								<img
+									src={centerIcon}
+									alt="Fly to destination"
+									class="icon w-[24px] h-[24px]"
+								/>
+							</button>
+						</div>
+
 						{#if !loading && !isGallery}
-							<div class="controls absolute flex top-2 left-2 z-30">
-								<a href="/globe"><img class="h-[11px] w-[11px]" src={closeIcon} /></a>
+							<div class="control-button absolute flex top-2 left-2 z-30">
+								<a href="/globe"><img class="h-[15px] w-[15px]" src={closeIcon} /></a>
 							</div>
 						{/if}
 
@@ -174,17 +198,26 @@
 							</section>
 						</form>
 					{/if}
+					<Waypoints {map} waypoints={destination.waypoints} />
 				</div>
 			</DisplayCard>
-			<Waypoints />
 		</main>
 	{/if}
 	<slot slot="content" />
+	{#if waypoints}
+		<WaypointMarkers {waypoints} />
+	{/if}
 </GlobePageLayout>
 
 <style lang="scss">
 	main {
 		position: relative;
+		max-height: calc(100vh - 80px);
+		overflow: auto;
+		width: 380px;
+		display: flex;
+		flex-flow: column nowrap;
+
 		&:hover .image-wrapper {
 			animation: barberpole 22s linear infinite;
 		}
@@ -192,6 +225,37 @@
 		&:hover {
 			.hasImage img {
 				opacity: 0.9;
+			}
+		}
+	}
+
+	.fly-to button {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		z-index: 100;
+		height: 50px;
+		width: 50px;
+		border-radius: 50%;
+		@apply justify-center items-center;
+
+		&:hover {
+			@apply bg-black;
+		}
+	}
+
+	.control-button {
+		a,
+		button {
+			@apply rounded-full flex opacity-0 
+				group-hover:opacity-100 align-middle 
+				items-center justify-center;
+			height: 50px;
+			width: 50px;
+			transition: all ease 0.33s;
+
+			&:hover {
+				@apply bg-black;
 			}
 		}
 	}
@@ -223,19 +287,6 @@
 		}
 	}
 
-	.controls {
-		a,
-		button {
-			@apply rounded-full flex align-middle items-center justify-center;
-			height: 50px;
-			width: 50px;
-
-			&:hover {
-				@apply bg-stone-900;
-			}
-		}
-	}
-
 	.root img {
 		transition: all ease 0.2s;
 	}
@@ -250,7 +301,7 @@
 	}
 
 	.image-wrapper {
-		@apply sticky top-0 pt-[155px] h-[155px] w-full rounded-t-lg;
+		@apply sticky top-0 pt-[120px] h-[136px] w-full rounded-t-lg;
 		transition: all ease 0.3s;
 		background: repeating-linear-gradient(120deg, #000, #000 11px, #555 11px, #555 12px);
 		background-size: 200%;
@@ -291,7 +342,7 @@
 	}
 
 	.cover {
-		@apply absolute opacity-60 
+		@apply absolute opacity-90 
 		w-full h-full
 		object-center
 		top-0 left-0 z-0 object-cover;
@@ -310,7 +361,7 @@
 	/* View Gallery */
 	.view-gallery {
 		@apply absolute top-1/2 left-1/2 text-sm
-            -mt-[16px] py-2 px-4 rounded-md
+            -mt-[30px] py-2 px-4 rounded-md
 			-translate-y-[50%] -translate-x-[50%]
 			 flex items-center;
 		background: rgba(255, 255, 255, 0.1);
@@ -322,6 +373,12 @@
 			&:hover {
 				background: rgba(0, 0, 0, 0.8);
 			}
+		}
+	}
+
+	@media (max-width: 700px) {
+		main {
+			@apply max-w-full w-full;
 		}
 	}
 </style>

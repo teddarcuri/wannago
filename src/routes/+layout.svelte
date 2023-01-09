@@ -9,6 +9,8 @@
 	import MyDestinations from '@/lib/components/Dashboard/MyDestinations.svelte';
 	import { globalUIStore } from '@/lib/stores/globalUI';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { page } from '$app/stores';
 
 	onMount(() => {
 		const {
@@ -21,21 +23,26 @@
 			subscription.unsubscribe();
 		};
 	});
+
+	$: isRoot = $page.url.pathname === '/';
+	$: deleteMode = $activeDestinationStore.deleteMode;
 </script>
 
-<div id="app-wrapper">
+<div id="app-wrapper" class:delete-mode={deleteMode}>
 	<Header />
 	<div id="app-body">
 		<NavigationManager />
 		<div class="w-full h-full flex absolute">
-			<Mapbox />
-			<slot />
-			<div
+			<Mapbox>
+				<slot />
+			</Mapbox>
+			<!-- <div
+				style:hidden={isRoot}
 				class:active={$globalUIStore.sidebarActive && !$addWaypointStore.active}
 				class="sidebar"
 			>
 				<MyDestinations />
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -50,13 +57,17 @@
 		display: flex;
 		flex-flow: column nowrap;
 		overflow: hidden;
+		@apply bg-black;
+
+		&.delete-mode {
+			@apply bg-red-800;
+		}
 	}
 
 	#app-body {
 		height: calc(100vh - 70px);
 		display: flex;
 		position: relative;
-		background: #000;
 	}
 
 	$sidebarWidth: 380px;

@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 	import VanillaTilt from 'vanilla-tilt';
 
 	onMount(() => {
@@ -10,7 +11,7 @@
 	});
 </script>
 
-<a class="tilt-tile" href="/globe">
+<a in:fly={{ delay: 222, duration: 1222 }} class="tilt-tile" href="/globe">
 	<div class="gradient" />
 	<img
 		src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/wallpapers/globe%201-min.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ3YWxscGFwZXJzL2dsb2JlIDEtbWluLnBuZyIsImlhdCI6MTY2ODgzMzg4NCwiZXhwIjoxOTg0MTkzODg0fQ.rKwkKk8dh7h43nRR5eXzjBcgTMwx8YVJ2vdQuXlHzpw"

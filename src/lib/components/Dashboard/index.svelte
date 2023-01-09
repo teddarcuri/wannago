@@ -41,9 +41,10 @@
 					<Account session={$page.data.session} />
 				</div>
 				<!-- <div class="min-w-[320px] pt-8">
-					<!-- <GettingStarted /> -->
+					<GettingStarted />
 				<MyDestinations />
-				<!-- </div> --> -->
+				<!-- </div> -->
+				-->
 			{/if}
 		</section>
 	</div>

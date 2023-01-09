@@ -15,13 +15,18 @@
 	import getMarkerImgChildNode from '@routes/globe/util/getMarkerImgChildNode';
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
 	import confetti from 'canvas-confetti';
+	import { fade } from 'svelte/transition';
 
 	export let map: Map;
 
 	let name = '';
 	let loading = false;
-	$: screenPos = $addDestinationStore.screenPos;
+	// $: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
+
+	$: if (marker) {
+		console.log('MARKER', marker);
+	}
 
 	const handleSubmit = async () => {
 		loading = true;
@@ -77,9 +82,9 @@
 
 				// launch center
 				confetti({
-					particleCount: 300,
-					startVelocity: 55,
-					spread: 111,
+					particleCount: 330,
+					startVelocity: 75,
+					spread: 99,
 					scalar: 0.69,
 					ticks: 160,
 					gravity: 0.8,
@@ -87,7 +92,7 @@
 					origin: { y: 1.2 },
 				});
 
-				// launch a few confetti from the left edge
+				// // launch a few confetti from the left edge
 				confetti({
 					particleCount: 333,
 					angle: 60,
@@ -100,7 +105,8 @@
 				// and launch a few from the right edge
 				confetti({
 					particleCount: 333,
-					angle: 120,
+					angle: 111,
+					startVelocity: 69,
 					spread: 55,
 					scalar: 0.69,
 					origin: { x: 1, y: 1 },
@@ -160,12 +166,13 @@
 	>
 		{#if loading}
 			<div
-				class="loading absolute flex items-center justify-center bg-black top-0 left-0 w-full h-full text-4xl text-stone-200"
+				class="loading absolute flex items-center justify-center bg-black top-0 left-0 w-full h-full text-xl text-stone-200"
 			>
 				<img src={spinner} />
 				<p>Creating Destination</p>
 			</div>
 		{/if}
+
 		<input autofocus bind:value={name} placeholder="Name this Destination" />
 
 		<div class="buttons">
@@ -174,6 +181,13 @@
 		</div>
 	</form>
 	<!-- </div> -->
+{:else}
+	<div>
+		<h2 class="text-xl text-stone-200">Create a new destination</h2>
+		<h3 in:fade>Click anywhere on map to add new destination</h3>
+	</div>
+
+	<button class="cancel ml-4" type="button" on:click={handleCancel}>Cancel</button>
 {/if}
 
 <style lang="scss">
@@ -182,10 +196,14 @@
 		background-image: linear-gradient(var(--angle), #2b3441, #3a4554);
 	}
 
+	h3 {
+		@apply text-xl text-stone-600;
+	}
+
 	.loading {
 		img {
-			height: 44px;
-			width: 44px;
+			height: 33px;
+			width: 33px;
 			margin-right: 12px;
 			transform: rotate(var(--angle));
 			animation: 1s rotate ease-in-out infinite;

@@ -24,7 +24,7 @@
 		activeDestinationStore.update(s => ({ ...s, editLocationMode: !s.editLocationMode }));
 		activeInfoDisplayStore.update(() => ({
 			status: ActiveInfoDisplayStatus.Action,
-			displayText: 'Editing Location',
+			displayText: 'Drag Marker to New Location',
 		}));
 	}
 
@@ -76,7 +76,7 @@
 	}
 </script>
 
-<div class:isGallery class="root flex mt-2">
+<div class:isGallery class="root flex">
 	{#if isActive}
 		{#if newLocation}
 			<button class:save={true} on:click|preventDefault={handleUpdate}
@@ -85,6 +85,7 @@
 		{/if}
 		<button class:cancel={true} on:click|preventDefault={handleCancel}>Cancel</button>
 	{:else}
+		<!-- <button class="fly-to bg-black hover:bg-emerald-900">Zoom Here</button> -->
 		<button {disabled} class="inActive" on:click|preventDefault={handleClick}>
 			<span>{getLatLngDisplayText(lat, lng)}</span>
 		</button>
@@ -96,6 +97,16 @@
 	.root {
 		:global([ref='delete']) {
 			display: none;
+		}
+
+		.fly-to {
+			display: none;
+		}
+
+		&:hover {
+			.fly-to {
+				display: block;
+			}
 		}
 	}
 
@@ -113,27 +124,26 @@
 			}
 
 			button.inActive {
-				@apply bg-emerald-800;
-
 				span {
 					display: none;
 				}
 
 				&:before {
-					content: 'Change Location';
+					content: 'Edit Location';
+				}
+
+				&:hover {
+					@apply bg-sky-900;
 				}
 			}
 		}
 	}
 
 	.root :global(button) {
-		@apply tracking-wide ml-2 inline-flex w-auto p-2 px-3 flex-grow-0 rounded-md;
+		@apply tracking-wide ml-2 text-sm inline-flex w-auto p-2 px-3 flex-grow-0 rounded-md;
 
 		&:first-child {
 			@apply ml-[-12px];
-		}
-		&:hover {
-			@apply bg-stone-600;
 		}
 
 		&.inActive {

@@ -62,29 +62,43 @@
 			destination,
 		}));
 		domElement.classList.add('active-destination');
+
 		map.flyTo({
 			zoom: map.getZoom() < 10 ? 14 : map.getZoom(),
 			center,
 			pitch: 69,
-			speed: 1,
+			speed: 2,
 		});
 
 		// Edit location mode
 		if ($activeDestinationStore.editLocationMode) {
 			domElement.classList.add('blue');
 			marker.setDraggable(true);
-			img.src = moveIcon;
+			// img.src = moveIcon;
 		} else {
 			marker.setDraggable(false);
-			img.src = mountainIcon;
+			// img.src = mountainIcon;
 			domElement.classList.remove('blue');
+		}
+		// Delete Mode
+		if ($activeDestinationStore.deleteMode) {
+			domElement.classList.add('red');
+		} else {
+			domElement.classList.remove('red');
 		}
 	} else {
 		marker.setDraggable(false);
-		console.log(
-			'ELSE - this is run for every marker, every time the route changes. It would behoove us to address this.',
-		);
+		// console.log(
+		// 	'ELSE - this is run for every marker, every time the route changes. It would behoove us to address this.',
+		// );
 		domElement.classList.remove('active-destination');
+
+		// // if there is an active destination, hide all other markers
+		// if ($activeDestinationStore.destination) {
+		// 	domElement.classList.add('hidden');
+		// } else {
+		// 	domElement.classList.remove('hidden');
+		// }
 	}
 
 	// Marker Events
@@ -134,12 +148,12 @@
 
 	// Lifecycle
 	onMount(() => {
-		console.log(
-			`--------------------- MOUNTED ${destination.name} ---------------------`,
-		);
-		console.log(
-			`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
-		);
+		// console.log(
+		// 	`--------------------- MOUNTED ${destination.name} ---------------------`,
+		// );
+		// console.log(
+		// 	`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
+		// );
 	});
 	onDestroy(() => {
 		marker.remove();
@@ -147,6 +161,12 @@
 </script>
 
 <style global lang="scss">
+	.delete-mode {
+		.mapboxgl-marker-wrapper:not(.active-destination) {
+			display: none;
+		}
+	}
+
 	.mapboxgl-marker-wrapper {
 		height: 48px;
 		width: 48px;
@@ -160,6 +180,24 @@
 			height: 55px;
 			width: 55px;
 		}
+
+		&.hidden {
+			display: none;
+		}
+
+		&:not(.active-destination):hover {
+			.name-bubble {
+				@apply block;
+			}
+		}
+	}
+
+	.name-bubble {
+		@apply absolute -top-[50px] 
+		whitespace-nowrap bg-black 
+		hidden text-lg
+		py-2 p-4 rounded-lg;
+		box-shadow: 0 0 10px 7px rgba(0, 0, 0, 0.333);
 	}
 
 	.mapboxgl-marker-wrapper:not(.add-destination):not(.active-destination):hover {
@@ -172,8 +210,8 @@
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
 		.mapboxgl-marker-inner,
 	.add-destination .mapboxgl-marker-inner {
-		height: calc(100% - 5px);
-		width: calc(100% - 5px);
+		height: calc(100% - 8px);
+		width: calc(100% - 8px);
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
@@ -183,19 +221,14 @@
 
 	.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-background,
 	.add-destination .mapboxgl-marker-background {
-		background-image: linear-gradient(
-			var(--angle),
-			#b3c0da,
-			#77869c,
-			#b9cbe5,
-			#99b9e6,
-			#57667e
-		);
+		background-image: linear-gradient(var(--angle), #d4dced, #b9cbe5, #99b9e6, #98adce);
+		opacity: 0.7;
 	}
 
 	.mapboxgl-marker-wrapper:hover img,
 	.add-destination img {
 		opacity: 0.8 !important;
+		width: 22px;
 	}
 
 	.add-destination:hover {
@@ -240,6 +273,7 @@
 			rgb(102, 175, 102),
 			rgb(62, 127, 187)
 		);
+		opacity: 1;
 
 		/* background-image: linear-gradient(var(--angle), #fe77a6, #b3156f, #d41b5b, #9e0d38); */
 		/* background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224); */
@@ -247,27 +281,32 @@
 
 	/* Marker States/Colors */
 	.destination {
-		background-image: linear-gradient(var(--angle), #9ba9be, #425369, #6691cd);
+		opacity: 0.4;
+		background-image: linear-gradient(var(--angle), #ffffff, #d3d3d3);
 	}
 
-	.blue .mapboxgl-marker-background {
+	.mapboxgl-marker.blue .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #35a4a4, #1271a0, #269584);
 	}
 
-	.golden .mapboxgl-marker-background {
+	.mapboxgl-marker.golden .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
 	}
 
-	.golden2 .mapboxgl-marker-background {
+	.mapboxgl-marker.golden2 .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #f8f1be, #c9af77, #d8c684, #ddb990);
+	}
+
+	.mapboxgl-marker.red .mapboxgl-marker-background {
+		background-image: linear-gradient(var(--angle), #a43535, #d53728, #ea6d6d);
 	}
 
 	/* Inner Marker - dark bg + img */
 	.mapboxgl-marker-inner {
 		background-image: linear-gradient(0deg, rgb(47, 47, 47), #000);
 		border-radius: 50%;
-		height: calc(100% - 4px);
-		width: calc(100% - 4px);
+		height: calc(100% - 6px);
+		width: calc(100% - 6px);
 		z-index: 4;
 		display: flex;
 		align-items: center;
@@ -277,7 +316,7 @@
 	.mapboxgl-marker-inner img {
 		width: 17px;
 		opacity: 0.4;
-		transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
+		// transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
 	}
 
 	.mapboxgl-marker.loading img {
@@ -285,5 +324,11 @@
 		opacity: 0.7;
 		transform: rotate(var(--angle));
 		animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
+	}
+
+	.mapboxgl-marker {
+		&:hover {
+			z-index: 999999 !important;
+		}
 	}
 </style>
