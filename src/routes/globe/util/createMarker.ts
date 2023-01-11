@@ -46,7 +46,7 @@ export default function ({
 			element.append(bubble);
 		}
 
-		return new Marker({ element, draggable: 'true' }).setLngLat([lng, lat]).addTo(map);
+		return new Marker({ element, draggable }).setLngLat([lng, lat]).addTo(map);
 	}
 
 	// Outer wrapper

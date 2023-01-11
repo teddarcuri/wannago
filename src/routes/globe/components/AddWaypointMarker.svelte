@@ -20,6 +20,7 @@
 			lng,
 			color,
 			isWaypoint: true,
+			draggable: true,
 		});
 		if (previousMarker) previousMarker.remove();
 		marker.on('dragend', () => {
