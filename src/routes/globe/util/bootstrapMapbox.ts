@@ -168,6 +168,8 @@ export default async (): Promise<Map> => {
 	});
 
 	map.on('dblclick', async e => {
+		console.log(get(activeDestinationStore));
+		if (get(activeDestinationStore).destination) return;
 		if (get(addWaypointStore).active) return;
 		if (get(activeDestinationStore).editLocationMode) return;
 		const { lngLat } = e;

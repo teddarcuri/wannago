@@ -10,10 +10,6 @@
 	const { getMap } = getContext('map');
 	const map: Map = getMap();
 
-	$: if ($activeDestinationStore.deleteMode) {
-		console.log('HIDE WAYPOINTS WHEN IN DELETE MODE');
-	}
-
 	onMount(() => {
 		waypoints.forEach(waypoint => {
 			// return console.log('waypoint', waypoint);
@@ -34,6 +30,15 @@
 				map,
 			});
 
+			marker.on('click', () => {
+				const center: [number, number] = [lng, lat];
+				console.log('CENTER: ', center);
+				map.flyTo({
+					center,
+					zoom: 15,
+				});
+			});
+
 			marker.addTo(map);
 			markers.push(marker);
 		});
@@ -50,14 +55,9 @@
 	}
 
 	.waypoint-marker {
-		.name-bubble {
-			@apply text-sm rounded-full;
-			left: 50%;
-			transform: translateX(-50%);
-		}
-	}
+		@apply rounded-xl cursor-pointer;
+		box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
 
-	.waypoint-marker {
 		canvas {
 			transition: all ease 0.25s;
 		}
@@ -67,11 +67,30 @@
 		}
 
 		&:not(.active-destination):hover {
-			@apply rounded-md flex flex-col justify-center bg-white bg-opacity-30;
+			canvas {
+				transform: scale(1.2);
+			}
 
 			.name-bubble {
 				@apply block;
 			}
+		}
+
+		// psuedo element that does what the border is doing above
+		&::before {
+			@apply absolute rounded-xl;
+			content: '';
+			width: 100%;
+			height: 100%;
+			border: solid 2px rgba(255, 255, 255, 0.2);
+			box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1) inset;
+			pointer-events: none;
+		}
+
+		.name-bubble {
+			@apply text-sm rounded-full;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 </style>

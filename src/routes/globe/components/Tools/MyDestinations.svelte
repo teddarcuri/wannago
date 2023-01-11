@@ -3,9 +3,8 @@
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import search from '$lib/img/search.svg';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import { onMount } from 'svelte';
-	$: destinations = $userDestinationsStore.destinations;
 
+	$: destinations = $userDestinationsStore.destinations;
 	$: filteredDestinations = destinations.filter(destination => {
 		return destination.name.toLowerCase().includes(searchQuery.toLowerCase());
 	});
@@ -13,9 +12,9 @@
 	let searchQuery = '';
 </script>
 
-<div class="root bg-black relative z-10 col-span-3">
+<div class="root relative bg-black z-10 col-span-3">
 	<div class="input-wrapper">
-		<!-- <img src={search} height="14px" width="14px" /> -->
+		<img src={search} height="14px" width="14px" />
 		<input placeholder="Search your destinations" bind:value={searchQuery} />
 		{#if searchQuery}
 			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
@@ -25,8 +24,8 @@
 	<ul>
 		{#each filteredDestinations as destination}
 			<li class:active={destination.id === $activeDestinationStore?.destination?.id}>
-				{#if destination?.cover_photo?.public_url}
-					<img src={destination.cover_photo.public_url} />
+				{#if destination?.images?.public_url}
+					<img src={destination.images.public_url} />
 				{/if}
 				<a
 					class="p-3 flex bg-black flex-col hover:bg-gray-900"
@@ -49,8 +48,8 @@
 
 <style lang="scss">
 	.input-wrapper {
-		@apply flex relative
-		overflow-hidden;
+		@apply flex sticky
+		overflow-hidden top-0 z-50;
 
 		img {
 			position: absolute;
@@ -70,14 +69,13 @@
 		}
 
 		input {
-			@apply border border-stone-600 
-			text-left
+			@apply border border-stone-800 
+			text-left rounded-t-lg
 			overflow-hidden;
 			background: black;
-			height: 40px;
-			padding-left: 13px;
+			height: 48px;
+			padding-left: 48px;
 			width: 100%;
-			border-bottom: solid 1px #444;
 			transition: all ease 0.3s;
 
 			&:hover {
@@ -86,8 +84,8 @@
 
 			&:focus {
 				@apply border outline-none 
-				bg-stone-800
-				pl-[px] border-stone-400;
+				
+				pl-[11px];
 			}
 		}
 
@@ -109,9 +107,8 @@
 	}
 
 	li {
-		@apply relative;
+		@apply relative border border-stone-800;
 		overflow: hidden;
-		border-bottom: solid 1px #444;
 		opacity: 0.5;
 
 		a {
@@ -129,18 +126,16 @@
 			position: absolute;
 			right: 0;
 			top: 0;
+			transition: all ease 0.2s;
 			height: 100%;
 		}
 
 		&:hover {
 			opacity: 1;
-		}
 
-		// &.active {
-		// 	opacity: 1;
-		// 	a {
-		// 		@apply border-4 border-stone-500;
-		// 	}
-		// }
+			img {
+				transform: scale(1.2);
+			}
+		}
 	}
 </style>

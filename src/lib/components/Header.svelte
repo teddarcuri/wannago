@@ -18,7 +18,7 @@
 <header class:transparent id="app-nav">
 	<div id="logo" class="mr-7">wannago</div>
 	<nav>
-		{#if !$addWaypointStore.active && !$addDestinationStore.marker}
+		{#if !$addWaypointStore.active && !$addDestinationStore.marker && session}
 			<a
 				class:active={isRoot}
 				class="
@@ -79,6 +79,14 @@
 		&.active {
 			background: #111;
 			opacity: 1;
+		}
+	}
+
+	// at the medium breakpoint, make the dashboard link go to the right
+	@media (max-width: 768px) {
+		nav {
+			margin-left: auto;
+			padding-right: 24px;
 		}
 	}
 </style>

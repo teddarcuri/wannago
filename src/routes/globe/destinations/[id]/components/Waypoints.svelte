@@ -63,16 +63,10 @@
 	<div class="waypoints">
 		{#each waypoints as waypoint}
 			{@const canvas = createWaypointCanvas(waypoint.name.charAt(0), waypoint.hex)}
-
 			<p on:click={() => handleFlyTo(waypoint)} class="list-item">
 				<img src={canvas ? canvas.toDataURL() : loadingIcon} />
-				{waypoint.name}
+				<input value={waypoint.name} />
 			</p>
-			<!-- 
-			<p on:click={() => handleFlyTo(waypoint)} class="grid-item ml-[-7px]">
-				<img alt={waypoint.name} src={canvas ? canvas.toDataURL() : ''} />
-				<span>{waypoint.name}</span>
-			</p> -->
 		{/each}
 	</div>
 {/if}
@@ -98,7 +92,7 @@
 	}
 
 	img {
-		@apply p-2;
+		// @apply p-2;
 		transition: transform 0.2s ease-in-out;
 		&:hover {
 			@apply bg-stone-700 cursor-pointer rounded-md;
@@ -107,66 +101,43 @@
 	}
 
 	.waypoints {
-		@apply z-50 mb-0 flex flex-col;
+		@apply z-50 mb-0 flex flex-col bg-black;
 		position: relative;
-		background: rgba(0, 0, 0, 0.75);
 		width: 100%;
 		overflow-x: scroll;
-
-		p.grid-item {
-			@apply inline-flex p-3 px-1 
-			items-center justify-center
-			z-50
-			relative;
-			flex: 0 0 auto;
-
-			span {
-				display: none;
-
-				// convert the following styles to tailwind
-				@apply bg-stone-900 text-stone-400 text-sm font-medium uppercase tracking-widest;
-				position: absolute;
-				top: 0;
-				left: 50%;
-				transform: translate(-50%, -10%);
-				width: auto;
-				// background: rgba(0, 0, 0, 0.75);
-				padding: 10px;
-				border-radius: 4px;
-				white-space: nowrap;
-				transition: all ease 0.11s;
-				visibility: hidden;
-				opacity: 0;
-				z-index: 99;
-			}
-
-			&:hover {
-				span {
-					opacity: 1;
-					visibility: visible;
-				}
-			}
-		}
 
 		p.list-item {
 			@apply flex items-center 
 			border-solid border-stone-700 border-b
-			text-base
-			p-3;
+			text-base h-[45px]
+			px-4;
 
-			&:hover {
-				@apply bg-stone-700 cursor-pointer rounded-md;
+			&:hover,
+			&:has(input:focus) {
+				@apply bg-stone-900 cursor-pointer;
 			}
 		}
 
 		.list-item img {
-			height: 33px;
-			width: 33px;
-			margin-right: 10px;
+			transform: scale(0.6);
 		}
 
 		b {
 			color: #fff;
+		}
+
+		input {
+			@apply bg-transparent text-stone-400 border-2
+			border-transparent rounded-md w-full
+			outline-none px-2 h-[80%];
+
+			&:hover {
+				@apply border-2 border-white border-opacity-30 bg-white
+				bg-opacity-10;
+			}
+			&:focus {
+				@apply text-stone-200 bg-stone-900;
+			}
 		}
 	}
 </style>

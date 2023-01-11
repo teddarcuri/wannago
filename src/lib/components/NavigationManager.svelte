@@ -14,6 +14,7 @@
 			const { from } = $navigating;
 			// progress bar kick off
 			if (progress) progress.start();
+
 			// Turn off edit location mode if on
 			if (
 				from.routeId === '/globe/destinations/[id]' &&
@@ -40,6 +41,14 @@
 					status: ActiveInfoDisplayStatus.Normal,
 					displayText: '',
 				}));
+			}
+
+			// turn off active desitnation delete mode
+			if (
+				from.routeId === '/globe/destinations/[id]' &&
+				$activeDestinationStore.deleteMode
+			) {
+				activeDestinationStore.update(s => ({ ...s, deleteMode: false }));
 			}
 		}
 

@@ -43,11 +43,11 @@
 	// how do we preserve reactivity? but also make it editable? hmmmmmm....
 
 	$: destination = data.destination;
-	$: name = destination.name;
-	$: description = destination.description;
-	$: lat = destination.coordinates.coordinates[1];
-	$: lng = destination.coordinates.coordinates[0];
-	$: waypoints = destination.waypoints;
+	$: name = destination?.name;
+	$: description = destination?.description;
+	$: lat = destination?.coordinates?.coordinates[1];
+	$: lng = destination?.coordinates?.coordinates[0];
+	$: waypoints = destination?.waypoints;
 
 	// Gallery link
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';

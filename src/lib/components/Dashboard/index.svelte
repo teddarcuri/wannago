@@ -3,55 +3,83 @@
 	import Account from '@/lib/components/Account/Details.svelte';
 	import LoginForm from '$lib/components/Account/LoginForm.svelte';
 	import GlobeTile from './GlobeTile.svelte';
-	import MyDestinations from './MyDestinations.svelte';
+	import MyDestinations from './DestinationList.svelte';
 	import GettingStarted from '@/routes/globe/components/GettingStarted.svelte';
-
+	import { fly } from 'svelte/transition';
+	import DevelopmentBanner from '../DevelopmentBanner.svelte';
 	$: session = $page.data.session;
 </script>
 
 <main>
-	<div class="wrapper">
-		<!-- {#if session}
-			<header>
-				<h1>🌎 Welcome to Wannago.</h1>
-				<h3 class="opacity-50">We live in a beautiful World. Document yours.</h3>
-			</header>
-		{/if} -->
-		<div class="bg" />
-		<section>
-			{#if !$page.data.session}
-				<LoginForm />
-				<!-- <div
-					id="product-information"
-					class="absolute top-0 right-0 w-[444px] h-full opacity-90 bg-slate-900"
-				>
-					<h2 class="text-3xl opacity-80">Create Destinations</h2>
-					<img
-						class="w-[100px]"
-						src="https://uxjcnbzonuzmknqsevlh.supabase.co/storage/v1/object/sign/marketing/destination-marker.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtYXJrZXRpbmcvZGVzdGluYXRpb24tbWFya2VyLnBuZyIsImlhdCI6MTY2ODQ5MzIyNiwiZXhwIjoxOTgzODUzMjI2fQ.pxXlAiw6L26h9Kt9Mb7H8MpPgqPQSNBCFC3cEsx4hiI"
-					/>
+	<div class="bg" />
+	{#if !$page.data.session}
+		<div class="absolute h-full w-full grid place-items-center">
+			<LoginForm />
+		</div>
+	{:else}
+		<div class="wrapper">
+			<DevelopmentBanner />
 
-					<h2 class="text-3xl opacity-80">Upload Photos</h2>
-					<h2 class="text-3xl opacity-80">Document your experience</h2>
-				</div> -->
-			{:else}
-				<div class="flex-grow flex flex-col p-[30px] max-w-[555px]">
+			<section class="w-full pt-5">
+				<div class="item-1 p-4 pt-0">
 					<GlobeTile />
-
+				</div>
+				<div class="item-2 p-4 pt-0">
+					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
+						<!-- <GettingStarted /> -->
+						<MyDestinations />
+					</div>
+				</div>
+				<div class="item-3 p-4">
 					<Account session={$page.data.session} />
 				</div>
-				<!-- <div class="min-w-[320px] pt-8">
-					<GettingStarted />
-				<MyDestinations />
-				<!-- </div> -->
-				-->
-			{/if}
-		</section>
-	</div>
+			</section>
+		</div>
+	{/if}
 </main>
-k
 
-<style>
+<style style="scss">
+	section {
+		@apply mt-4;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+		width: 100%;
+		height: calc(100vh - 170px);
+		min-height: 600px;
+	}
+
+	.item-1 {
+		grid-area: 1 / 1 / 3 / 4;
+		display: flex;
+	}
+
+	.item-2 {
+		grid-area: 1 / 4 / 4 / 6;
+		overflow: auto;
+	}
+
+	.item-3 {
+		grid-area: 3 / 1 / 3 / 4;
+	}
+
+	@media (max-width: 800px) {
+		section {
+			display: flex;
+			flex-flow: column;
+			overflow: auto;
+			height: auto;
+		}
+		.item-1 {
+			height: 300px;
+		}
+
+		.item-2 {
+			overflow: none;
+			height: auto;
+		}
+	}
+
 	main {
 		@apply absolute top-0 left-0
 		w-full h-full
@@ -69,21 +97,9 @@ k
 	.wrapper {
 		max-width: 100%;
 		width: 1248px;
+		position: relative;
 		margin: 20px auto 0;
-		padding: 0 66px;
 	}
-
-	section {
-		display: flex;
-	}
-	/* Grid Stlyes */
-	/* section {
-		@apply grid grid-cols-6
-		gap-8
-		mt-12
-		place-content-center
-    	grid-rows-3;
-	} */
 
 	header {
 		@apply relative z-10 mb-4;
@@ -120,5 +136,11 @@ k
 	a img {
 		transform: scale(1.1);
 		@apply absolute top-0 left-0 opacity-30 h-full w-full object-cover;
+	}
+
+	@media (max-width: 768px) {
+		.wrapper {
+			padding: 0px;
+		}
 	}
 </style>

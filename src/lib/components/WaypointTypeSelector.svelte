@@ -25,15 +25,12 @@
 <div class="root group">
 	{#if $addWaypointStore.color?.canvas}
 		<div class="flex ">
-			<img
-				class="m-0 mt-1 ml-3 h-[30px] w-[30px]"
-				src={$addWaypointStore.color.canvas.toDataURL()}
-			/>
-			<span class="text-md ml-3 group-hover:opacity-60 opacity-30">&#9662;</span>
+			<img class="m-0" src={$addWaypointStore.color.canvas.toDataURL()} />
+			<!-- <span class="text-md ml-3 group-hover:opacity-60 opacity-30">&#9662;</span> -->
 		</div>
 		<!-- spacer -->
 		<div class="py-4 w-full absolute bottom-0 -mb-8" />
-		<ul class="dropdown">
+		<!-- <ul class="dropdown">
 			{#each colors as color}
 				<li
 					class:active={color.name === $addWaypointStore.color.name}
@@ -46,13 +43,13 @@
 					</button>
 				</li>
 			{/each}
-		</ul>
+		</ul> -->
 	{/if}
 </div>
 
 <style lang="scss">
 	.root {
-		@apply relative w-[80px] h-[55px] mr-4 
+		@apply relative w-[55px] h-[55px] 
 		flex flex-col pr-3
 		border border-transparent
 		rounded-lg

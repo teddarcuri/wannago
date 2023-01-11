@@ -31,10 +31,7 @@
 		<h1 class="text-3xl">🌎 Welcome to Wannago</h1>
 		<h3 class="text-xl mt-4">We live in a beautiful World. Document yours.</h3>
 	</header>
-	<form
-		class=" mt-6 w-[440px] grid place-items-center"
-		on:submit|preventDefault={handleLogin}
-	>
+	<form class="w-[440px] grid place-items-center" on:submit|preventDefault={handleLogin}>
 		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
 
 		<!-- <div class="gradient" /> -->
@@ -90,9 +87,9 @@
 	}
 
 	.wrapper {
-		width: 1248px;
+		/* width: 1248px;
 		margin: 50px auto 0;
-		padding: 0 40px;
+		padding: 0 40px; */
 		position: relative;
 	}
 

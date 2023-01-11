@@ -6,11 +6,7 @@
 	import Header from '@/lib/components/Header.svelte';
 	import Mapbox from '@/routes/globe/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
-	import MyDestinations from '@/lib/components/Dashboard/MyDestinations.svelte';
-	import { globalUIStore } from '@/lib/stores/globalUI';
-	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import { page } from '$app/stores';
 
 	onMount(() => {
 		const {
@@ -24,7 +20,6 @@
 		};
 	});
 
-	$: isRoot = $page.url.pathname === '/';
 	$: deleteMode = $activeDestinationStore.deleteMode;
 </script>
 
@@ -36,13 +31,6 @@
 			<Mapbox>
 				<slot />
 			</Mapbox>
-			<!-- <div
-				style:hidden={isRoot}
-				class:active={$globalUIStore.sidebarActive && !$addWaypointStore.active}
-				class="sidebar"
-			>
-				<MyDestinations />
-			</div> -->
 		</div>
 	</div>
 </div>

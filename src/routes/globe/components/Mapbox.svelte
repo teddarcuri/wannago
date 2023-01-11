@@ -10,7 +10,7 @@
 	import { addWaypointStore } from '$lib/stores/addWaypoint';
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import Tools from './Tools.svelte';
+	import Tools from './Tools/Tools.svelte';
 	import WaypointMarkers from './WaypointMarkers.svelte';
 
 	export let map: Map;
@@ -61,8 +61,14 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		cursor: crosshair !important;
+
 		transition: all ease-in-out 0.333s;
 		border: 0px solid transparent;
+
+		&.showCursor {
+			cursor: crosshair !important;
+		}
 
 		&.border {
 			border-top: 70px solid transparent;
@@ -87,18 +93,7 @@
 		rounded-full
 		 z-10 pointer-events-none
 		fixed top-1/2 left-1/2
-		-translate-x-1/2;
-
-		// psuedo element that is a slightly transparent white orb background behind the cursor
-		&::before {
-			@apply absolute
-			h-6 w-6
-			border-4 border-white
-			rounded-full
-			-translate-x-1/2 -translate-y-1/2
-			opacity-50;
-			content: '';
-		}
+		-translate-x-1/2 -translate-y-8;
 	}
 
 	:global(.mapboxgl-canvas) {
