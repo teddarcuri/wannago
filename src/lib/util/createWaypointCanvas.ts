@@ -4,12 +4,12 @@ interface Options {
 	fontSize?: number;
 }
 
-export default (label, color, fontSize = 13): Options => {
+export default (label, color, fontSize = 16): Options => {
 	if (typeof document === 'undefined') return;
 	var canvas = document.createElement('canvas');
 	var context = canvas.getContext('2d');
-	var rectHeight = 37;
-	var rectWidth = 25;
+	var rectHeight = 42;
+	var rectWidth = 30;
 	var rectX = 0;
 	var rectY = 0;
 

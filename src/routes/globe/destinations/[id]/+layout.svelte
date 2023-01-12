@@ -291,15 +291,6 @@
 		transition: all ease 0.2s;
 	}
 
-	@keyframes barberpole {
-		0% {
-			background-position: 0% 0%;
-		}
-		100% {
-			background-position: 100% 100%;
-		}
-	}
-
 	.image-wrapper {
 		@apply sticky top-0 pt-[120px] h-[136px] w-full rounded-t-lg;
 		transition: all ease 0.3s;

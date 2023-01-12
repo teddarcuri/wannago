@@ -117,6 +117,22 @@
 		goto(`/globe/destinations/${id}`);
 	});
 
+	// if the marker is active, when the dom element is double clicked it should enable editLocation mode
+	// idk, still feeling this out.
+	domElement.addEventListener('dblclick', e => {
+		if (isActive) {
+			activeDestinationStore.update(s => ({
+				...s,
+				editLocationMode: true,
+			}));
+
+			activeInfoDisplayStore.update(s => ({
+				status: ActiveInfoDisplayStatus.Action,
+				displayText: 'Drag marker to new location',
+			}));
+		}
+	});
+
 	const bail = () => {
 		if ($activeDestinationStore.editLocationMode) return true;
 		if ($addWaypointStore.active) return true;
@@ -148,12 +164,12 @@
 
 	// Lifecycle
 	onMount(() => {
-		// console.log(
-		// 	`--------------------- MOUNTED ${destination.name} ---------------------`,
-		// );
-		// console.log(
-		// 	`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
-		// );
+		console.log(
+			`--------------------- MOUNTED ${destination.name} ---------------------`,
+		);
+		console.log(
+			`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
+		);
 	});
 	onDestroy(() => {
 		marker.remove();
@@ -168,8 +184,8 @@
 	}
 
 	.mapboxgl-marker-wrapper {
-		height: 48px;
-		width: 48px;
+		height: 55px;
+		width: 55px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -228,7 +244,7 @@
 	.mapboxgl-marker-wrapper:hover img,
 	.add-destination img {
 		opacity: 0.8 !important;
-		width: 22px;
+		width: 28px;
 	}
 
 	.add-destination:hover {
@@ -249,8 +265,8 @@
 
 	/* Active Destination */
 	.active-destination {
-		height: 70px;
-		width: 70px;
+		height: 84px;
+		width: 84px;
 		z-index: 10;
 	}
 
@@ -261,7 +277,7 @@
 
 	.active-destination .mapboxgl-marker-inner img {
 		opacity: 0.8;
-		width: 29px;
+		width: 38px;
 	}
 
 	.active-destination .mapboxgl-marker-background {
@@ -314,7 +330,7 @@
 	}
 
 	.mapboxgl-marker-inner img {
-		width: 17px;
+		width: 25px;
 		opacity: 0.4;
 		// transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
 	}

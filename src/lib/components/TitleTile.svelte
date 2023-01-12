@@ -9,10 +9,13 @@
 	export let maxTilt = 3;
 
 	onMount(() => {
-		VanillaTilt.init(document.querySelector('.tilt-tile'), {
-			max: maxTilt,
-			speed: 600,
-		});
+		setTimeout(() => {
+			VanillaTilt.init(document.querySelector('.tilt-tile'), {
+				max: maxTilt,
+				speed: 600,
+			});
+			console.log('VANNNNNILLA: ', VanillaTilt);
+		}, 222);
 	});
 </script>
 
@@ -22,6 +25,7 @@
 	data-tilt-max={maxTilt}
 	in:fly={{ delay: 222, duration: 1222 }}
 	href={link}
+	class="tilt-tile"
 >
 	<div class="gradient" />
 	{#if img}
@@ -70,6 +74,10 @@
 			background-size: 200%;
 			overflow: hidden;
 			display: block;
+
+			&:hover {
+				animation: barberpole 22s linear infinite;
+			}
 		}
 	}
 

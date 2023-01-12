@@ -27,7 +27,10 @@
 		<span class="relative">
 			<button
 				class="text-md ml-3"
-				on:click={() => (showDestinations = !showDestinations)}
+				on:click={() => {
+					if (showSearch) showSearch = false;
+					showDestinations = !showDestinations;
+				}}
 			>
 				<img class="w-[19px] h-[19px]" src={mountainIcon} alt="search" />
 			</button>
@@ -38,7 +41,13 @@
 			{/if}
 		</span>
 		<span class="relative">
-			<button class="text-md ml-3" on:click={() => (showSearch = !showSearch)}>
+			<button
+				class="text-md ml-3"
+				on:click={() => {
+					if (showDestinations) showDestinations = false;
+					showSearch = !showSearch;
+				}}
+			>
 				<img class="w-[14px] h-[14px]" src={searchIcon} alt="search" />
 			</button>
 			{#if showSearch}

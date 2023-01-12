@@ -23,7 +23,10 @@
 
 	<ul>
 		{#each filteredDestinations as destination}
-			<li class:active={destination.id === $activeDestinationStore?.destination?.id}>
+			<li
+				class="group"
+				class:active={destination.id === $activeDestinationStore?.destination?.id}
+			>
 				{#if destination?.images?.public_url}
 					<img src={destination.images.public_url} />
 				{/if}
@@ -31,16 +34,27 @@
 					class="p-3 flex bg-black flex-col hover:bg-gray-900"
 					href={`/globe/destinations/${destination.id}`}
 				>
-					<h4 class="text-md">
+					<h4 class="text-lg">
 						{destination.name}
 					</h4>
-					<!-- <p>
+					<p class="text-sm opacity-60">
 						{getLatLngDisplayText(
 							destination.coordinates.coordinates[1],
 							destination.coordinates.coordinates[0],
 						)}
-					</p> -->
+					</p>
 				</a>
+
+				<span
+					class="
+						pointer-events-none
+						absolute  top-1/2 
+						transform -translate-y-1/2 text-2xl
+						group-hover:opacity-100 opacity-0 
+						group-hover:right-5 right-0
+						transition-all ease-in-out duration-200
+				">></span
+				>
 			</li>
 		{/each}
 	</ul>
@@ -110,6 +124,10 @@
 		@apply relative border border-stone-800;
 		overflow: hidden;
 		opacity: 0.5;
+		background: repeating-linear-gradient(120deg, #000, #000 7px, #777 7px, #777 8px);
+		background-size: 200%;
+		overflow: hidden;
+		display: block;
 
 		a {
 			@apply border border-transparent;
@@ -131,6 +149,7 @@
 		}
 
 		&:hover {
+			animation: barberpole 22s linear infinite;
 			opacity: 1;
 
 			img {
