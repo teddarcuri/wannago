@@ -33,10 +33,15 @@
 
 	<div class="flex flex-col">
 		{#each filteredDestinations as destination}
+			{@const coordinates = getLatLngDisplayText(
+				destination.coordinates.coordinates[1],
+				destination.coordinates.coordinates[0],
+			)}
 			<div class="h-[200px] w-full mb-5">
 				<TitleTile
 					maxTilt={5}
 					title={destination.name}
+					subtitle={coordinates}
 					img={destination?.images?.public_url}
 					link={`/globe/destinations/${destination.id}`}
 				/>
@@ -51,10 +56,7 @@
 						{destination.name}
 					</h4>
 					<p>
-						{getLatLngDisplayText(
-							destination.coordinates.coordinates[1],
-							destination.coordinates.coordinates[0],
-						)}
+						{}
 					</p>
 				</a> -->
 		{/each}
@@ -87,7 +89,7 @@
 			@apply text-left rounded-lg
             bg-black border border-zinc-900
 			overflow-hidden;
-			height: 50px;
+			height: 60px;
 			padding-left: 48px;
 			width: 100%;
 			transition: all ease 0.3s;

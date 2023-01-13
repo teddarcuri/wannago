@@ -5,6 +5,7 @@
 
 	export let link;
 	export let title;
+	export let subtitle;
 	export let img;
 	export let maxTilt = 3;
 
@@ -31,7 +32,10 @@
 	{#if img}
 		<img src={img} />
 	{/if}
-	<span class="text-4xl absolute bottom-8 left-8">{title}</span>
+	<span class="text-4xl absolute bottom-[60px] left-8">{title}</span>
+	{#if subtitle}
+		<span class="text-lg absolute bottom-6 left-8 opacity-60">{subtitle}</span>
+	{/if}
 </a>
 
 <style lang="scss">
