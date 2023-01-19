@@ -57,7 +57,7 @@
 	a {
 		@apply relative
 		overflow-hidden
-		p-9 
+		p-9
         block
 		rounded-md
 		w-full

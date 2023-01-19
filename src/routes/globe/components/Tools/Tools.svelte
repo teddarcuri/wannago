@@ -1,20 +1,32 @@
-<script>
+<script lang="ts">
 	import { addDestinationStore } from '@/lib/stores/addDestination';
 	import { fade, scale } from 'svelte/transition';
 	import searchIcon from '$lib/img/search.svg';
+	import globeIcon from '$lib/img/globe.svg';
 	import mountainIcon from '$lib/img/mountain.svg';
 	import FloatingWindow from './FloatingWindow.svelte';
 	import MyDestinations from '@/routes/globe/components/Tools/MyDestinations.svelte';
 	import Search from './Search.svelte';
+	import MapboxOptions from './MapboxOptions.svelte';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 
-	MyDestinations;
 	const setAddDestinationActive = () => {
 		addDestinationStore.update(s => ({ ...s, active: true }));
 	};
 
-	$: hide = $addDestinationStore.active;
-	let showDestinations = false;
-	let showSearch = false;
+	enum Tool {
+		search,
+		destinations,
+		mapboxOptions,
+	}
+
+	export let map;
+	$: hide = $addDestinationStore.active || $activeDestinationStore.deleteMode;
+	let activeTool: Tool | null = null;
+
+	const toggleTool = (tool: Tool) => {
+		activeTool = activeTool === tool ? null : tool;
+	};
 </script>
 
 {#if !hide}
@@ -25,32 +37,30 @@
 	>
 		<button on:click={setAddDestinationActive}>+</button>
 		<span class="relative">
-			<button
-				class="text-md ml-3"
-				on:click={() => {
-					if (showSearch) showSearch = false;
-					showDestinations = !showDestinations;
-				}}
-			>
+			<button class="text-md ml-3" on:click={() => toggleTool(Tool.destinations)}>
 				<img class="w-[19px] h-[19px]" src={mountainIcon} alt="search" />
 			</button>
-			{#if showDestinations}
+			{#if activeTool === Tool.destinations}
 				<FloatingWindow>
 					<MyDestinations />
 				</FloatingWindow>
 			{/if}
 		</span>
 		<span class="relative">
-			<button
-				class="text-md ml-3"
-				on:click={() => {
-					if (showDestinations) showDestinations = false;
-					showSearch = !showSearch;
-				}}
-			>
+			<button class="text-md ml-3" on:click={() => toggleTool(Tool.mapboxOptions)}>
+				<img class="w-[19px] h-[19px]" src={globeIcon} alt="search" />
+			</button>
+			{#if activeTool === Tool.mapboxOptions}
+				<FloatingWindow>
+					<MapboxOptions {map} />
+				</FloatingWindow>
+			{/if}
+		</span>
+		<span class="relative">
+			<button class="text-md ml-3" on:click={() => toggleTool(Tool.search)}>
 				<img class="w-[14px] h-[14px]" src={searchIcon} alt="search" />
 			</button>
-			{#if showSearch}
+			{#if activeTool === Tool.search}
 				<FloatingWindow>
 					<Search />
 				</FloatingWindow>
@@ -61,7 +71,7 @@
 
 <style lang="scss">
 	.root {
-		@apply absolute flex top-[46px] left-[14px];
+		@apply fixed flex top-[15px] right-[14px];
 		z-index: 998;
 	}
 

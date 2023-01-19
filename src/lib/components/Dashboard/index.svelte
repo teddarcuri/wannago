@@ -43,13 +43,13 @@
 		@apply mt-4;
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		grid-template-rows: repeat(3, 1fr);
+		grid-template-rows: repeat(1, 1fr);
 		width: 100%;
-		height: calc(100vh - 170px);
-		min-height: 600px;
+		max-height: calc(100vh - 170px);
 	}
 
 	.item-1 {
+		max-height: 400px;
 		grid-area: 1 / 1 / 3 / 4;
 		display: flex;
 	}
@@ -60,7 +60,7 @@
 	}
 
 	.item-3 {
-		grid-area: 3 / 1 / 3 / 4;
+		grid-area: 2 / 1 / 3 / 4;
 	}
 
 	@media (max-width: 800px) {

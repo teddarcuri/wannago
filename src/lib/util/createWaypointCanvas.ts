@@ -9,7 +9,7 @@ export default (label, color, fontSize = 16): Options => {
 	var canvas = document.createElement('canvas');
 	var context = canvas.getContext('2d');
 	var rectHeight = 42;
-	var rectWidth = 30;
+	var rectWidth = 42;
 	var rectX = 0;
 	var rectY = 0;
 
@@ -34,7 +34,7 @@ export default (label, color, fontSize = 16): Options => {
 	grd.addColorStop(1, 'black');
 
 	context.fillStyle = grd;
-	context.roundRect(rectX, rectY, rectWidth, rectHeight, 10).fill();
+	context.roundRect(rectX, rectY, rectWidth, rectHeight, 42).fill();
 	context.font = `bold ${fontSize}px Proxima Nova`;
 	context.textAlign = 'center';
 	context.textBaseline = 'middle';

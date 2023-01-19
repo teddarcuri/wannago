@@ -19,7 +19,6 @@
 
 	$: isRoot = $page.url.pathname === '/';
 	$: isGlobe = $page.url.pathname === '/globe';
-
 	$: isGallery = $page.routeId === '/globe/destinations/[id]/gallery';
 	$: blur = isRoot || isGallery ? 'blur' : '';
 	$: session = $page.data.session;
@@ -44,8 +43,8 @@
 	{#if session && !isRoot}
 		<ActiveInfoDisplay />
 	{/if}
-	{#if isGlobe}
-		<Tools />
+	{#if !isRoot}
+		<Tools {map} />
 	{/if}
 	<DestinationMarkers {map} />
 	{#if $addWaypointStore.coordinates}

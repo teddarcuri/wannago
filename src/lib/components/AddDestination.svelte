@@ -173,6 +173,11 @@
 			</div>
 		{/if}
 
+		<div>
+			Choose an icon: Destination, Mountain, Camping, Trailhead, RV, Tent, Parking, Boat,
+			Hiking, Mountain Biking, Road Biking, POI, Fishing, House, Beach, Water Sport, Rock
+			Climbing, Ski, Picnic, BBQ, Equestrian
+		</div>
 		<input autofocus bind:value={name} placeholder="Name this Destination" />
 
 		<div class="buttons">

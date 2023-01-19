@@ -175,7 +175,7 @@
 						<form on:submit|preventDefault={handleSubmit}>
 							<section>
 								<div class="flex flex-col">
-									<!-- <img width={22} src={mountainIcon} /> -->
+									<img width={22} src={mountainIcon} />
 									<textarea
 										name="name"
 										rows="1"

@@ -66,6 +66,7 @@
 			<p on:click={() => handleFlyTo(waypoint)} class="list-item">
 				<img src={canvas ? canvas.toDataURL() : loadingIcon} />
 				<input value={waypoint.name} />
+				<button class="w-[40px] rounded-md ml-2">X</button>
 			</p>
 		{/each}
 	</div>

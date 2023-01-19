@@ -30,6 +30,12 @@
 				map,
 			});
 
+			// Mapbox sets the css transform dynamically, so we need to explictly set the scale
+			// marker.getElement().style.transform = 'scale(1.5)';
+
+			marker.addTo(map);
+			markers.push(marker);
+
 			marker.on('click', () => {
 				const center: [number, number] = [lng, lat];
 				console.log('CENTER: ', center);
@@ -38,9 +44,6 @@
 					zoom: 15,
 				});
 			});
-
-			marker.addTo(map);
-			markers.push(marker);
 		});
 	});
 
@@ -55,7 +58,7 @@
 	}
 
 	.waypoint-marker {
-		@apply rounded-xl cursor-pointer;
+		@apply rounded-xl cursor-pointer scale-150;
 		box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
 
 		canvas {
