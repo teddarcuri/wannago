@@ -85,8 +85,8 @@
 	// at the medium breakpoint, make the dashboard link go to the right
 	@media (max-width: 768px) {
 		nav {
-			margin-left: auto;
-			padding-right: 24px;
+			// margin-left: auto;
+			// padding-right: 24px;
 		}
 	}
 </style>

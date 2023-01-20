@@ -2,11 +2,13 @@
 	import { Mapstyle } from '../../util/bootstrapMapbox';
 
 	export let map;
+
+	// TODO: Figure out how to get active style
 </script>
 
 <div>
-	{#each Object.keys(Mapstyle) as style}
-		<button on:click={() => map.setStyle(Mapstyle[style])}>{style}</button>
+	{#each Object.keys(Mapstyle) as key}
+		<button on:click={() => map.setStyle(Mapstyle[key])}>{key}</button>
 	{/each}
 </div>
 

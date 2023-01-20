@@ -9,8 +9,11 @@
 	import Search from './Search.svelte';
 	import MapboxOptions from './MapboxOptions.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { goto } from '$app/navigation';
 
-	const setAddDestinationActive = () => {
+	const setAddDestinationActive = async () => {
+		await goto('/globe');
 		addDestinationStore.update(s => ({ ...s, active: true }));
 	};
 
@@ -21,9 +24,11 @@
 	}
 
 	export let map;
-	$: hide = $addDestinationStore.active || $activeDestinationStore.deleteMode;
+	$: hide =
+		$addDestinationStore.active ||
+		$activeDestinationStore.deleteMode ||
+		$addWaypointStore.active;
 	let activeTool: Tool | null = null;
-
 	const toggleTool = (tool: Tool) => {
 		activeTool = activeTool === tool ? null : tool;
 	};
@@ -36,8 +41,13 @@
 		class="root"
 	>
 		<button on:click={setAddDestinationActive}>+</button>
+
 		<span class="relative">
-			<button class="text-md ml-3" on:click={() => toggleTool(Tool.destinations)}>
+			<button
+				class:active={activeTool === Tool.destinations}
+				class="text-md ml-3"
+				on:click={() => toggleTool(Tool.destinations)}
+			>
 				<img class="w-[19px] h-[19px]" src={mountainIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.destinations}
@@ -47,7 +57,11 @@
 			{/if}
 		</span>
 		<span class="relative">
-			<button class="text-md ml-3" on:click={() => toggleTool(Tool.mapboxOptions)}>
+			<button
+				class:active={activeTool === Tool.mapboxOptions}
+				class="text-md ml-3"
+				on:click={() => toggleTool(Tool.mapboxOptions)}
+			>
 				<img class="w-[19px] h-[19px]" src={globeIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.mapboxOptions}
@@ -57,12 +71,16 @@
 			{/if}
 		</span>
 		<span class="relative">
-			<button class="text-md ml-3" on:click={() => toggleTool(Tool.search)}>
+			<button
+				class:active={activeTool === Tool.search}
+				class="text-md ml-3"
+				on:click={() => toggleTool(Tool.search)}
+			>
 				<img class="w-[14px] h-[14px]" src={searchIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.search}
 				<FloatingWindow>
-					<Search />
+					<Search {map} />
 				</FloatingWindow>
 			{/if}
 		</span>
@@ -78,6 +96,10 @@
 	button {
 		@apply bg-black h-[46px] w-[46px] grid place-items-center text-3xl rounded-md
         text-stone-200;
+
+		&.active {
+			@apply bg-stone-800;
+		}
 
 		&:hover {
 			@apply bg-stone-800 text-white;

@@ -14,7 +14,7 @@ export enum ActiveInfoDisplayStatus {
 export interface ActiveInfoDisplayStore {
 	status: ActiveInfoDisplayStatus;
 	displayText: string;
-	hide: boolean;
+	hide?: boolean;
 }
 
 export const activeInfoDisplayStore: Writable<ActiveInfoDisplayStore> = writable({

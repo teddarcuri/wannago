@@ -19,7 +19,6 @@
 	{:else}
 		<div class="wrapper">
 			<DevelopmentBanner />
-
 			<section class="w-full pt-5">
 				<div class="item-1 p-4 pt-0">
 					<GlobeTile />

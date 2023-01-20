@@ -1,7 +1,5 @@
 import type { Map } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import searchIcon from '$lib/img/search.svg';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 import {
 	type AddDestinationStore,
@@ -30,17 +28,17 @@ let addDestination: AddDestinationStore | undefined;
 addDestinationStore.subscribe(d => (addDestination = d));
 
 export enum Mapstyle {
-	Satellite = 'mapbox://styles/mapbox/satellite-v9',
+	// Satellite = 'mapbox://styles/mapbox/satellite-v9',
+	// Simple = 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+	// Streets = 'mapbox://styles/mapbox/streets-v11',
+	// Light = 'mapbox://styles/mapbox/light-v10',
+	// Dark = 'mapbox://styles/mapbox/dark-v10',
+	Satellite = 'mapbox://styles/mapbox/satellite-streets-v11',
 	Outdoors = 'mapbox://styles/mapbox/outdoors-v11',
-	Simple = 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
-	Streets = 'mapbox://styles/mapbox/streets-v11',
-	Light = 'mapbox://styles/mapbox/light-v10',
-	Dark = 'mapbox://styles/mapbox/dark-v10',
-	SatelliteStreets = 'mapbox://styles/mapbox/satellite-streets-v11',
-	NavigationPreviewDay = 'mapbox://styles/mapbox/navigation-preview-day-v4',
-	NavigationPreviewNight = 'mapbox://styles/mapbox/navigation-preview-night-v4',
-	NavigationGuidanceDay = 'mapbox://styles/mapbox/navigation-guidance-day-v4',
-	NavigationGuidanceNight = 'mapbox://styles/mapbox/navigation-guidance-night-v4',
+	Light = 'mapbox://styles/mapbox/navigation-preview-day-v4',
+	Dark = 'mapbox://styles/mapbox/navigation-preview-night-v4',
+	// NavigationGuidanceDay = 'mapbox://styles/mapbox/navigation-guidance-day-v4',
+	// NavigationGuidanceNight = 'mapbox://styles/mapbox/navigation-guidance-night-v4',
 }
 
 export default async (): Promise<Map> => {
@@ -54,40 +52,13 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		style: Mapstyle.Outdoors,
+		style: Mapstyle.Satellite,
 		projection: 'globe',
 		zoom: 3.666,
 		bearing: 0,
 		center: [-99.94373365867199, 43.495094628394924],
 		pitch: 60,
 	});
-
-	// Controls
-	if (false && true) {
-		map.addControl(
-			new MapboxGeocoder({
-				accessToken: mapboxgl.accessToken,
-				mapboxgl: mapboxgl,
-				marker: {
-					element: (() => {
-						// Add marker
-						var wrapper = document.createElement('div');
-						wrapper.classList.add('mapboxgl-marker-wrapper');
-						var inner = document.createElement('div');
-						inner.classList.add('mapboxgl-marker-inner');
-						var background = document.createElement('div');
-						background.classList.add('mapboxgl-marker-background');
-						var gimg = document.createElement('img');
-						gimg.src = searchIcon;
-						inner.append(gimg);
-						wrapper.append(inner);
-						wrapper.append(background);
-						return wrapper;
-					})(),
-				},
-			}),
-		);
-	}
 
 	// Lifecycle
 	map.on('load', () => {
@@ -119,7 +90,7 @@ export default async (): Promise<Map> => {
 				maxzoom: 14,
 			});
 			// Set Terrain
-			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.11 });
+			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
 		}
 
 		// Draw Atmosphere on render
