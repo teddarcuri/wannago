@@ -1,7 +1,7 @@
 <script>
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { beforeUpdate } from 'svelte';
-	import createMarker from '../util/createMarker';
+	import createMarker, { MarkerType } from '../util/createMarker';
 	export let map;
 
 	let marker;
@@ -21,6 +21,7 @@
 			color,
 			isWaypoint: true,
 			draggable: true,
+			markerType: MarkerType.newDestination,
 		});
 		if (previousMarker) previousMarker.remove();
 		marker.on('dragend', () => {
@@ -37,6 +38,7 @@
 	.add-waypoint-marker {
 		position: absolute;
 		// border-radius: 50%;
+		border: solid red 100px !important;
 		box-shadow: 0px 6px 8px 1px rgba(0, 0, 0, 0.444);
 		z-index: 1;
 
@@ -45,8 +47,8 @@
 		}
 
 		img {
-			height: 38px;
-			width: 38px;
+			height: 20px;
+			width: 20px;
 			border-radius: 50%;
 		}
 

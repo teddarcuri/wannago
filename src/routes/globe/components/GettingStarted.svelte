@@ -4,8 +4,8 @@
 
 <!-- <button class="absolute top-2 left-[235px]">?</button> -->
 <!-- <DisplayCard> -->
-<div>
-	<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
+<div class="mb-4">
+	<!-- <h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
 	<h3 class="text-lg font-semibold my-7"><span>🏔️</span> Create a Destination</h3>
 	<p><span class="text-xl">👆</span> Double click to add a destination</p>
 	<p><span class="text-xl">🫳</span> Drag and drop the marker to reposition</p>
@@ -15,7 +15,11 @@
 	<p><span class="text-xl">🌍</span> `Shift` + mouse -> center camera on area</p>
 
 	<br />
-	<button>Got it. Dismiss for now.</button>
+	<button>Got it. Dismiss for now.</button> -->
+
+	<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
+	<h3 class="text-lg font-semibold my-7"><span>🏔️</span>Add your destinations</h3>
+	<h3 class="text-lg font-semibold my-7"><span>🌍</span>Upload Photos</h3>
 </div>
 
 <!-- </DisplayCard> -->
@@ -33,7 +37,7 @@
 	div {
 		z-index: 1;
 		position: relative;
-		@apply bg-gray-900 p-8 opacity-90 rounded-lg;
+		@apply bg-zinc-900 p-8 opacity-90 rounded-lg;
 	}
 
 	span {

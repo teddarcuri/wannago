@@ -16,16 +16,17 @@
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
 	import confetti from 'canvas-confetti';
 	import { fade } from 'svelte/transition';
+	import DestinationTypeSelector from '$lib/features/destinations/DestinationTypeSelector.svelte';
+	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 
 	export let map: Map;
 
 	let name = '';
 	let loading = false;
-	// $: screenPos = $addDestinationStore.screenPos;
 	$: marker = $addDestinationStore.marker;
 
 	$: if (marker) {
-		console.log('MARKER', marker);
+		// console.log('MARKER', marker);
 	}
 
 	const handleSubmit = async () => {
@@ -35,10 +36,12 @@
 		img.src = spinner;
 		element?.classList.add('loading');
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
+
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
 			lat,
 			lng,
+			destination_type_id: $addDestinationStore.destinationTypeId,
 		});
 
 		if (error) {
@@ -141,25 +144,12 @@
 		addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 		clearActiveInfoDisplay();
 	};
+
+	$: coordinates = marker?.getLngLat() ?? { lat: 0, lng: 0 };
+	$: coordinatesFormatted = getLatLngDisplayText(coordinates.lat, coordinates.lng);
 </script>
 
 {#if marker}
-	<!-- <div
-	style:top={`${screenPos?.y}px`}
-	style:left={`${screenPos?.x}px`}
-	class="absolute z-50 
-		h-[180px] w-[333px] 
-		translate-x-6
-		-translate-y-[106%]
-		grid
-		place-items-center
-		rounded-sm
-		overflow-hidden
-		p-[1px]
-		root
-	"
-> -->
-
 	<form
 		on:submit|preventDefault={handleSubmit}
 		class="w-full h-full justify-center align-center items-center relative flex flex-row"
@@ -173,26 +163,26 @@
 			</div>
 		{/if}
 
-		<div>
-			Choose an icon: Destination, Mountain, Camping, Trailhead, RV, Tent, Parking, Boat,
-			Hiking, Mountain Biking, Road Biking, POI, Fishing, House, Beach, Water Sport, Rock
-			Climbing, Ski, Picnic, BBQ, Equestrian
+		<DestinationTypeSelector />
+		<div class="flex flex-col items-start -mt-[11px]">
+			<input autofocus bind:value={name} placeholder="Name this Destination" />
+			<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
+				{coordinatesFormatted}
+			</p>
 		</div>
-		<input autofocus bind:value={name} placeholder="Name this Destination" />
 
 		<div class="buttons">
 			<button class="create" type="submit">Create</button>
 			<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
 		</div>
 	</form>
-	<!-- </div> -->
 {:else}
-	<div>
+	<div class="mr-6">
 		<h2 class="text-xl text-stone-200">Create a new destination</h2>
 		<h3 in:fade>Click anywhere on map to add new destination</h3>
 	</div>
 
-	<button class="cancel ml-4" type="button" on:click={handleCancel}>Cancel</button>
+	<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
 {/if}
 
 <style lang="scss">
@@ -249,7 +239,7 @@
 	input {
 		@apply text-2xl
 		bg-transparent
-		py-3
+		py-3 pl-3
 		text-white
 		border-b
 		border-solid

@@ -7,6 +7,7 @@
 	import Mapbox from '@/routes/globe/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { addDestinationStore } from '@/lib/stores/addDestination';
 
 	onMount(() => {
 		const {
@@ -27,7 +28,7 @@
 	<Header />
 	<div id="app-body">
 		<NavigationManager />
-		<div class="w-full h-full flex absolute">
+		<div class="map w-full h-full flex absolute">
 			<Mapbox>
 				<slot />
 			</Mapbox>
@@ -36,6 +37,12 @@
 </div>
 
 <style lang="scss">
+	.map {
+		&.showCursor {
+			cursor: crosshair !important;
+		}
+	}
+
 	#app-wrapper {
 		position: fixed;
 		top: 0;

@@ -27,6 +27,11 @@
 		$addDestinationStore.active ||
 		$activeDestinationStore.deleteMode;
 	$: showCursor = $addWaypointStore.active || $addDestinationStore.active;
+
+	// reset cursor to default on map canvas when addDestination.active is false
+	// $: if (!$addDestinationStore.active) {
+	// 	map?.getCanvas().style.cursor = 'default';
+	// }
 </script>
 
 <div id="mapbox-mount" class:blur class:border class:showCursor />
@@ -61,13 +66,8 @@
 		top: 0;
 		left: 0;
 		cursor: crosshair !important;
-
 		transition: all ease-in-out 0.333s;
 		border: 0px solid transparent;
-
-		&.showCursor {
-			cursor: crosshair !important;
-		}
 
 		&.border {
 			border-top: 70px solid transparent;

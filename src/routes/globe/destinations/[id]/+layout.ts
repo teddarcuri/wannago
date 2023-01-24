@@ -12,6 +12,7 @@ export async function load({ params }) {
             name,
             coordinates,
             description,
+			type_id,
             cover_photo (
                 id,
                 public_url,

@@ -3,28 +3,44 @@ import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { supabaseClient } from '$lib/db';
 import { userDestinationsStore } from '@/lib/stores/userDestinations';
 
+let limit = 500;
+
 export const load: LayoutLoad = async event => {
 	const { session } = await getSupabase(event);
 
-	// const { data: types } = await supabaseClient.from('destination_types').select('*');
-	// const typeId = types?.find(t => t.name === 'primary').id ?? 1;
-	const { error, data: destinations } = await supabaseClient.from('destinations').select(
-		`
+	try {
+		const { data: destinations } = await supabaseClient
+			.from('destinations')
+			.select(
+				`
                 id,
                 name,
                 coordinates,
                 description,
+				type_id,
                 images!destinations_cover_photo_fkey (
                     id,
                     public_url,
                     bucket_path
                 )
             `,
-	);
-	// .eq('type_id', typeId);
+			)
+			.range(0, limit);
+		userDestinationsStore.update(s => ({ ...s, destinations }));
+	} catch (error) {
+		console.log(error);
+	}
 
-	if (error) return console.error(error);
-	userDestinationsStore.update(() => ({ destinations }));
+	// select all destination types
+	try {
+		const { data: destinationTypes } = await supabaseClient
+			.from('destination_types')
+			.select('*');
+		userDestinationsStore.update(s => ({ ...s, destinationTypes }));
+	} catch (error) {
+		console.log(error);
+	}
+
 	return {
 		session,
 	};

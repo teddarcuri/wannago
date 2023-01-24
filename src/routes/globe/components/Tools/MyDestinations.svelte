@@ -26,6 +26,7 @@
 			<li
 				class="group"
 				class:active={destination.id === $activeDestinationStore?.destination?.id}
+				class:noImage={!destination?.images?.public_url}
 			>
 				{#if destination?.images?.public_url}
 					<img src={destination.images.public_url} />
@@ -123,18 +124,21 @@
 	li {
 		@apply relative border border-stone-800;
 		overflow: hidden;
-		opacity: 0.5;
-		background: repeating-linear-gradient(120deg, #000, #000 7px, #777 7px, #777 8px);
+		opacity: 0.6;
 		background-size: 200%;
 		overflow: hidden;
 		display: block;
 
+		&.noImage {
+			background: repeating-linear-gradient(120deg, #000, #000 7px, #777 7px, #777 8px);
+		}
+
 		a {
-			@apply border border-transparent;
-			background: linear-gradient(90deg, black 40%, rgba(0, 0, 0, 0.7), transparent);
+			@apply border border-transparent pt-7;
+			background: linear-gradient(111deg, black 30%, rgba(0, 0, 0, 0.7), transparent);
 
 			&:hover {
-				@apply border-stone-700;
+				@apply border-stone-300;
 			}
 		}
 
@@ -149,11 +153,11 @@
 		}
 
 		&:hover {
-			animation: barberpole 22s linear infinite;
 			opacity: 1;
 
 			img {
-				transform: scale(1.2);
+				transform: scale(1.222);
+				// filter: blur(3px);
 			}
 		}
 	}

@@ -14,6 +14,7 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { onDestroy, onMount } from 'svelte';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 
 	export let map: Map;
 	export let destination: object;
@@ -23,20 +24,24 @@
 	const name = destination?.name;
 	const lat = coordinates?.[1];
 	const lng = coordinates?.[0];
+	const icon = $userDestinationsStore.destinationTypes.find(
+		type => type.id === destination?.type_id,
+	)?.icon;
 
+	// console.log('ICOIN', icon);
 	// Create mapbox Marker instance
 	const marker = createMarker({
 		name,
 		map,
 		lat,
 		lng,
-		icon: mountainIcon,
+		icon,
 	});
 
 	// Marker DOM element
 	const domElement: HTMLElement = marker.getElement();
 	const img: HTMLImageElement = getMarkerImgChildNode(domElement);
-	img.src = mountainIcon;
+	// img.src = mountainIcon;
 
 	// When user is editing the destination location
 	// we update the newCenter variable to determine
@@ -164,12 +169,12 @@
 
 	// Lifecycle
 	onMount(() => {
-		console.log(
-			`--------------------- MOUNTED ${destination.name} ---------------------`,
-		);
-		console.log(
-			`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
-		);
+		// console.log(
+		// 	`--------------------- MOUNTED ${destination.name} ---------------------`,
+		// );
+		// console.log(
+		// 	`** We need to prevent each marker from rerendering on update. Bring data prop into the individual marker ----`,
+		// );
 	});
 	onDestroy(() => {
 		marker.remove();
@@ -238,7 +243,7 @@
 	.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-background,
 	.add-destination .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #d4dced, #b9cbe5, #99b9e6, #98adce);
-		opacity: 0.7;
+		opacity: 0.8;
 	}
 
 	.mapboxgl-marker-wrapper:hover img,

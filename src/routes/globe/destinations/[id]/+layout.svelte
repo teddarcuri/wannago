@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import type { PageData } from './$types';
 	import { supabaseClient } from '@/lib/db';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
@@ -21,8 +22,8 @@
 	import Waypoints from './components/Waypoints.svelte';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
-	import { getContext } from 'svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -42,12 +43,17 @@
 	// but this is breaking the edit/form
 	// how do we preserve reactivity? but also make it editable? hmmmmmm....
 
-	$: destination = data.destination;
-	$: name = destination?.name;
-	$: description = destination?.description;
-	$: lat = destination?.coordinates?.coordinates[1];
-	$: lng = destination?.coordinates?.coordinates[0];
-	$: waypoints = destination?.waypoints;
+	let destination = data.destination;
+	let name = destination?.name;
+	let description = destination?.description;
+	let lat = destination?.coordinates?.coordinates[1];
+	let lng = destination?.coordinates?.coordinates[0];
+	let waypoints = destination?.waypoints;
+	let destinationIcon = $userDestinationsStore.destinationTypes.find(
+		({ id }) => id === destination?.type_id,
+	)?.icon;
+
+	console.log($userDestinationsStore.destinationTypes, destination?.type_id);
 
 	// Gallery link
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
@@ -61,6 +67,8 @@
 		name,
 		description,
 	}
+
+	console.log('DESTINATION ICON', destinationIcon);
 
 	const handleFlyTo = () => {
 		map.flyTo({
@@ -156,7 +164,7 @@
 						</a>
 						<!-- Buttons/Controls -->
 						<div class="fly-to control-button">
-							<button on:click={handleFlyTo}>
+							<button alt="Fly to destination" on:click={handleFlyTo}>
 								<img
 									src={centerIcon}
 									alt="Fly to destination"
@@ -175,12 +183,12 @@
 						<form on:submit|preventDefault={handleSubmit}>
 							<section>
 								<div class="flex flex-col">
-									<img width={22} src={mountainIcon} />
+									<img class="absolute top-[17px]" width={22} src={destinationIcon} />
 									<textarea
 										name="name"
 										rows="1"
 										disabled={isGallery}
-										class="text-3xl bg-transparent font-semibold"
+										class="text-3xl pl-[20px] bg-transparent font-semibold"
 										bind:value={name}
 										on:blur={() => handleSubmit(Fields.name)}
 									/>
@@ -198,7 +206,7 @@
 							</section>
 						</form>
 					{/if}
-					<Waypoints {map} waypoints={destination.waypoints} />
+					<!-- <Waypoints {map} waypoints={destination.waypoints} /> -->
 				</div>
 			</DisplayCard>
 		</main>
@@ -270,13 +278,14 @@
 
 	[name='name'] {
 		@apply rounded-md;
-		padding: 6px 0px;
+		padding: 6px 0px 6px 36px;
 		border: solid 2px transparent;
 		transition: all ease 0.2s;
 		resize: none;
 		&:focus:not([disabled]),
 		&:hover:not([disabled]) {
 			padding: 6px;
+			padding-left: 30px;
 		}
 		&:focus:not([disabled]) {
 			background: rgba(255, 255, 255, 0.1111);
@@ -292,7 +301,7 @@
 	}
 
 	.image-wrapper {
-		@apply sticky top-0 pt-[120px] h-[136px] w-full rounded-t-lg;
+		@apply sticky top-0 pt-[120px] h-[155px] w-full rounded-t-lg;
 		transition: all ease 0.3s;
 		background: repeating-linear-gradient(120deg, #000, #000 11px, #555 11px, #555 12px);
 		background-size: 200%;
@@ -369,7 +378,7 @@
 
 	@media (max-width: 700px) {
 		main {
-			@apply max-w-full w-full;
+			@apply max-w-full w-[98%] ml-1;
 		}
 	}
 </style>

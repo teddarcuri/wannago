@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 
 	const setAddDestinationActive = async () => {
+		map.getCanvas().style.cursor = 'crosshair';
 		await goto('/globe');
 		addDestinationStore.update(s => ({ ...s, active: true }));
 	};
@@ -46,7 +47,9 @@
 			<button
 				class:active={activeTool === Tool.destinations}
 				class="text-md ml-3"
-				on:click={() => toggleTool(Tool.destinations)}
+				on:click={() => {
+					toggleTool(Tool.destinations);
+				}}
 			>
 				<img class="w-[19px] h-[19px]" src={mountainIcon} alt="search" />
 			</button>

@@ -7,6 +7,7 @@
 	import GettingStarted from '@/routes/globe/components/GettingStarted.svelte';
 	import { fly } from 'svelte/transition';
 	import DevelopmentBanner from '../DevelopmentBanner.svelte';
+	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	$: session = $page.data.session;
 </script>
 
@@ -18,15 +19,80 @@
 		</div>
 	{:else}
 		<div class="wrapper">
-			<DevelopmentBanner />
+			<!-- <DevelopmentBanner /> -->
 			<section class="w-full pt-5">
-				<div class="item-1 p-4 pt-0">
+				<div class="item-1 flex flex-col p-4 pt-0">
 					<GlobeTile />
+					<form class="bg-black p-[33px]">
+						<h2 class="text-2xl font-bold mb-7">How would you like to use Wannago?</h2>
+						<p>
+							We are still figuring out what Wannago is - how it can provide value to you
+							- what unique problems it can solve.
+						</p>
+						<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
+						<ul>
+							<li>
+								More destination types (icons) - let us know what you'd like to see!
+							</li>
+							<li>Full photo gallery</li>
+							<li>Directions</li>
+							<li>Trip planner</li>
+							<li>Trip Journal</li>
+						</ul>
+						<p class="mt-6">
+							In 2023, we have a lot of apps. Arguably too many. Our focus is to serve
+							outdoor enthusiasts to plan and document all the places they've been and all
+							the places they wannago. We have ideas, but that could look like a lot of
+							things - <span
+								>Take a minute to let us know what would be useful to you!</span
+							>
+						</p> -->
+						<h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4>
+
+						<textarea
+							class="p-6 bg-gray-800 w-full"
+							placeholder="I'd like to see..."
+							name="feedback"
+						/>
+					</form>
 				</div>
 				<div class="item-2 p-4 pt-0">
+					<!-- <div class="flex mb-4">
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl">
+								{$userDestinationsStore.destinations.length}
+							</span>
+							<span>Destinations</span>
+						</div>
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl"> 521 </span>
+							<span>Waypoints</span>
+						</div>
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl"> 2 </span>
+							<span>Photos</span>
+						</div>
+					</div> -->
+
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 						<!-- <GettingStarted /> -->
-						<MyDestinations />
+						<div class="flex flex-col items-center">
+							<p>
+								You have
+								<span class="text-2xl mx-2">
+									{$userDestinationsStore.destinations.length}
+								</span>
+								<span>Destinations</span>
+							</p>
+
+							<br />
+							<p>
+								<span class="text-2xl mx-2"> 15 </span>
+								<span>of them are campsites</span>
+							</p>
+						</div>
+
+						<!-- <MyDestinations /> -->
 					</div>
 				</div>
 				<div class="item-3 p-4">

@@ -129,7 +129,7 @@
 				}
 
 				&:before {
-					content: 'Edit Location';
+					content: 'Edit Coordinates';
 				}
 
 				&:hover {
@@ -157,7 +157,7 @@
 				}
 
 				&:before {
-					content: 'Change Location';
+					content: 'Save Coordinates';
 				}
 			}
 		}

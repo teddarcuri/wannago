@@ -68,8 +68,7 @@
 	.dropdown {
 		@apply absolute top-[100%] w-[60px] 
 		left-1/2 -translate-x-1/2 
-		mt-4
-		overflow-hidden
+		mt-4 overflow-hidden
 		p-0 m-0 h-auto bg-stone-800 rounded-md;
 		visibility: hidden;
 
@@ -87,7 +86,7 @@
 			hover:bg-stone-900;
 
 			img {
-				@apply rounded-full h-[20px] w-[20px];
+				@apply rounded-full h-[39px] w-[39px];
 			}
 		}
 	}

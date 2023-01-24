@@ -58,7 +58,8 @@
 
 			if (to) {
 				// turn off add destination mode if visting a particular destination
-				if (to.routeId === '/globe/destinations/[id]' && $addDestinationStore.active) {
+				// to.routeId should include at least '/globe/destinations/[id]'
+				if (to.routeId !== '/globe' && $addDestinationStore.active) {
 					addDestinationStore.update(s => ({ ...s, active: false }));
 				}
 			}

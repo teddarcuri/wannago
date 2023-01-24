@@ -18,7 +18,7 @@
 <header class:transparent id="app-nav">
 	<div id="logo" class="mr-7">wannago</div>
 	<nav>
-		{#if !$addWaypointStore.active && !$addDestinationStore.marker && session}
+		{#if !$addWaypointStore.active && !$addDestinationStore.active && !$activeDestinationStore.deleteMode && session}
 			<a
 				class:active={isRoot}
 				class="

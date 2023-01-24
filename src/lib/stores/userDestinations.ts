@@ -16,5 +16,6 @@ import type { Writable } from 'svelte/store';
 // }
 
 export const userDestinationsStore = writable({
-	destinations: []
+	destinations: [],
+	destinationTypes: [],
 });

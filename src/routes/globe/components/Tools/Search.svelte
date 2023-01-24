@@ -3,6 +3,8 @@
 	import spinner from '$lib/img/spinner.svg';
 
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+	import { searchStore } from '@/lib/stores/search';
+	import { goto } from '$app/navigation';
 
 	export let map;
 
@@ -41,7 +43,14 @@
 		}, 555);
 	}, 222);
 
-	$: console.log('RESULTS: ', searchResults);
+	const setActiveSearchResult = async result => {
+		console.log('RESULT: ', result);
+		searchStore.update(s => ({
+			activeResult: result,
+		}));
+		await goto('/globe/search-result');
+		map.flyTo({ center: result.center, zoom: 15 });
+	};
 </script>
 
 <div class="root">
@@ -53,7 +62,7 @@
 			bind:value={searchQuery}
 		/>
 		{#if searchQuery}
-			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
+			<button tabindex="0" class="clear" on:click={() => (searchQuery = '')}>X</button>
 		{/if}
 	</div>
 
@@ -66,7 +75,7 @@
 	{#if searchQuery}
 		{#if !isLoading}
 			{#each searchResults as result}
-				<button on:click={() => map.flyTo({ center: result.center, zoom: 15 })}>
+				<button on:click={() => setActiveSearchResult(result)}>
 					{result.place_name}
 				</button>
 			{/each}
