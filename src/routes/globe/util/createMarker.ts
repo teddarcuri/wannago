@@ -1,11 +1,15 @@
+import { userDestinationsStore } from '@/lib/stores/userDestinations';
+import { get } from 'svelte/store';
 import createWaypointCanvas from '@/lib/util/createWaypointCanvas';
 import type { Map } from 'mapbox-gl';
 import { Marker } from 'mapbox-gl';
+import searchIcon from '$lib/img/search.svg';
 
 export enum MarkerType {
 	destination,
 	activeDestination,
 	newDestination,
+	search,
 }
 
 interface Options {
@@ -69,13 +73,28 @@ export default function ({
 
 	if (markerType === MarkerType.newDestination) {
 		wrapper.classList.add('add-destination');
-		background.classList.add('blue');
+	}
+
+	if (markerType === MarkerType.search) {
+		icon = searchIcon;
+		wrapper.classList.add('search-result');
 	}
 
 	// icon
 	if (icon) {
 		var img = document.createElement('img');
 		img.src = icon;
+
+		// Set Icon offsets - some icons don't sit perfectly in the middle
+		// Ski
+		if (
+			icon ===
+			get(userDestinationsStore).destinationTypes.find(t => t.name === 'ski')?.icon
+		) {
+			img.style.marginTop = '5px';
+			img.style.marginLeft = '-4px';
+		}
+
 		inner.append(img);
 	}
 

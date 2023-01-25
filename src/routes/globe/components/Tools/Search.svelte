@@ -62,7 +62,7 @@
 			bind:value={searchQuery}
 		/>
 		{#if searchQuery}
-			<button tabindex="0" class="clear" on:click={() => (searchQuery = '')}>X</button>
+			<button tabindex="-1" class="clear" on:click={() => (searchQuery = '')}>X</button>
 		{/if}
 	</div>
 
@@ -75,7 +75,7 @@
 	{#if searchQuery}
 		{#if !isLoading}
 			{#each searchResults as result}
-				<button on:click={() => setActiveSearchResult(result)}>
+				<button tabindex="0" on:click={() => setActiveSearchResult(result)}>
 					{result.place_name}
 				</button>
 			{/each}
@@ -150,10 +150,6 @@
 			border-radius: 5px;
 			text-transform: uppercase;
 			font-size: 12px;
-
-			&:hover {
-				background: #333;
-			}
 		}
 	}
 
@@ -162,7 +158,7 @@
 	}
 
 	button {
-		@apply p-3 hover:bg-black
+		@apply p-3 hover:bg-gray-900
 		text-left;
 	}
 </style>

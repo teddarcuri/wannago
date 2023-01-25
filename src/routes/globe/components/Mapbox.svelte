@@ -12,6 +12,8 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import Tools from './Tools/Tools.svelte';
 	import WaypointMarkers from './WaypointMarkers.svelte';
+	import SearchMarker from './SearchMarker.svelte';
+	import { searchStore } from '@/lib/stores/search';
 
 	export let map: Map;
 	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
@@ -32,6 +34,8 @@
 	// $: if (!$addDestinationStore.active) {
 	// 	map?.getCanvas().style.cursor = 'default';
 	// }
+
+	$: console.log('SEAAARCHHH: ', $searchStore);
 </script>
 
 <div id="mapbox-mount" class:blur class:border class:showCursor />
@@ -55,6 +59,7 @@
 	{#if $addWaypointStore.coordinates}
 		<AddWaypointMarker {map} />
 	{/if}
+	<SearchMarker {map} />
 {/if}
 
 <style lang="scss">

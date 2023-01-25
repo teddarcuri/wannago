@@ -1,8 +1,9 @@
 <script>
 	export let cancel = false;
+	export let handleClick;
 </script>
 
-<button class:cancel>
+<button on:click={handleClick} class:cancel>
 	<slot />
 </button>
 

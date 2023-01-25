@@ -43,13 +43,13 @@
 	// but this is breaking the edit/form
 	// how do we preserve reactivity? but also make it editable? hmmmmmm....
 
-	let destination = data.destination;
-	let name = destination?.name;
-	let description = destination?.description;
-	let lat = destination?.coordinates?.coordinates[1];
-	let lng = destination?.coordinates?.coordinates[0];
-	let waypoints = destination?.waypoints;
-	let destinationIcon = $userDestinationsStore.destinationTypes.find(
+	$: destination = data.destination;
+	$: name = destination?.name;
+	$: description = destination?.description;
+	$: lat = destination?.coordinates?.coordinates[1];
+	$: lng = destination?.coordinates?.coordinates[0];
+	$: waypoints = destination?.waypoints;
+	$: destinationIcon = $userDestinationsStore.destinationTypes.find(
 		({ id }) => id === destination?.type_id,
 	)?.icon;
 

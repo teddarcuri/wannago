@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 
 export const searchStore = writable({
-	activeResult: {},
+	activeResult: null,
+	marker: null,
 });

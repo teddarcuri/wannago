@@ -1,18 +1,11 @@
 <script>
 	import { supabaseClient } from '@/lib/db';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
+	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import { onMount } from 'svelte';
 
-	let destinationTypes = [];
+	let destinationTypes = $userDestinationsStore.destinationTypes;
 	$: selectedType = destinationTypes[0] || {};
-	onMount(async () => {
-		const { data, error } = await supabaseClient
-			.from('destination_types')
-			.select('*')
-			// .eq('hide', false)
-			.order('id', { ascending: true });
-		destinationTypes = data;
-	});
 
 	let showDropdown = true;
 
@@ -60,7 +53,7 @@
 
 <style lang="scss">
 	.root {
-		@apply pr-2;
+		@apply pr-2 w-[111px];
 
 		button.toggle.active {
 			@apply border-zinc-600 rounded-2xl;

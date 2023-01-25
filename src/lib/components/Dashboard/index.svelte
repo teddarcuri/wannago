@@ -21,9 +21,53 @@
 		<div class="wrapper">
 			<!-- <DevelopmentBanner /> -->
 			<section class="w-full pt-5">
-				<div class="item-1 flex flex-col p-4 pt-0">
+				<div class="item-1 w-[669px] flex flex-col flex-shrink-0 p-4 pt-0">
 					<GlobeTile />
+				</div>
+				<div class="item-2 p-4 pt-0">
+					<!-- <div class="flex mb-4">
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl">
+								{$userDestinationsStore.destinations.length}
+							</span>
+							<span>Destinations</span>
+						</div>
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl"> 521 </span>
+							<span>Waypoints</span>
+						</div>
+						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
+							<span class="text-3xl"> 2 </span>
+							<span>Photos</span>
+						</div>
+					</div> -->
+
+					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
+						<!-- <GettingStarted /> -->
+						<!-- <div class="flex flex-col items-center">
+							<p>
+								You have
+								<span class="text-2xl mx-2">
+									{$userDestinationsStore.destinations.length}
+								</span>
+								<span>Destinations</span>
+							</p>
+
+							<br />
+							<p>
+								<span class="text-2xl mx-2"> 15 </span>
+								<span>of them are campsites</span>
+							</p>
+						</div> -->
+
+						<!-- <MyDestinations /> -->
+					</div>
+				</div>
+				<div class="item-3 p-4">
 					<form class="bg-black p-[33px]">
+						<h2 class="text-2xl font-bold mb-7">
+							👋 If you are seeing this, you're likely family or friend.
+						</h2>
 						<h2 class="text-2xl font-bold mb-7">How would you like to use Wannago?</h2>
 						<p>
 							We are still figuring out what Wannago is - how it can provide value to you
@@ -55,47 +99,6 @@
 							name="feedback"
 						/>
 					</form>
-				</div>
-				<div class="item-2 p-4 pt-0">
-					<!-- <div class="flex mb-4">
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl">
-								{$userDestinationsStore.destinations.length}
-							</span>
-							<span>Destinations</span>
-						</div>
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl"> 521 </span>
-							<span>Waypoints</span>
-						</div>
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl"> 2 </span>
-							<span>Photos</span>
-						</div>
-					</div> -->
-
-					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
-						<!-- <GettingStarted /> -->
-						<div class="flex flex-col items-center">
-							<p>
-								You have
-								<span class="text-2xl mx-2">
-									{$userDestinationsStore.destinations.length}
-								</span>
-								<span>Destinations</span>
-							</p>
-
-							<br />
-							<p>
-								<span class="text-2xl mx-2"> 15 </span>
-								<span>of them are campsites</span>
-							</p>
-						</div>
-
-						<!-- <MyDestinations /> -->
-					</div>
-				</div>
-				<div class="item-3 p-4">
 					<Account session={$page.data.session} />
 				</div>
 			</section>
@@ -105,16 +108,16 @@
 
 <style style="scss">
 	section {
-		@apply mt-4;
-		display: grid;
+		@apply mt-4 flex;
+		/* display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		grid-template-rows: repeat(1, 1fr);
+		grid-template-rows: repeat(1, 1fr); */
 		width: 100%;
 		max-height: calc(100vh - 170px);
 	}
 
 	.item-1 {
-		max-height: 400px;
+		height: 400px;
 		grid-area: 1 / 1 / 3 / 4;
 		display: flex;
 	}

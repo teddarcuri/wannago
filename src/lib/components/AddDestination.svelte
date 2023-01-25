@@ -18,16 +18,17 @@
 	import { fade } from 'svelte/transition';
 	import DestinationTypeSelector from '$lib/features/destinations/DestinationTypeSelector.svelte';
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
+	import { searchStore } from '../stores/search';
 
 	export let map: Map;
 
-	let name = '';
-	let loading = false;
-	$: marker = $addDestinationStore.marker;
+	console.log('ADD DESTINATION STORE', $addDestinationStore);
 
-	$: if (marker) {
-		// console.log('MARKER', marker);
-	}
+	let name = $addDestinationStore.createFromSearchResult
+		? $searchStore?.activeResult?.place_name
+		: '';
+	let loading = false;
+	$: marker = $addDestinationStore.marker || $searchStore.marker;
 
 	const handleSubmit = async () => {
 		loading = true;
@@ -152,7 +153,7 @@
 {#if marker}
 	<form
 		on:submit|preventDefault={handleSubmit}
-		class="w-full h-full justify-center align-center items-center relative flex flex-row"
+		class="w-full h-full max-w-[700px] justify-center align-center items-center relative flex flex-row"
 	>
 		{#if loading}
 			<div
@@ -161,20 +162,25 @@
 				<img src={spinner} />
 				<p>Creating Destination</p>
 			</div>
+		{:else}
+			<DestinationTypeSelector />
+			<div class="w-full flex flex-col items-start -mt-[11px]">
+				<input
+					class="w-full"
+					autofocus
+					bind:value={name}
+					placeholder="Name this Destination"
+				/>
+				<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
+					{coordinatesFormatted}
+				</p>
+			</div>
+
+			<div class="buttons w-[300px]">
+				<button class="create" type="submit">Create</button>
+				<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
+			</div>
 		{/if}
-
-		<DestinationTypeSelector />
-		<div class="flex flex-col items-start -mt-[11px]">
-			<input autofocus bind:value={name} placeholder="Name this Destination" />
-			<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
-				{coordinatesFormatted}
-			</p>
-		</div>
-
-		<div class="buttons">
-			<button class="create" type="submit">Create</button>
-			<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
-		</div>
 	</form>
 {:else}
 	<div class="mr-6">

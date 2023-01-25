@@ -1,30 +1,44 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import ButtonPill from '@/lib/components/ButtonPill.svelte';
-	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { searchStore } from '@/lib/stores/search';
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
 	import DisplayCard from '../components/DisplayCard.svelte';
+	import { getContext } from 'svelte';
+	import closeIcon from '$lib/img/close.svg';
+	import centerIcon from '$lib/img/center.svg';
+	import { addDestinationStore } from '@/lib/stores/addDestination';
+
+	const { getMap } = getContext('map');
+	const map = getMap();
 
 	$: console.log('SEARCH: ', $searchStore);
 
-	const coordinates = getLatLngDisplayText(
-		$searchStore.activeResult?.center[1],
-		$searchStore.activeResult?.center[0],
-	);
+	const lat = $searchStore.activeResult?.center[1];
+	const lng = $searchStore.activeResult?.center[0];
 
-	const clearSearch = () => {
-		alert('clearing search');
+	const coordinates = getLatLngDisplayText(lat, lng);
+
+	const clearSearch = async () => {
+		await goto('/globe');
 		searchStore.update(s => ({
 			...s,
 			activeResult: null,
 		}));
 	};
 
+	const handleFlyTo = () => {
+		map.flyTo({
+			center: [lng, lat],
+			zoom: 15,
+		});
+	};
+
 	const createDestinationFromSearchResult = async () => {
 		await goto('/globe');
-		activeDestinationStore.update(s => ({
+		addDestinationStore.update(s => ({
 			...s,
+			createFromSearchResult: true,
 			active: true,
 		}));
 	};
@@ -33,17 +47,27 @@
 <main>
 	<DisplayCard>
 		<div class="root group relative z-50 bg-black w-full rounded-lg">
-			<!-- <h4 class="text-base text-stone-300 italic mb-2">Search Result</h4> -->
+			<!-- Buttons/Controls -->
+			<div class="control-button absolute flex top-6 left-6 z-30">
+				<button on:click={clearSearch}
+					><img class="h-[15px] w-[15px]" src={closeIcon} /></button
+				>
+			</div>
+
+			<div class="absolute right-6 top-6">
+				<button alt="Fly to destination" on:click={handleFlyTo}>
+					<img src={centerIcon} alt="Fly to destination" class="icon w-[24px] h-[24px]" />
+				</button>
+			</div>
 			<h1 class="text-2xl  bg-transparent font-semibold">
 				{$searchStore.activeResult.place_name}
 			</h1>
 
 			<p class="my-4">{coordinates}</p>
 
-			<ButtonPill on:click={createDestinationFromSearchResult}
+			<ButtonPill handleClick={createDestinationFromSearchResult}
 				>Add as Destination</ButtonPill
 			>
-			<!-- <ButtonPill cancel={true} on:click={clearSearch}>Clear Result</ButtonPill> -->
 		</div></DisplayCard
 	>
 </main>
@@ -68,7 +92,7 @@
 	}
 
 	.root {
-		@apply p-[40px] pt-[60px] border-stone-600 overflow-hidden rounded-lg;
+		@apply p-[40px] pt-[69px] border-stone-600 overflow-hidden rounded-lg;
 		@include barberpole-background;
 
 		&:hover {

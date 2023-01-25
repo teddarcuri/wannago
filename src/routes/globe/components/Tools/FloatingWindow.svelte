@@ -15,13 +15,16 @@
 
 <style>
 	.root {
-		@apply bg-stone-900 bg-opacity-90 rounded-lg;
+		@apply bg-black rounded-lg;
 		position: fixed;
 		top: 80px;
 		right: 10px;
-		width: 280px;
+		width: 333px;
 		max-height: calc(100vh - 90px);
 		overflow: auto;
+		background: repeating-linear-gradient(120deg, #000, #000 11px, #222 11px, #222 12px);
+		background-size: 200%;
+		animation: barberpole 20s linear infinite;
 	}
 
 	@media (max-width: 800px) {

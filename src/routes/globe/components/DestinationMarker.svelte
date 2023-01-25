@@ -24,11 +24,10 @@
 	const name = destination?.name;
 	const lat = coordinates?.[1];
 	const lng = coordinates?.[0];
-	const icon = $userDestinationsStore.destinationTypes.find(
+	const icon = $userDestinationsStore.destinationTypes?.find(
 		type => type.id === destination?.type_id,
 	)?.icon;
 
-	// console.log('ICOIN', icon);
 	// Create mapbox Marker instance
 	const marker = createMarker({
 		name,
@@ -41,7 +40,6 @@
 	// Marker DOM element
 	const domElement: HTMLElement = marker.getElement();
 	const img: HTMLImageElement = getMarkerImgChildNode(domElement);
-	// img.src = mountainIcon;
 
 	// When user is editing the destination location
 	// we update the newCenter variable to determine
@@ -189,8 +187,8 @@
 	}
 
 	.mapboxgl-marker-wrapper {
-		height: 55px;
-		width: 55px;
+		height: 52px;
+		width: 52px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -198,8 +196,8 @@
 		z-index: 1;
 
 		&.add-destination {
-			height: 55px;
-			width: 55px;
+			height: 52px;
+			width: 52px;
 		}
 
 		&.hidden {
@@ -224,15 +222,15 @@
 	.mapboxgl-marker-wrapper:not(.add-destination):not(.active-destination):hover {
 		cursor: pointer;
 		z-index: 2;
-		height: 60px;
-		width: 60px;
+		height: 69px;
+		width: 69px;
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
 		.mapboxgl-marker-inner,
 	.add-destination .mapboxgl-marker-inner {
-		height: calc(100% - 8px);
-		width: calc(100% - 8px);
+		height: calc(100% - 11px);
+		width: calc(100% - 11px);
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
@@ -242,14 +240,18 @@
 
 	.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-background,
 	.add-destination .mapboxgl-marker-background {
-		background-image: linear-gradient(var(--angle), #d4dced, #b9cbe5, #99b9e6, #98adce);
-		opacity: 0.8;
+		background-image: linear-gradient(var(--angle), #d4dced, #bcc7d6e5, #99b9e6, #98adce);
+		opacity: 0.5;
 	}
 
-	.mapboxgl-marker-wrapper:hover img,
-	.add-destination img {
+	.mapboxgl-marker-wrapper:hover img {
 		opacity: 0.8 !important;
-		width: 28px;
+		width: 33px;
+	}
+
+	.add-destination img {
+		opacity: 0.9 !important;
+		width: 18px !important;
 	}
 
 	.add-destination:hover {
@@ -263,21 +265,21 @@
 		top: 0;
 		left: 0;
 		border-radius: 100%;
-		background-image: linear-gradient(var(--angle), #75849b, #6c7a8d, #57667e);
+		background-image: linear-gradient(var(--angle), #d4dced, #bcc7d6e5, #99b9e6, #98adce);
 		box-shadow: 0px 2px 9px 1px rgba(0, 0, 0, 0.5);
 		animation: 5.555s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;
 	}
 
 	/* Active Destination */
 	.active-destination {
-		height: 84px;
-		width: 84px;
+		height: 77px;
+		width: 77px;
 		z-index: 10;
 	}
 
 	.active-destination .mapboxgl-marker-inner {
-		height: calc(100% - 8px);
-		width: calc(100% - 8px);
+		height: calc(100% - 7px);
+		width: calc(100% - 7px);
 	}
 
 	.active-destination .mapboxgl-marker-inner img {
@@ -302,7 +304,7 @@
 
 	/* Marker States/Colors */
 	.destination {
-		opacity: 0.4;
+		opacity: 0.6;
 		background-image: linear-gradient(var(--angle), #ffffff, #d3d3d3);
 	}
 

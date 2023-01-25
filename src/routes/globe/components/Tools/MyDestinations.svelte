@@ -21,29 +21,42 @@
 		{/if}
 	</div>
 
+	<div class="sticky top-[48px] z-40 pl-4 bg-black bg-opacity-80">
+		<button>Alphabetical</button>
+		<!-- <button>Recent</button> -->
+		<button>By Type</button>
+		<!-- <button>Nearby</button> -->
+	</div>
+
 	<ul>
 		{#each filteredDestinations as destination}
+			{@const icon = $userDestinationsStore.destinationTypes.find(
+				type => type.id === destination.type_id,
+			)?.icon}
 			<li
 				class="group"
 				class:active={destination.id === $activeDestinationStore?.destination?.id}
 				class:noImage={!destination?.images?.public_url}
 			>
 				{#if destination?.images?.public_url}
-					<img src={destination.images.public_url} />
+					<img class="bg" src={destination.images.public_url} />
 				{/if}
 				<a
-					class="p-3 flex bg-black flex-col hover:bg-gray-900"
+					class="p-6 pl-3 flex bg-black  hover:bg-gray-900"
 					href={`/globe/destinations/${destination.id}`}
 				>
-					<h4 class="text-lg">
-						{destination.name}
-					</h4>
-					<p class="text-sm opacity-60">
-						{getLatLngDisplayText(
-							destination.coordinates.coordinates[1],
-							destination.coordinates.coordinates[0],
-						)}
-					</p>
+					<img class="w-[26px] h-[26px] mt-2 mr-4" src={icon} />
+					<div class="flex flex-col">
+						<h4 class="text-lg">
+							{destination.name}
+						</h4>
+						<p class="text-sm opacity-60">
+							{getLatLngDisplayText(
+								destination.coordinates.coordinates[1],
+								destination.coordinates.coordinates[0],
+							)}
+						</p>
+					</div>
 				</a>
 
 				<span
@@ -121,6 +134,20 @@
 		}
 	}
 
+	button {
+		@apply font-bold tracking-widest text-stone-200 rounded-xl my-2 mr-1;
+		background: #111;
+		padding: 0 10px;
+		height: 33px;
+		// border-radius: 5px;
+		text-transform: uppercase;
+		font-size: 10px;
+
+		&:hover {
+			background: #333;
+		}
+	}
+
 	li {
 		@apply relative border border-stone-800;
 		overflow: hidden;
@@ -134,7 +161,7 @@
 		}
 
 		a {
-			@apply border border-transparent pt-7;
+			@apply pt-7;
 			background: linear-gradient(111deg, black 30%, rgba(0, 0, 0, 0.7), transparent);
 
 			&:hover {
@@ -142,7 +169,7 @@
 			}
 		}
 
-		img {
+		img.bg {
 			@apply object-cover object-right w-[70%];
 			z-index: -1;
 			position: absolute;
@@ -155,9 +182,8 @@
 		&:hover {
 			opacity: 1;
 
-			img {
-				transform: scale(1.222);
-				// filter: blur(3px);
+			img.bg {
+				transform: scale(1.444);
 			}
 		}
 	}
