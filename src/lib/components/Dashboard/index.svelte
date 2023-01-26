@@ -18,60 +18,30 @@
 			<LoginForm />
 		</div>
 	{:else}
-		<div class="wrapper">
+		<div class="wrapper h-full flex">
 			<!-- <DevelopmentBanner /> -->
-			<section class="w-full pt-5">
-				<div class="item-1 w-[669px] flex flex-col flex-shrink-0 p-4 pt-0">
+			<section class="w-full h-full">
+				<div
+					class="w-[669px] h-full flex-shrink-0 flex-grow overflow-auto p-8 pt-[60px] relative"
+				>
 					<GlobeTile />
+					<MyDestinations />
 				</div>
-				<div class="item-2 p-4 pt-0">
-					<!-- <div class="flex mb-4">
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl">
-								{$userDestinationsStore.destinations.length}
-							</span>
-							<span>Destinations</span>
-						</div>
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl"> 521 </span>
-							<span>Waypoints</span>
-						</div>
-						<div class="flex flex-col text-center p-6 bg-zinc-900 rounded-md mr-4">
-							<span class="text-3xl"> 2 </span>
-							<span>Photos</span>
-						</div>
-					</div> -->
 
+				<div class="p-8">
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 						<!-- <GettingStarted /> -->
-						<!-- <div class="flex flex-col items-center">
-							<p>
-								You have
-								<span class="text-2xl mx-2">
-									{$userDestinationsStore.destinations.length}
-								</span>
-								<span>Destinations</span>
-							</p>
-
-							<br />
-							<p>
-								<span class="text-2xl mx-2"> 15 </span>
-								<span>of them are campsites</span>
-							</p>
-						</div> -->
-
 						<!-- <MyDestinations /> -->
 					</div>
-				</div>
-				<div class="item-3 p-4">
+
 					<form class="bg-black p-[33px]">
-						<h2 class="text-2xl font-bold mb-7">
-							👋 If you are seeing this, you're likely family or friend.
+						<h2 class="text-xl text-stone-400 mb-8">
+							<span class="mr-2">🌎</span> How would you like to use wannago?
 						</h2>
-						<h2 class="text-2xl font-bold mb-7">How would you like to use Wannago?</h2>
-						<p>
-							We are still figuring out what Wannago is - how it can provide value to you
-							- what unique problems it can solve.
+						<p class="px-3 mb-8  text-stone-300 ">
+							There are a lot of places this could end up. If you're seeing this you are
+							one of the first people to use Wannago. I'd love to know how you're using it
+							and how you would like to use it in the future.
 						</p>
 						<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
 						<ul>
@@ -91,7 +61,7 @@
 								>Take a minute to let us know what would be useful to you!</span
 							>
 						</p> -->
-						<h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4>
+						<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
 
 						<textarea
 							class="p-6 bg-gray-800 w-full"
@@ -99,6 +69,21 @@
 							name="feedback"
 						/>
 					</form>
+					<div class="flex flex-col items-center">
+						<p>
+							You have
+							<span class="text-2xl mx-2">
+								{$userDestinationsStore.destinations.length}
+							</span>
+							<span>Destinations</span>
+						</p>
+
+						<br />
+						<p>
+							<span class="text-2xl mx-2"> 15 </span>
+							<span>of them are campsites</span>
+						</p>
+					</div>
 					<Account session={$page.data.session} />
 				</div>
 			</section>
@@ -108,50 +93,24 @@
 
 <style style="scss">
 	section {
-		@apply mt-4 flex;
-		/* display: grid;
-		grid-template-columns: repeat(5, 1fr);
-		grid-template-rows: repeat(1, 1fr); */
+		@apply flex overflow-hidden;
 		width: 100%;
-		max-height: calc(100vh - 170px);
-	}
-
-	.item-1 {
-		height: 400px;
-		grid-area: 1 / 1 / 3 / 4;
-		display: flex;
-	}
-
-	.item-2 {
-		grid-area: 1 / 4 / 4 / 6;
-		overflow: auto;
-	}
-
-	.item-3 {
-		grid-area: 2 / 1 / 3 / 4;
+		/* max-height: calc(100vh - 170px); */
 	}
 
 	@media (max-width: 800px) {
-		section {
+		/* section {
 			display: flex;
 			flex-flow: column;
 			overflow: auto;
 			height: auto;
-		}
-		.item-1 {
-			height: 300px;
-		}
-
-		.item-2 {
-			overflow: none;
-			height: auto;
-		}
+		} */
 	}
 
 	main {
 		@apply absolute top-0 left-0
 		w-full h-full
-		overflow-auto
+		overflow-hidden
 		z-50;
 	}
 
@@ -166,7 +125,8 @@
 		max-width: 100%;
 		width: 1248px;
 		position: relative;
-		margin: 20px auto 0;
+		overflow: hidden;
+		margin: 0 auto;
 	}
 
 	header {

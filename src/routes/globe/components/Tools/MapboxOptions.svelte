@@ -15,7 +15,7 @@
 		if (style === Mapstyle.Light) return light;
 		if (style === Mapstyle.Earth) return satellite;
 		if (style === Mapstyle.Streets) return streets;
-		if (style === Mapstyle.Natural) return natural;
+		if (style === Mapstyle.Minimal) return natural;
 	};
 
 	$: console.log(map.getStyle());
@@ -25,7 +25,7 @@
 
 <div>
 	{#each Object.keys(Mapstyle) as key}
-		<button on:click={() => map.setStyle(Mapstyle[key])}>
+		<button class:active={false} on:click={() => map.setStyle(Mapstyle[key])}>
 			<img src={getImage(Mapstyle[key])} />
 			<p>{key}</p></button
 		>
@@ -33,29 +33,39 @@
 </div>
 
 <style lang="scss">
+	.active {
+		// @apply border-y border-stone-900;
+		img {
+			@apply mr-5 opacity-100;
+			transform: scale(1.6);
+		}
+	}
+
 	div {
 		@apply flex flex-col;
 	}
 
 	button {
-		@apply relative text-left text-lg text-stone-400
-		flex align-middle h-[60px] items-center
-		p-3 border-b bg-black border-stone-800 
+		@apply relative text-left text-lg text-stone-600
+		flex align-middle h-[44px] items-center
+		overflow-hidden
+		  bg-black border-transparent 
 			hover:bg-zinc-800
 			hover:text-white;
 		transition: all 0.1s ease-out;
 
 		img {
-			@apply rounded-full w-[30px] h-[30px] mr-4 ml-1;
+			@apply w-[35px] h-full mr-4 opacity-50;
 
 			transition: all 0.12s ease-out;
 		}
 
-		&:hover {
+		&:hover,
+		&:nth-child(2) {
+			@apply border-y border-stone-500 text-stone-100 text-xl;
 			img {
-				@apply mr-5;
-
-				transform: scale(1.3);
+				@apply mr-5 opacity-100;
+				transform: scale(1.6);
 			}
 		}
 	}

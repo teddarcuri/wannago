@@ -6,7 +6,7 @@
 	<div class="inner">
 		<slot />
 	</div>
-	<div class="gradient" />
+	<!-- <div class="gradient" /> -->
 </button>
 
 <style lang="scss">
@@ -33,7 +33,7 @@
 	}
 
 	.inner {
-		@apply bg-black bg-opacity-90 p-4 py-2 rounded-sm z-10 relative;
+		@apply bg-black text-2xl bg-opacity-90 p-4 py-2 rounded-sm z-10 relative;
 	}
 
 	.gradient {

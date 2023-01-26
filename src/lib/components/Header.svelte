@@ -1,8 +1,6 @@
 <script lang="ts">
 	import dashboard from '$lib/img/dashboard.svg';
-	import sidebar from '$lib/img/sidebar.svg';
 	import { page } from '$app/stores';
-	import { globalUIStore } from '../stores/globalUI';
 	import { addWaypointStore } from '../stores/addWaypoint';
 	import { addDestinationStore } from '../stores/addDestination';
 	import { activeDestinationStore } from '../stores/activeDestination';
@@ -11,7 +9,6 @@
 	$: navLink = isRoot ? '/globe' : '/';
 	$: navText = isRoot ? 'View Globe' : 'Dashboard';
 	$: session = $page.data.session;
-	$: sidebarActive = $globalUIStore.sidebarActive;
 	$: transparent = $activeDestinationStore.deleteMode;
 </script>
 
@@ -34,15 +31,6 @@
 			</a>
 		{/if}
 	</nav>
-	<!-- {#if !$addWaypointStore.active && !$addDestinationStore.marker}
-		<button
-			on:click={() => {
-				$globalUIStore.sidebarActive = !$globalUIStore.sidebarActive;
-			}}
-			class:active={sidebarActive}
-			class="sidebar"><img width="15px" height="15px" src={sidebar} /></button
-		>
-	{/if} -->
 </header>
 
 <style lang="scss">

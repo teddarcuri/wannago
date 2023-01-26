@@ -31,7 +31,7 @@
 			class="dropdown 
         	flex flex-row flex-wrap absolute
        	 bg-black bg-opacity-90 p-3
-        	rounded-lg top-[77px] left-0 
+        	rounded-sm top-[77px] left-0 
         	w-[545px]"
 		>
 			{#each destinationTypes as type}
@@ -78,7 +78,7 @@
 	}
 
 	.dropdown {
-		@apply border-2 border-zinc-600 rounded-2xl;
+		@apply border border-zinc-800 rounded-md;
 		// animation: barberpole 42s linear infinite;
 		// background: repeating-linear-gradient(120deg, #000, #000 11px, #222 11px, #222 12px);
 		background-size: 200%;

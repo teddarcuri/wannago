@@ -8,6 +8,7 @@
 	export let subtitle;
 	export let img;
 	export let maxTilt = 3;
+	export let minHeight = 'auto';
 
 	onMount(() => {
 		setTimeout(() => {
@@ -22,6 +23,7 @@
 
 <a
 	class:noImage={!img}
+	style={minHeight}
 	data-tilt
 	data-tilt-max={maxTilt}
 	in:fly={{ delay: 222, duration: 1222 }}
@@ -95,13 +97,11 @@
 
 	a:hover img {
 		@apply opacity-100;
-		transform: scale(1.05);
+		transform: scale(1.1);
 	}
 
 	a img {
-		/* transform: scale(1) translateZ(20px); */
 		transition: all ease 0.6s;
-
 		@apply absolute top-0 left-0 opacity-50 h-full w-full object-cover;
 	}
 </style>

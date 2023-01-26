@@ -37,7 +37,7 @@
 				destination.coordinates.coordinates[1],
 				destination.coordinates.coordinates[0],
 			)}
-			<div class="h-[200px] w-full mb-5">
+			<div class="h-[111px] w-full mb-5">
 				<TitleTile
 					maxTilt={5}
 					title={destination.name}
@@ -66,7 +66,7 @@
 <style lang="scss">
 	.input-wrapper {
 		@apply flex sticky
-		overflow-hidden top-0 z-50;
+		overflow-hidden top-[-60px] z-50;
 
 		img {
 			position: absolute;

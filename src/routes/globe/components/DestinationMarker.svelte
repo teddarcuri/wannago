@@ -187,8 +187,8 @@
 	}
 
 	.mapboxgl-marker-wrapper {
-		height: 52px;
-		width: 52px;
+		height: 40px;
+		width: 40px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -222,15 +222,15 @@
 	.mapboxgl-marker-wrapper:not(.add-destination):not(.active-destination):hover {
 		cursor: pointer;
 		z-index: 2;
-		height: 69px;
-		width: 69px;
+		height: 62px;
+		width: 62px;
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
 		.mapboxgl-marker-inner,
 	.add-destination .mapboxgl-marker-inner {
-		height: calc(100% - 11px);
-		width: calc(100% - 11px);
+		height: calc(100% - 7px);
+		width: calc(100% - 7px);
 	}
 
 	.mapboxgl-marker-wrapper:not(.active-destination):not(.add-destination):hover
@@ -241,12 +241,12 @@
 	.mapboxgl-marker-wrapper:not(.active-destination):hover .mapboxgl-marker-background,
 	.add-destination .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #d4dced, #bcc7d6e5, #99b9e6, #98adce);
-		opacity: 0.5;
+		opacity: 0.7;
 	}
 
 	.mapboxgl-marker-wrapper:hover img {
 		opacity: 0.8 !important;
-		width: 33px;
+		width: 27px;
 	}
 
 	.add-destination img {
@@ -272,8 +272,8 @@
 
 	/* Active Destination */
 	.active-destination {
-		height: 77px;
-		width: 77px;
+		height: 70px;
+		width: 70px;
 		z-index: 10;
 	}
 
@@ -283,16 +283,16 @@
 	}
 
 	.active-destination .mapboxgl-marker-inner img {
-		opacity: 0.8;
-		width: 38px;
+		opacity: 0.9 !important;
+		width: 33px;
 	}
 
 	.active-destination .mapboxgl-marker-background {
 		background-image: linear-gradient(
 			var(--angle),
 			rgb(101, 197, 133),
-			#307f6e,
-			#6fdbf6,
+			#589184,
+			#44a9c3,
 			rgb(102, 175, 102),
 			rgb(62, 127, 187)
 		);
@@ -304,7 +304,7 @@
 
 	/* Marker States/Colors */
 	.destination {
-		opacity: 0.6;
+		opacity: 0.666;
 		background-image: linear-gradient(var(--angle), #ffffff, #d3d3d3);
 	}
 
@@ -337,8 +337,8 @@
 	}
 
 	.mapboxgl-marker-inner img {
-		width: 25px;
-		opacity: 0.4;
+		width: 19px;
+		opacity: 0.888888888;
 		// transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
 	}
 

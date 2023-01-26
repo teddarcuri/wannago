@@ -159,20 +159,22 @@
 			/>
 			<h4>Upload a Cover Photo</h4>
 			{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
-			<p class="text-stone-300 text-sm">This photo must be at least 880px wide</p>
+			<p class="text-stone-300 max-w-[300px] mt-4 text-sm">
+				This photo will be used throughout the app to help identify this destination.
+			</p>
 		</div>
 	{/if}
 </section>
 
 <style lang="scss">
 	section {
-		@apply bg-black w-[90%] max-w-[666px] h-[420px]
+		@apply bg-black w-[90%] max-w-[444px] h-[400px]
         grid place-items-center rounded-lg relative overflow-hidden;
 		padding: 20px;
 
-		&:hover {
-			@apply bg-slate-800;
-		}
+		// &:hover {
+		// 	@apply bg-slate-800;
+		// }
 	}
 
 	.preview {
