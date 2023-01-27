@@ -2,11 +2,11 @@
 	import { page } from '$app/stores';
 	import type { Map } from 'mapbox-gl';
 	import { onMount, setContext } from 'svelte';
-	// @globe
 	import bootstrapMapbox from '@globe/util/bootstrapMapbox';
 	import AddWaypointMarker from './AddWaypointMarker.svelte';
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
+	import CameraControls from '@/lib/features/mapbox/CameraControls.svelte';
 	import { addWaypointStore } from '$lib/stores/addWaypoint';
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
@@ -48,9 +48,11 @@
 		class="cursor"
 	/>
 {/if}
+
 {#if map}
 	{#if session && !isRoot}
 		<ActiveInfoDisplay />
+		<CameraControls />
 	{/if}
 	{#if !isRoot}
 		<Tools {map} />
