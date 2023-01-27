@@ -35,7 +35,7 @@
 
 	export let data: PageData;
 	const { getMap } = getContext('map');
-	const map = getMap();
+	$: map = getMap();
 
 	let loading = false;
 
@@ -68,9 +68,8 @@
 		description,
 	}
 
-	console.log('DESTINATION ICON', destinationIcon);
-
 	const handleFlyTo = () => {
+		if (!map || !lat || !lng) throw Error('Map not loaded or something!?!?!');
 		map.flyTo({
 			center: [lng, lat],
 			zoom: 15,

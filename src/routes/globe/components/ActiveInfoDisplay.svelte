@@ -44,7 +44,8 @@
 <style>
 	div {
 		@apply absolute top-0 left-0 z-50 min-w-[220px] 
-		 px-7 py-2 text-center opacity-100
+		 px-7 py-3 text-center opacity-100
+		 h-[50px]
 		rounded-br-sm
 		text-sm tracking-widest;
 		z-index: 99;

@@ -16,7 +16,6 @@
 				max: maxTilt,
 				speed: 600,
 			});
-			console.log('VANNNNNILLA: ', VanillaTilt);
 		}, 222);
 	});
 </script>

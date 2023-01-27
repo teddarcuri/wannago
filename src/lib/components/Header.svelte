@@ -41,7 +41,7 @@
 
 	#app-nav {
 		@apply bg-black;
-		flex: 0 0 70px;
+		flex: 0 0 77px;
 		display: flex;
 		width: 100%;
 		align-items: center;

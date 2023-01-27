@@ -35,7 +35,7 @@ export const load: LayoutLoad = async event => {
 		console.log(error);
 	}
 
-	// select all destination types | conditional added to prevent refetch on invalidate. May be worth revising this data fetching strategy
+	// select all destination types
 	if (!get(userDestinationsStore).destinationTypes.length) {
 		try {
 			const { data: destinationTypes } = await supabaseClient

@@ -77,6 +77,7 @@
 				} = data; // yes, the double coordinates is unfortunate...
 
 				userDestinationsStore.update(s => ({
+					...s,
 					destinations: [...s.destinations, data],
 				}));
 
@@ -164,7 +165,7 @@
 			</div>
 		{:else}
 			<DestinationTypeSelector />
-			<div class="w-full flex flex-col items-start -mt-[11px]">
+			<div class=" flex flex-col items-start -mt-[11px]">
 				<input
 					class="w-full"
 					autofocus

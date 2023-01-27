@@ -66,11 +66,11 @@
 		}));
 		domElement.classList.add('active-destination');
 
-		map.flyTo({
-			zoom: map.getZoom() < 10 ? 14 : map.getZoom(),
+		map.easeTo({
+			zoom: map.getZoom() < 10 ? map.getZoom() + 1 : map.getZoom(),
 			center,
-			pitch: 69,
-			speed: 2,
+			// pitch: 69,
+			speed: 12,
 		});
 
 		// Edit location mode
@@ -245,8 +245,8 @@
 	}
 
 	.mapboxgl-marker-wrapper:hover img {
-		opacity: 0.8 !important;
-		width: 27px;
+		opacity: 1 !important;
+		width: 28px;
 	}
 
 	.add-destination img {
@@ -297,14 +297,11 @@
 			rgb(62, 127, 187)
 		);
 		opacity: 1;
-
-		/* background-image: linear-gradient(var(--angle), #fe77a6, #b3156f, #d41b5b, #9e0d38); */
-		/* background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224); */
 	}
 
 	/* Marker States/Colors */
 	.destination {
-		opacity: 0.666;
+		opacity: 0.88;
 		background-image: linear-gradient(var(--angle), #ffffff, #d3d3d3);
 	}
 
@@ -328,8 +325,8 @@
 	.mapboxgl-marker-inner {
 		background-image: linear-gradient(0deg, rgb(47, 47, 47), #000);
 		border-radius: 50%;
-		height: calc(100% - 6px);
-		width: calc(100% - 6px);
+		height: calc(100% - 5px);
+		width: calc(100% - 5px);
 		z-index: 4;
 		display: flex;
 		align-items: center;
@@ -338,8 +335,7 @@
 
 	.mapboxgl-marker-inner img {
 		width: 19px;
-		opacity: 0.888888888;
-		// transition: height ease-in-out 0.2s, width ease-in-out 0.25s;
+		opacity: 0.88;
 	}
 
 	.mapboxgl-marker.loading img {

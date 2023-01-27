@@ -5,9 +5,14 @@
 	import { onMount } from 'svelte';
 
 	let destinationTypes = $userDestinationsStore.destinationTypes;
-	$: selectedType = destinationTypes[0] || {};
+	$: selectedType = destinationTypes[0];
 
 	let showDropdown = true;
+
+	// on mount set the destinationTypeId to the first type
+	onMount(() => {
+		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType.id }));
+	});
 
 	const setActivetype = type => {
 		selectedType = type;
@@ -53,7 +58,7 @@
 
 <style lang="scss">
 	.root {
-		@apply pr-2 w-[111px];
+		@apply pr-2;
 
 		button.toggle.active {
 			@apply border-zinc-600 rounded-2xl;

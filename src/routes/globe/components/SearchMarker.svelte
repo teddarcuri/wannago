@@ -29,7 +29,7 @@
 
 <style global lang="scss">
 	.search-result {
-		@apply h-[77px] w-[77px] flex items-center justify-center;
+		@apply h-[66px] w-[66px] flex items-center justify-center;
 
 		img {
 			opacity: 1;

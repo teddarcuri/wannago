@@ -3,7 +3,7 @@
 </script>
 
 <div class="root flex w-full h-full">
-	<div class="main pt-[50px] ">
+	<div class="main pt-[60px] ">
 		<slot />
 	</div>
 	<div class="flex-1 relative z-50">

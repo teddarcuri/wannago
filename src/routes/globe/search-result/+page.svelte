@@ -81,7 +81,7 @@
 	}
 
 	main {
-		@apply mt-[30px] pt-[20px] pb-3 px-[20px];
+		@apply mt-[30px] pt-[40px] pb-3 px-[20px];
 		position: relative;
 		max-height: calc(100vh - 80px);
 		overflow: auto;

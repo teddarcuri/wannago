@@ -12,7 +12,7 @@
 />
 <div class="sidebar">
 	<a href={backLink}>&#8592</a>
-	<button>+</button>
+	<!-- <button>+</button> -->
 </div>
 <main in:fade={{ delay: 222, duration: 222 }}>
 	<CoverPhoto {coverPhoto} />
@@ -20,11 +20,11 @@
 
 <style lang="scss">
 	main {
-		padding: 20px 20px 50px 100px;
+		padding: 30px 20px 50px 80px;
 	}
 
 	.sidebar {
-		@apply absolute left-0 top-[60px] flex flex-col;
+		@apply absolute left-0 top-[66px] flex flex-col;
 
 		button,
 		a {

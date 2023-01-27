@@ -41,17 +41,20 @@
 		out:fade={{ delay: 0, duration: 90 }}
 		class="root"
 	>
-		<button on:click={setAddDestinationActive}>+</button>
+		<button title="Create Destination" on:click={setAddDestinationActive}
+			><span class="font-bold text-4xl">+</span></button
+		>
 
 		<span class="relative">
 			<button
+				title="My Destinations"
 				class:active={activeTool === Tool.destinations}
 				class="text-md ml-3"
 				on:click={() => {
 					toggleTool(Tool.destinations);
 				}}
 			>
-				<img class="w-[19px] h-[19px]" src={mountainIcon} alt="search" />
+				<img class="w-[22px] h-[22px]" src={mountainIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.destinations}
 				<FloatingWindow>
@@ -61,11 +64,12 @@
 		</span>
 		<span class="relative">
 			<button
+				title="Map Options"
 				class:active={activeTool === Tool.mapboxOptions}
 				class="text-md ml-3"
 				on:click={() => toggleTool(Tool.mapboxOptions)}
 			>
-				<img class="w-[19px] h-[19px]" src={globeIcon} alt="search" />
+				<img class="w-[22px] h-[22px]" src={globeIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.mapboxOptions}
 				<FloatingWindow>
@@ -75,11 +79,12 @@
 		</span>
 		<span class="relative">
 			<button
+				title="Find something"
 				class:active={activeTool === Tool.search}
 				class="text-md ml-3"
 				on:click={() => toggleTool(Tool.search)}
 			>
-				<img class="w-[14px] h-[14px]" src={searchIcon} alt="search" />
+				<img class="w-[19px] h-[19px]" src={searchIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.search}
 				<FloatingWindow>
@@ -92,12 +97,12 @@
 
 <style lang="scss">
 	.root {
-		@apply fixed flex top-[15px] right-[14px];
+		@apply fixed flex top-[15px] right-[20px];
 		z-index: 998;
 	}
 
 	button {
-		@apply bg-black h-[46px] w-[46px] grid place-items-center text-3xl rounded-md
+		@apply bg-black h-[48px] w-[48px] grid place-items-center rounded-md
         text-stone-200;
 
 		&.active {
