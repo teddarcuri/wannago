@@ -8,7 +8,7 @@
 		transition: all ease 0.3s;
 		max-height: calc(100vh - 155px);
 		box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.2);
-		@apply overflow-auto bg-black flex 
+		@apply overflow-visible bg-black flex 
                 text-gray-200 rounded-lg  relative
                w-[380px] min-h-[20px] z-50;
 	}

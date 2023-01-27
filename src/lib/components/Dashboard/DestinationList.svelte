@@ -37,7 +37,7 @@
 				destination.coordinates.coordinates[1],
 				destination.coordinates.coordinates[0],
 			)}
-			<div class="h-[111px] w-full mb-5">
+			<div class="h-[200px] w-full mb-3">
 				<TitleTile
 					maxTilt={5}
 					title={destination.name}

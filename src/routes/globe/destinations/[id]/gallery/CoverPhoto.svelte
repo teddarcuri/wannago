@@ -19,6 +19,7 @@
 
 	let imageFile = null;
 	let imageDimensions;
+	let isLoading = false;
 	let destinationId = $page.data.destination.id;
 	let showDeleteConfirmation = false;
 	let uploadError;
@@ -26,6 +27,7 @@
 	const userId = $page?.data?.session?.user?.id;
 
 	async function handleUpload() {
+		isLoading = true;
 		activeInfoDisplayStore.update(s => ({
 			...s,
 			status: ActiveInfoDisplayStatus.Action,
@@ -64,6 +66,8 @@
 				displayText: 'Something went wrong.',
 			}));
 		}
+
+		isLoading = false;
 	}
 
 	async function createImageRecord(path, dimensions) {
@@ -114,6 +118,9 @@
 </script>
 
 <section>
+	{#if isLoading}
+		LOADING DATTT
+	{/if}
 	{#if coverPhoto}
 		<img class="photo" src={coverPhoto.public_url} />
 
@@ -157,11 +164,13 @@
 				}}
 				onError={error => (uploadError = error)}
 			/>
-			<h4>Upload a Cover Photo</h4>
-			{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
-			<p class="text-stone-300 max-w-[300px] mt-4 text-sm">
-				This photo will be used throughout the app to help identify this destination.
-			</p>
+			<div class="absolute bottom-0 p-8 opacity-0 left-0">
+				<h4>Upload a Cover Photo</h4>
+				{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
+				<p class="text-stone-300 max-w-[300px] mt-4 text-sm">
+					This photo will be used throughout the app to help identify this destination.
+				</p>
+			</div>
 		</div>
 	{/if}
 </section>

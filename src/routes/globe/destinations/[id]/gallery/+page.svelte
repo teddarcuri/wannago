@@ -20,11 +20,11 @@
 
 <style lang="scss">
 	main {
-		padding: 30px 20px 50px 80px;
+		padding: 0px 20px 50px 80px;
 	}
 
 	.sidebar {
-		@apply absolute left-0 top-[66px] flex flex-col;
+		@apply absolute left-0 top-[34px] flex flex-col;
 
 		button,
 		a {

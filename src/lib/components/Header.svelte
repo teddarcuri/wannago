@@ -7,7 +7,7 @@
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
-	$: navText = isRoot ? 'View Globe' : 'Dashboard';
+	$: navText = isRoot ? 'Exit Dashboard' : 'Dashboard';
 	$: session = $page.data.session;
 	$: transparent = $activeDestinationStore.deleteMode;
 </script>
@@ -19,6 +19,7 @@
 			<a
 				class:active={isRoot}
 				class="
+				dashboard-link
                 duration-999 flex items-center 
                 text-xs uppercase tracking-widest 
                 opacity-50 transition-all ease-in-out 
@@ -72,6 +73,9 @@
 
 	// at the medium breakpoint, make the dashboard link go to the right
 	@media (max-width: 768px) {
+		.dashboard-link {
+			display: none;
+		}
 		nav {
 			// margin-left: auto;
 			// padding-right: 24px;

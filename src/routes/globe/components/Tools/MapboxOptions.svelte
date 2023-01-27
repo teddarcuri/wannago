@@ -68,7 +68,7 @@
 		@apply relative text-left text-lg text-stone-400
 		flex align-middle h-[55px] items-center
 		overflow-hidden
-		  bg-black border-b-2 border-black 
+		  bg-black border-y border-b-2 border-black 
 			hover:bg-black
 			hover:text-white;
 		transition: all 0.1s ease-out;
@@ -80,7 +80,7 @@
 		}
 
 		&:hover {
-			@apply border-y border-stone-900 text-stone-100 text-lg;
+			@apply border-stone-700 text-stone-100 text-lg;
 			img {
 				@apply mr-5 opacity-100;
 				transform: scale(1.6);
@@ -89,7 +89,7 @@
 	}
 
 	.active {
-		@apply border-y border-b-2 border-b-stone-700;
+		// @apply border-y border-b-2 border-b-stone-700;
 		img {
 			@apply mr-5 opacity-100;
 			transform: scale(1.6);

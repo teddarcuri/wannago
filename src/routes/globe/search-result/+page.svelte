@@ -66,7 +66,7 @@
 			<p class="my-4">{coordinates}</p>
 
 			<ButtonPill handleClick={createDestinationFromSearchResult}
-				>Add as Destination</ButtonPill
+				>Create Destination</ButtonPill
 			>
 		</div></DisplayCard
 	>

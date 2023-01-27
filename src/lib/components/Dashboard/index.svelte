@@ -8,6 +8,8 @@
 	import { fly } from 'svelte/transition';
 	import DevelopmentBanner from '../DevelopmentBanner.svelte';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
+	import Textarea from '../Textarea.svelte';
+	import ButtonPill from '../ButtonPill.svelte';
 	$: session = $page.data.session;
 </script>
 
@@ -28,20 +30,20 @@
 					<MyDestinations />
 				</div>
 
-				<div class="p-8">
+				<div class="p-8 pt-[60px]">
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 						<!-- <GettingStarted /> -->
 						<!-- <MyDestinations /> -->
 					</div>
 
-					<form class="bg-black p-[33px]">
-						<h2 class="text-xl text-stone-400 mb-8">
-							<span class="mr-2">🌎</span> How would you like to use wannago?
+					<form class="bg-black rounded-md overflow-auto p-[33px]">
+						<h2 class="text-xl text-stone-300 mb-8">
+							<span class="mr-2">👋 🌎</span> How would you like to use wannago?
 						</h2>
-						<p class="px-3 mb-8  text-stone-300 ">
-							There are a lot of places this could end up. If you're seeing this you are
-							one of the first people to use Wannago. I'd love to know how you're using it
-							and how you would like to use it in the future.
+						<p class="px-3 mb-8  text-stone-400">
+							If you're seeing this you are one of the first people to use Wannago. I'd
+							love to know how you're using it and what features would add value to your
+							experience.
 						</p>
 						<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
 						<ul>
@@ -63,11 +65,12 @@
 						</p> -->
 						<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
 
-						<textarea
-							class="p-6 bg-gray-800 w-full"
-							placeholder="I'd like to see..."
+						<Textarea
+							class="p-6 bg-stone-900 w-full"
+							placeholder="Leave us some feedback."
 							name="feedback"
 						/>
+						<ButtonPill>Submit feedback</ButtonPill>
 					</form>
 					<div class="flex flex-col items-center">
 						<p>

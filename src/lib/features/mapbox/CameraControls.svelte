@@ -12,6 +12,7 @@
 	import Sattelite from '$lib/img/sattelite.svg';
 
 	import { getContext } from 'svelte';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	const { getMap } = getContext('map');
 	const map = getMap();
 
@@ -25,6 +26,15 @@
 		const bearing = map.getBearing();
 
 		map.rotateTo(bearing - 45, { duration: 1000 });
+	}
+
+	// flyToSpace function that get coordinates of active destination and flies to it
+	function flyToSpace() {
+		const [lng, lat] = $activeDestinationStore.destination.coordinates.coordinates;
+		map.flyTo({
+			center: [lng, lat],
+			zoom: 4,
+		});
 	}
 </script>
 
@@ -63,9 +73,7 @@
 		><img src={North} /></button
 	>
 
-	<button
-		title="Fly to Space"
-		on:click={() => map.easeTo({ zoom: 4 }, { duration: 2000 })}
+	<button title="Fly to Space" on:click={() => flyToSpace()}
 		><img src={Sattelite} /></button
 	>
 
@@ -76,7 +84,7 @@
 	div {
 		@apply fixed flex right-[11px] bottom-[30px] flex items-center 
 		p-3 py-1 
-        bg-black bg-opacity-0 rounded-full
+        bg-black bg-opacity-50 rounded-full
 			hover:bg-opacity-100;
 		z-index: 200;
 		// transform: translateX(-50%);

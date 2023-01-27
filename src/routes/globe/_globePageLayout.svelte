@@ -1,10 +1,13 @@
 <script>
+	import { page } from '$app/stores';
 	import ContextBanner from '@/lib/components/ContextBanner.svelte';
 </script>
 
 <div class="root flex w-full h-full">
-	<div class="main pt-[60px] ">
-		<slot />
+	<div class="main pt-[60px]">
+		{#key $page.params.id}
+			<slot />
+		{/key}
 	</div>
 	<div class="flex-1 relative z-50">
 		<ContextBanner />

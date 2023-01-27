@@ -101,6 +101,6 @@
 
 	a img {
 		transition: all ease 0.6s;
-		@apply absolute top-0 left-0 opacity-50 h-full w-full object-cover;
+		@apply absolute top-0 left-0 opacity-80 h-full w-full object-cover;
 	}
 </style>

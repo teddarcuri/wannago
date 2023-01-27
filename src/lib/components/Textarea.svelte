@@ -35,6 +35,7 @@
 	.root {
 		/* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
 		display: grid;
+		width: 100%;
 	}
 	.root::after {
 		/* Note the weird space! Needed to preventy jumpy behavior */

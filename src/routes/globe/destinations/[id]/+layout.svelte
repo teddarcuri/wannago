@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { afterUpdate, beforeUpdate, getContext } from 'svelte';
 	import type { PageData } from './$types';
 	import { supabaseClient } from '@/lib/db';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
@@ -24,6 +24,7 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
+	import DestinationTypeSelector from '@/lib/features/destinations/DestinationTypeSelector.svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -34,26 +35,19 @@
 	}
 
 	export let data: PageData;
+
 	const { getMap } = getContext('map');
-	$: map = getMap();
-
+	let map = getMap();
 	let loading = false;
+	let formData = {
+		...data.destination,
+	};
 
-	// TODO IN THE MORNING: Had to make this reactive again
-	// but this is breaking the edit/form
-	// how do we preserve reactivity? but also make it editable? hmmmmmm....
+	console.log('data', data);
 
 	$: destination = data.destination;
-	$: name = destination?.name;
-	$: description = destination?.description;
 	$: lat = destination?.coordinates?.coordinates[1];
 	$: lng = destination?.coordinates?.coordinates[0];
-	$: waypoints = destination?.waypoints;
-	$: destinationIcon = $userDestinationsStore.destinationTypes.find(
-		({ id }) => id === destination?.type_id,
-	)?.icon;
-
-	console.log($userDestinationsStore.destinationTypes, destination?.type_id);
 
 	// Gallery link
 	$: isGallery = $page?.routeId === '/globe/destinations/[id]/gallery';
@@ -66,9 +60,20 @@
 	enum Fields {
 		name,
 		description,
+		type_id,
 	}
 
+	afterUpdate(() => {
+		// Reset form data if destination changes
+		if (formData.id !== data.destination.id) {
+			formData = {
+				...data.destination,
+			};
+		}
+	});
+
 	const handleFlyTo = () => {
+		console.log(map, lat, lng);
 		if (!map || !lat || !lng) throw Error('Map not loaded or something!?!?!');
 		map.flyTo({
 			center: [lng, lat],
@@ -77,8 +82,11 @@
 	};
 
 	const handleSubmit = async field => {
-		if (field === Fields.name && name === destination.name) return;
-		if (field === Fields.description && description === destination.description) return;
+		console.log('FIELD', Fields[field], formData);
+		if (field === Fields.name && formData.name === destination.name) return;
+		if (field === Fields.type_id && formData.type_id === destination.type_id) return;
+		if (field === Fields.description && formData.description === destination.description)
+			return;
 		loading = true;
 
 		activeInfoDisplayStore.update(s => ({
@@ -86,9 +94,11 @@
 			displayText: 'Saving...',
 		}));
 
+		// TODO: refactor this into sveltekit route
 		const updates = {
-			name,
-			description,
+			name: formData.name,
+			description: formData.description,
+			type_id: formData.type_id,
 		};
 
 		// Update record
@@ -163,7 +173,7 @@
 						</a>
 						<!-- Buttons/Controls -->
 						<div class="fly-to control-button">
-							<button alt="Fly to destination" on:click={handleFlyTo}>
+							<button title="Focus Locationx" on:click={handleFlyTo}>
 								<img
 									src={centerIcon}
 									alt="Fly to destination"
@@ -181,27 +191,39 @@
 						<!-- Form -->
 						<form on:submit|preventDefault={handleSubmit}>
 							<section>
-								<div class="flex flex-col">
-									<img class="absolute top-[17px]" width={22} src={destinationIcon} />
+								<div class="flex flex-col relative">
+									{#if formData.type_id}
+										<div class="absolute top-[60px] left-[-20px]">
+											<DestinationTypeSelector
+												activeTypeId={formData.type_id}
+												onSelect={type => {
+													formData.type_id = type.id;
+													handleSubmit(Fields.type_id);
+												}}
+											/>
+										</div>
+									{/if}
 									<textarea
 										name="name"
 										rows="1"
 										disabled={isGallery}
-										class="text-3xl pl-[20px] bg-transparent font-semibold"
-										bind:value={name}
+										class="text-3xl bg-transparent font-semibold z-40"
+										bind:value={formData.name}
 										on:blur={() => handleSubmit(Fields.name)}
 									/>
 									{#if destination.coordinates}
 										<Coordinates disabled={isGallery} {lat} {lng} />
 									{/if}
 								</div>
-								<Textarea
-									name="description"
-									bind:value={description}
-									disabled={isGallery}
-									onBlur={() => handleSubmit(Fields.description)}
-									placeholder="Enter a description..."
-								/>
+								<div class="max-h-[300px] w-full overflow-y-auto">
+									<Textarea
+										name="description"
+										bind:value={formData.description}
+										disabled={isGallery}
+										onBlur={() => handleSubmit(Fields.description)}
+										placeholder="Enter a description..."
+									/>
+								</div>
 							</section>
 						</form>
 					{/if}
@@ -211,17 +233,17 @@
 		</main>
 	{/if}
 	<slot slot="content" />
-	{#if waypoints}
+	<!-- {#if waypoints}
 		<WaypointMarkers {waypoints} />
-	{/if}
+	{/if} -->
 </GlobePageLayout>
 
 <style lang="scss">
 	main {
 		position: relative;
 		max-height: calc(100vh - 80px);
-		overflow: auto;
-		width: 380px;
+		overflow: visible;
+		width: 399px;
 		display: flex;
 		flex-flow: column nowrap;
 
@@ -276,15 +298,15 @@
 	}
 
 	[name='name'] {
-		@apply rounded-md;
-		padding: 6px 0px 6px 36px;
+		@apply rounded-md ml-[50px];
+		padding: 6px 0px 6px 0px;
 		border: solid 2px transparent;
 		transition: all ease 0.2s;
 		resize: none;
 		&:focus:not([disabled]),
 		&:hover:not([disabled]) {
 			padding: 6px;
-			padding-left: 30px;
+			padding-left: 10px;
 		}
 		&:focus:not([disabled]) {
 			background: rgba(255, 255, 255, 0.1111);

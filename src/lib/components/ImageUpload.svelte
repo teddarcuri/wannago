@@ -22,7 +22,10 @@
 	}
 </script>
 
-<div class="p-4">
+<button
+	class="p-4 absolute w-full h-full hover:bg-stone-900 "
+	on:click={() => fileInput.click()}
+>
 	<input
 		name="cover-photo"
 		type="file"
@@ -31,27 +34,12 @@
 		bind:this={fileInput}
 		on:change={handleChange}
 	/>
-	<Button class="add-button" onClick={() => fileInput.click()}>
-		<div class="grid place-items-center h-full justify-center items-center">
-			<img class="w-[20px] h-[20px]" src={addIcon} />
-		</div>
-	</Button>
-</div>
+	<div class="grid place-items-center h-full justify-center items-center">
+		<img class="w-[33px] h-[33px]" src={addIcon} />
+	</div>
+</button>
 
 <style lang="scss">
-	div :global(.add-button) {
-		border-radius: 50%;
-		width: 60px;
-		height: 60px;
-		padding: 2px;
-	}
-
-	div :global(.add-button .inner) {
-		border-radius: 50%;
-		height: 100%;
-		width: 100%;
-	}
-
 	input {
 		display: none;
 	}

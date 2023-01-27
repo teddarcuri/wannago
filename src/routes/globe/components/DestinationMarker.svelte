@@ -65,13 +65,14 @@
 			destination,
 		}));
 		domElement.classList.add('active-destination');
+		// domElement.classList.add('golden2');
 
-		map.easeTo({
-			zoom: map.getZoom() < 10 ? map.getZoom() + 1 : map.getZoom(),
-			center,
-			// pitch: 69,
-			speed: 12,
-		});
+		// map.flyTo({
+		// 	zoom: map.getZoom() < 10 ? map.getZoom() + 1 : map.getZoom(),
+		// 	center,
+		// 	// pitch: 69,
+		// 	duration: 2000,
+		// });
 
 		// Edit location mode
 		if ($activeDestinationStore.editLocationMode) {
@@ -311,6 +312,10 @@
 
 	.mapboxgl-marker.golden .mapboxgl-marker-background {
 		background-image: linear-gradient(var(--angle), #cdbd44, #ece7a1, #c5ae5c, #7a5224);
+	}
+
+	.mapboxgl-marker.dark .mapboxgl-marker-background {
+		background-image: linear-gradient(var(--angle), #171717, #000000, #2a2a29, #131313);
 	}
 
 	.mapboxgl-marker.golden2 .mapboxgl-marker-background {

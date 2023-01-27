@@ -16,8 +16,11 @@
 	import { searchStore } from '@/lib/stores/search';
 
 	export let map: Map;
-	onMount(async () => (map = await bootstrapMapbox())); // Setup mapbox-gl
-	setContext('map', { getMap: () => map }); // Provide map context - getMap is used instead of map because map is undefined onMount
+	onMount(async () => {
+		map = await bootstrapMapbox();
+	}); // Setup mapbox-gl
+
+	$: setContext('map', { getMap: () => map }); // Provide map context - getMap is used instead of map because map is undefined onMount
 
 	$: isRoot = $page.url.pathname === '/';
 	$: isGlobe = $page.url.pathname === '/globe';
@@ -31,9 +34,9 @@
 	$: showCursor = $addWaypointStore.active || $addDestinationStore.active;
 
 	// reset cursor to default on map canvas when addDestination.active is false
-	// $: if (!$addDestinationStore.active) {
-	// 	map?.getCanvas().style.cursor = 'default';
-	// }
+	$: if (!$addDestinationStore.active && map) {
+		map.getCanvas().style.cursor = '';
+	}
 
 	$: console.log('SEAAARCHHH: ', $searchStore);
 </script>
@@ -50,11 +53,13 @@
 {/if}
 
 {#if map}
-	{#if session && !isRoot}
+	{#if session && !isRoot && !isGallery}
 		<ActiveInfoDisplay />
-		<CameraControls />
+		{#if !$activeDestinationStore.deleteMode}
+			<CameraControls />
+		{/if}
 	{/if}
-	{#if !isRoot}
+	{#if !isRoot && !isGallery}
 		<Tools {map} />
 	{/if}
 	<DestinationMarkers {map} />
@@ -107,7 +112,7 @@
 	}
 
 	.blur {
-		@apply blur-md;
-		transform: scale(1.069);
+		@apply blur-xl;
+		transform: scale(1.11);
 	}
 </style>

@@ -1,27 +1,30 @@
-<script>
+<script lang="ts">
 	import { supabaseClient } from '@/lib/db';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import { onMount } from 'svelte';
 
 	let destinationTypes = $userDestinationsStore.destinationTypes;
-	$: selectedType = destinationTypes[0];
+	export let onSelect: () => void = () => {};
+	export let activeTypeId = 0;
+	$: selectedType = destinationTypes.find(t => t.id === activeTypeId);
 
-	let showDropdown = true;
+	let showDropdown = false;
 
 	// on mount set the destinationTypeId to the first type
 	onMount(() => {
 		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType.id }));
 	});
 
+	// set type, close drop, call CB
 	const setActivetype = type => {
-		selectedType = type;
 		showDropdown = false;
-		addDestinationStore.update(s => ({ ...s, destinationTypeId: type.id }));
+		onSelect(type);
 	};
 </script>
 
 <div class="group root relative">
+	<!-- {JSON.stringify(selectedType)} -->
 	{#if selectedType.id}
 		<button
 			class:active={showDropdown}

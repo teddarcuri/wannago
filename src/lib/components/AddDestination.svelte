@@ -157,31 +157,30 @@
 		class="w-full h-full max-w-[700px] justify-center align-center items-center relative flex flex-row"
 	>
 		{#if loading}
-			<div
-				class="loading absolute flex items-center justify-center bg-black top-0 left-0 w-full h-full text-xl text-stone-200"
-			>
-				<img src={spinner} />
-				<p>Creating Destination</p>
-			</div>
+			<div class="loading"><img src={spinner} /></div>
 		{:else}
-			<DestinationTypeSelector />
-			<div class=" flex flex-col items-start -mt-[11px]">
-				<input
-					class="w-full"
-					autofocus
-					bind:value={name}
-					placeholder="Name this Destination"
-				/>
-				<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
-					{coordinatesFormatted}
-				</p>
-			</div>
-
-			<div class="buttons w-[300px]">
-				<button class="create" type="submit">Create</button>
-				<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
-			</div>
+			<DestinationTypeSelector
+				onSelect={type =>
+					addDestinationStore.update(s => ({ ...s, destinationTypeId: type.id }))}
+			/>
 		{/if}
+
+		<div class=" flex flex-col items-start -mt-[11px]">
+			<input
+				class="w-full"
+				autofocus
+				bind:value={name}
+				placeholder="Name this Destination"
+			/>
+			<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
+				{coordinatesFormatted}
+			</p>
+		</div>
+
+		<div class="buttons w-[300px]">
+			<button disabled={loading} class="create" type="submit">Create</button>
+			<button class="cancel" type="button" on:click={handleCancel}>Cancel</button>
+		</div>
 	</form>
 {:else}
 	<div class="mr-6">
