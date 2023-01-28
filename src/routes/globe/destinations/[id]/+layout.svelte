@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate, beforeUpdate, getContext } from 'svelte';
+	import { afterUpdate, onMount, beforeUpdate, getContext } from 'svelte';
 	import type { PageData } from './$types';
 	import { supabaseClient } from '@/lib/db';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
@@ -37,7 +37,7 @@
 	export let data: PageData;
 
 	const { getMap } = getContext('map');
-	let map = getMap();
+	let map;
 	let loading = false;
 	let formData = {
 		...data.destination,
@@ -63,7 +63,10 @@
 		type_id,
 	}
 
-	afterUpdate(() => {
+	afterUpdate(async () => {
+		// This is kind of dumb. If I dont do this fly to doesnt work.
+		map = await getMap();
+
 		// Reset form data if destination changes
 		if (formData.id !== data.destination.id) {
 			formData = {
