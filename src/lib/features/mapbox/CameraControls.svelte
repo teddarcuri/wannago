@@ -84,7 +84,7 @@
 	div {
 		@apply fixed flex right-[11px] bottom-[30px] flex items-center 
 		p-3 py-1 
-        bg-black bg-opacity-50 rounded-full
+        bg-black bg-opacity-60 rounded-full
 			hover:bg-opacity-100;
 		z-index: 200;
 		// transform: translateX(-50%);

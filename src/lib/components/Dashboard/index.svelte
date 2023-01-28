@@ -34,18 +34,17 @@
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 						<!-- <GettingStarted /> -->
 						<!-- <MyDestinations /> -->
-					</div>
 
-					<form class="bg-black rounded-md overflow-auto p-[33px]">
-						<h2 class="text-xl text-stone-300 mb-8">
-							<span class="mr-2">👋 🌎</span> How would you like to use wannago?
-						</h2>
-						<p class="px-3 mb-8  text-stone-400">
-							If you're seeing this you are one of the first people to use Wannago. I'd
-							love to know how you're using it and what features would add value to your
-							experience.
-						</p>
-						<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
+						<form class="bg-black rounded-md overflow-auto p-[33px]">
+							<h2 class="text-xl text-stone-300 mb-8">
+								<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
+							</h2>
+							<p class="px-3 mb-8  text-stone-400">
+								If you're seeing this you are one of the first people to use Wannago. I'd
+								love to know how you're using it and what features would add value to your
+								experience.
+							</p>
+							<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
 						<ul>
 							<li>
 								More destination types (icons) - let us know what you'd like to see!
@@ -63,31 +62,32 @@
 								>Take a minute to let us know what would be useful to you!</span
 							>
 						</p> -->
-						<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
+							<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
 
-						<Textarea
-							class="p-6 bg-stone-900 w-full"
-							placeholder="Leave us some feedback."
-							name="feedback"
-						/>
-						<ButtonPill>Submit feedback</ButtonPill>
-					</form>
-					<div class="flex flex-col items-center">
-						<p>
-							You have
-							<span class="text-2xl mx-2">
-								{$userDestinationsStore.destinations.length}
-							</span>
-							<span>Destinations</span>
-						</p>
+							<Textarea
+								class="p-6 bg-stone-900 w-full"
+								placeholder="Leave us some feedback."
+								name="feedback"
+							/>
+							<ButtonPill>Submit feedback</ButtonPill>
+						</form>
+						<div class="flex flex-col items-center">
+							<p>
+								You have
+								<span class="text-2xl mx-2">
+									{$userDestinationsStore.destinations.length}
+								</span>
+								<span>Destinations</span>
+							</p>
 
-						<br />
-						<p>
-							<span class="text-2xl mx-2"> 15 </span>
-							<span>of them are campsites</span>
-						</p>
+							<br />
+							<p>
+								<span class="text-2xl mx-2"> 15 </span>
+								<span>of them are campsites</span>
+							</p>
+						</div>
+						<Account session={$page.data.session} />
 					</div>
-					<Account session={$page.data.session} />
 				</div>
 			</section>
 		</div>

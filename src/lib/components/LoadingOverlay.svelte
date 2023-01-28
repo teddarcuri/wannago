@@ -8,8 +8,9 @@
 
 <style>
 	div {
-		@apply bg-black rounded-lg w-full h-full absolute z-50
+		@apply bg-black rounded-lg w-full h-full absolute
         grid place-items-center;
+		z-index: 999;
 	}
 
 	img {

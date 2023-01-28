@@ -12,7 +12,7 @@ export interface AddDestinationStore {
 
 export const addDestinationStore: Writable<AddDestinationStore> = writable({
 	marker: null,
-	destinationTypeId: null,
+	destinationTypeId: 0,
 	createFromSearchResult: false,
 	screenPos: null,
 	active: false,

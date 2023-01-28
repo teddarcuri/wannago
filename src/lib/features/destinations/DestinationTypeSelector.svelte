@@ -13,6 +13,7 @@
 
 	// on mount set the destinationTypeId to the first type
 	onMount(() => {
+		console.log('MOUNT: ', selectedType, activeTypeId, destinationTypes);
 		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType.id }));
 	});
 
@@ -24,8 +25,8 @@
 </script>
 
 <div class="group root relative">
-	<!-- {JSON.stringify(selectedType)} -->
-	{#if selectedType.id}
+	<!-- {(activeTypeId, JSON.stringify(selectedType))} -->
+	{#if selectedType?.id}
 		<button
 			class:active={showDropdown}
 			on:click|preventDefault={() => (showDropdown = !showDropdown)}

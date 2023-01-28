@@ -218,15 +218,13 @@
 										<Coordinates disabled={isGallery} {lat} {lng} />
 									{/if}
 								</div>
-								<div class="max-h-[300px] w-full overflow-y-auto">
-									<Textarea
-										name="description"
-										bind:value={formData.description}
-										disabled={isGallery}
-										onBlur={() => handleSubmit(Fields.description)}
-										placeholder="Enter a description..."
-									/>
-								</div>
+								<Textarea
+									name="description"
+									bind:value={formData.description}
+									disabled={isGallery}
+									onBlur={() => handleSubmit(Fields.description)}
+									placeholder="Enter a description..."
+								/>
 							</section>
 						</form>
 					{/if}

@@ -7,7 +7,7 @@
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
 	import ImageUpload from '@/lib/components/ImageUpload.svelte';
-
+	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
 	interface CoverPhoto {
 		id: string;
 		bucket_path?: string;
@@ -34,6 +34,12 @@
 			displayText: 'Uploading Photo...',
 		}));
 		if (!imageFile || !userId) return;
+		// if image is more than 8mb, set error
+		if (imageFile.size > 8000000) {
+			isLoading = false;
+			uploadError = 'Image is too large. Max size is 8mb.';
+			return;
+		}
 		const { name } = imageFile;
 		// generate path and upload file to supabase
 		const path = `${userId}/destinations/${destinationId}/cover-photo--${name}`;
@@ -67,7 +73,9 @@
 			}));
 		}
 
-		isLoading = false;
+		setTimeout(() => {
+			isLoading = false;
+		}, 222);
 	}
 
 	async function createImageRecord(path, dimensions) {
@@ -100,6 +108,7 @@
 
 	async function handleRemove() {
 		try {
+			isLoading = true;
 			// Remove file from storage
 			await supabaseClient.storage.from('users').remove([coverPhoto.bucket_path]);
 			// Remove foreign key
@@ -109,9 +118,11 @@
 				.eq('id', destinationId);
 			// Remove the photo db record
 			await supabaseClient.from('images').delete().eq('id', coverPhoto.id);
-			invalidateAll();
+			await invalidateAll();
 			showDeleteConfirmation = false;
+			isLoading = false;
 		} catch (e) {
+			isLoading = false;
 			console.error(e);
 		}
 	}
@@ -119,7 +130,7 @@
 
 <section>
 	{#if isLoading}
-		LOADING DATTT
+		<LoadingOverlay />
 	{/if}
 	{#if coverPhoto}
 		<img class="photo" src={coverPhoto.public_url} />
@@ -147,6 +158,9 @@
 			<div class="absolute bottom-0 left-0 p-8 w-full bg-black/50">
 				<h4>Preview</h4>
 				<p>Save this cover photo?</p>
+				{#if uploadError}<p class="text-red-700 p-1 text-xl rounded-md my-2">
+						{uploadError}
+					</p>{/if}
 
 				<div class="buttons mt-4">
 					<button on:click={handleUpload}>Confirm</button>
@@ -164,11 +178,14 @@
 				}}
 				onError={error => (uploadError = error)}
 			/>
-			<div class="absolute bottom-0 p-8 opacity-0 left-0">
-				<h4>Upload a Cover Photo</h4>
-				{#if uploadError}<p class="text-red-700">{uploadError}</p>{/if}
-				<p class="text-stone-300 max-w-[300px] mt-4 text-sm">
-					This photo will be used throughout the app to help identify this destination.
+
+			<div
+				class="drawer pointer-events-none absolute grid z-50 bottom-0 left-0 p-4 w-full bg-black/0"
+			>
+				<h4 class="px-4">Upload a Cover Photo</h4>
+
+				<p class="p-4 opacity-60">
+					This photo will be used to identify this destination throughout the app
 				</p>
 			</div>
 		</div>

@@ -28,7 +28,7 @@
 
 		button,
 		a {
-			@apply bg-black w-[55px] h-[55px] rounded-md mb-4 grid place-items-center
+			@apply bg-black w-[55px] h-[55px] rounded-full mb-4 grid place-items-center
 			text-xl;
 
 			&:hover {

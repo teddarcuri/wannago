@@ -160,6 +160,7 @@
 			<div class="loading"><img src={spinner} /></div>
 		{:else}
 			<DestinationTypeSelector
+				activeTypeId={$addDestinationStore.destinationTypeId}
 				onSelect={type =>
 					addDestinationStore.update(s => ({ ...s, destinationTypeId: type.id }))}
 			/>

@@ -82,7 +82,7 @@
 	}
 </script>
 
-<div in:fly={{ delay: 669, duration: 1000 }}>
+<div class="mt-8 rounded-md bg-black p-4" in:fly={{ delay: 669, duration: 1000 }}>
 	<!-- <h1 class="text-xl pb-4">My Account</h1> -->
 	<!-- <form
 		class="w-full relative

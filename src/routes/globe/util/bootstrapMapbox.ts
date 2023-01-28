@@ -54,10 +54,10 @@ export default async (): Promise<Map> => {
 		container: 'mapbox-mount',
 		style: Mapstyle.Earth,
 		projection: 'globe',
-		zoom: 3.666,
+		zoom: 3.6,
 		bearing: 0,
 		center: [-99.94373365867199, 43.495094628394924],
-		pitch: 60,
+		pitch: 45,
 	});
 
 	// Lifecycle

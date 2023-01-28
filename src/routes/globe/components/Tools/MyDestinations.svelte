@@ -20,13 +20,13 @@
 			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
 		{/if}
 	</div>
-	<!-- 
+
 	<div class="sticky top-[48px] z-40 pl-4 bg-black bg-opacity-80">
 		<button>Alphabetical</button>
-		<button>Recent</button>
+		<!-- <button>Recent</button> -->
 		<button>By Type</button>
-		<button>Nearby</button>
-	</div> -->
+		<!-- <button>Nearby</button> -->
+	</div>
 
 	<ul>
 		{#each filteredDestinations as destination}
