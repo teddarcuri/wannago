@@ -19,6 +19,17 @@
 	export let map: Map;
 	onMount(async () => {
 		map = await bootstrapMapbox();
+
+		map.on('mousemove', e => {
+			const { lat, lng } = e.lngLat;
+			mouseLatLng = getLatLngDisplayText(lat, lng);
+			mouseCoordinates = e.point;
+		});
+
+		map.on('mouseout', () => {
+			mouseLatLng = null;
+			mouseCoordinates = null;
+		});
 	}); // Setup mapbox-gl
 
 	$: setContext('map', { getMap: () => map }); // Provide map context - getMap is used instead of map because map is undefined onMount
@@ -35,34 +46,17 @@
 
 	let mouseCoordinates = null;
 	let mouseLatLng = null;
-	let showCoordinates = false;
 
 	// reset cursor to default on map canvas when addDestination.active is false
 	$: if (!$addDestinationStore.active && map) {
 		map.getCanvas().style.cursor = '';
-	}
-
-	$: if (map && $addDestinationStore.active) {
-		map.on('mousemove', e => {
-			const { lat, lng } = e.lngLat;
-			mouseLatLng = getLatLngDisplayText(lat, lng);
-			mouseCoordinates = e.point;
-		});
-
-		map.on('mouseenter', () => {
-			showCoordinates = true;
-		});
-
-		map.on('mouseleave', () => {
-			showCoordinates = false;
-		});
 	}
 </script>
 
 <div id="mapbox-mount" class:blur class:border />
 <slot />
 
-{#if showCoordinates && mouseCoordinates && $addDestinationStore.active && !$addDestinationStore.marker}
+{#if mouseCoordinates && $addDestinationStore.active && !$addDestinationStore.marker && !$addDestinationStore.createFromSearchResult}
 	<div
 		style:left={mouseCoordinates.x + 5 + 'px'}
 		style:top={mouseCoordinates.y + 150 + 'px'}
