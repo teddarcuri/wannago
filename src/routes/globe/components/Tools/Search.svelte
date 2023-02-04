@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import search from '$lib/img/search.svg';
 	import spinner from '$lib/img/spinner.svg';
-
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 	import { searchStore } from '$lib/stores/search';
 	import { goto } from '$app/navigation';
@@ -11,6 +11,14 @@
 	let searchQuery = '';
 	let searchResults = [];
 	let isLoading = false;
+	let inputEl: HTMLInputElement;
+
+	onMount(() => {
+		// Don't like this, but without it, the input doesn't get focus
+		setTimeout(() => {
+			inputEl.focus();
+		}, 222);
+	});
 
 	const debounce = (fn, delay) => {
 		let timeoutId;
@@ -62,6 +70,7 @@
 			placeholder="Where do you Wannago?"
 			on:input={searchDestinations}
 			bind:value={searchQuery}
+			bind:this={inputEl}
 		/>
 		{#if searchQuery}
 			<button

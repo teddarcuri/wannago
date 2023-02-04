@@ -37,6 +37,7 @@
 			class:active={showDropdown}
 			on:click|preventDefault={() => (showDropdown = !showDropdown)}
 			class="toggle flex p-3"
+			type="button"
 			><img src={selectedType.icon} class="w-[34px] h-[34px] opacity-80" />
 			<!-- <span class="text-xl group-hover:opacity-90 opacity-0">&#9662;</span> -->
 		</button>
@@ -52,6 +53,7 @@
 			{#each destinationTypes as type}
 				<div class="p-2 self-stretch w-[33.333%]">
 					<button
+						type="button"
 						on:click|preventDefault={() => {
 							setActivetype(type);
 						}}

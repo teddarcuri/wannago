@@ -19,13 +19,22 @@
 	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import { searchStore } from '$lib/stores/search';
+	import { onMount } from 'svelte';
 
 	export let map: Map;
 	let name = $addDestinationStore.createFromSearchResult ? $searchStore?.query : '';
 	let loading = false;
+	let inputEl: HTMLInputElement;
 	$: marker = $addDestinationStore.marker || $searchStore.marker;
 	$: coordinates = marker?.getLngLat() ?? { lat: 0, lng: 0 };
 	$: coordinatesFormatted = getLatLngDisplayText(coordinates.lat, coordinates.lng);
+
+	onMount(() => {
+		// Don't like this, but without it, the input doesn't get focus
+		setTimeout(() => {
+			inputEl.focus();
+		}, 555);
+	});
 
 	const handleSubmit = async () => {
 		loading = true;
@@ -163,8 +172,8 @@
 		<div class=" flex flex-col items-start -mt-[11px]">
 			<input
 				class="w-full"
-				autofocus
 				bind:value={name}
+				bind:this={inputEl}
 				placeholder="Name this Destination"
 			/>
 			<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
