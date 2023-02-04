@@ -3,7 +3,7 @@
 	import spinner from '$lib/img/spinner.svg';
 
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
-	import { searchStore } from '@/lib/stores/search';
+	import { searchStore } from '$lib/stores/search';
 	import { goto } from '$app/navigation';
 
 	export let map;
@@ -28,6 +28,7 @@
 		isLoading = true;
 		// get the current center lat long from mapbox map
 		// this sorts the results by proximity to the center of the current map
+		searchStore.update(s => ({ ...s, query: searchQuery }));
 		const center = map.getCenter();
 		const { lng, lat } = center;
 		const response = await fetch(
@@ -46,6 +47,7 @@
 	const setActiveSearchResult = async result => {
 		console.log('RESULT: ', result);
 		searchStore.update(s => ({
+			...s,
 			activeResult: result,
 		}));
 		await goto('/globe/search-result');
@@ -53,7 +55,7 @@
 	};
 </script>
 
-<div class="root">
+<div class="root" class:hasResults={searchResults.length}>
 	<div class="input-wrapper">
 		<img src={search} height="14px" width="14px" />
 		<input
@@ -62,7 +64,14 @@
 			bind:value={searchQuery}
 		/>
 		{#if searchQuery}
-			<button tabindex="-1" class="clear" on:click={() => (searchQuery = '')}>X</button>
+			<button
+				tabindex="-1"
+				class="clear"
+				on:click={() => {
+					searchQuery = '';
+					searchResults = [];
+				}}>X</button
+			>
 		{/if}
 	</div>
 
@@ -80,12 +89,20 @@
 				</button>
 			{/each}
 		{/if}
+	{:else}
+		<div>Recent Searches</div>
 	{/if}
 </div>
 
 <style lang="scss">
 	.root {
 		@apply flex flex-col;
+
+		&.hasResults {
+			input {
+				@apply rounded-b-none bg-stone-900;
+			}
+		}
 	}
 
 	.loading {
@@ -120,8 +137,7 @@
 		}
 
 		input {
-			@apply border border-stone-800 
-			text-left rounded-t-lg
+			@apply text-left rounded-lg
 			overflow-hidden text-stone-100;
 			background: black;
 			height: 48px;
@@ -134,8 +150,8 @@
 			}
 
 			&:focus {
-				@apply border outline-none 
-				
+				@apply outline-none 
+				bg-stone-900
 				pl-[11px];
 			}
 		}

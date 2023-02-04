@@ -4,7 +4,7 @@
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
-	import createWaypointCanvas from '@/lib/util/createWaypointCanvas';
+	import createWaypointCanvas from '@/lib/features/Waypoints/utils/createWaypointCanvas';
 	import loadingIcon from '$lib/img/spinner.svg';
 
 	export let waypoints;
@@ -50,7 +50,6 @@
 	};
 
 	$: active = $addWaypointStore.active;
-	console.log('LOADING ICON: ', loadingIcon);
 </script>
 
 <div class="root">

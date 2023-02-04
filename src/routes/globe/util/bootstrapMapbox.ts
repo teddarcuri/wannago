@@ -18,6 +18,7 @@ import { activeDestinationStore } from '@/lib/stores/activeDestination';
 import { addWaypointStore } from '@/lib/stores/addWaypoint';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
+import { mapStore } from '$lib/stores/map';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe(d => {
@@ -60,6 +61,8 @@ export default async (): Promise<Map> => {
 		pitch: 45,
 	});
 
+	window.wg_map = map;
+
 	// Lifecycle
 	map.on('load', () => {
 		// disable zoom on double click
@@ -79,7 +82,13 @@ export default async (): Promise<Map> => {
 		}
 	});
 
-	map.on('styledata', () => {
+	map.on('styledata', e => {
+		// set the new style on the map store
+		mapStore.update(s => ({
+			...s,
+			activeStyle: e.style?.stylesheet?.name,
+		}));
+
 		// create DEM source
 		if (!map.getSource('mapbox-dem')) {
 			// https://en.wikipedia.org/wiki/Digital_elevation_model
@@ -90,7 +99,7 @@ export default async (): Promise<Map> => {
 				maxzoom: 14,
 			});
 			// Set Terrain
-			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
+			map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
 		}
 
 		// Draw Atmosphere on render

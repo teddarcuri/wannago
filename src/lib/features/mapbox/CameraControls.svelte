@@ -3,9 +3,8 @@
 	import RotateLeft from '$lib/img/rotate-left.svg';
 	import TiltUp from '$lib/img/tilt-up.svg';
 	import TiltDown from '$lib/img/tilt-down.svg';
-	import Coordinates from '$lib/img/coordinates.svg';
-	import CameraGlobe from '$lib/img/camera-globe.svg';
-	import RotatingGlobe from '$lib/img/rotating-globe.svg';
+	// import Coordinates from '$lib/img/coordinates.svg';
+	// import CameraGlobe from '$lib/img/camera-globe.svg';
 	import North from '$lib/img/north.svg';
 	import Plus from '$lib/img/plus.svg';
 	import Subtract from '$lib/img/subtract.svg';
@@ -73,7 +72,7 @@
 		><img src={North} /></button
 	>
 
-	<button title="Fly to Space" on:click={() => flyToSpace()}
+	<button title="Orbit Earth" on:click={() => flyToSpace()}
 		><img src={Sattelite} /></button
 	>
 

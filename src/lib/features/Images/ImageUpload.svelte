@@ -1,8 +1,7 @@
 <script lang="ts">
-	import getBase64 from '../Image/getBase64';
-	import Button from './Button.svelte';
+	import getBase64 from './util/getBase64';
 	import addIcon from '$lib/img/add-icon.svg';
-	import getImageDimensions from '../Image/getImageDimensions';
+	import getImageDimensions from '$lib/features/Images/util/getImageDimensions';
 
 	export let minWidth = 200;
 	export let onChange: Function;
@@ -57,7 +56,7 @@
 		on:change={handleChange}
 	/>
 	<div class="grid place-items-center h-full justify-center items-center">
-		<img class="w-[33px] h-[33px]" src={addIcon} />
+		<img class="w-[24px] h-[24px]" src={addIcon} />
 	</div>
 </button>
 
@@ -70,18 +69,17 @@
 	}
 
 	button {
-		@include barberpole-background;
-		animation: barberpole 33s linear infinite;
+		background: black;
 
 		img {
 			transition: all ease 0.3s;
 		}
 
 		&:hover {
-			background: black;
-
+			@include barberpole-background;
+			animation: barberpole 33s linear infinite;
 			img {
-				transform: scale(1.3);
+				transform: scale(1.6);
 			}
 		}
 	}

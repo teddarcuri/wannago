@@ -95,6 +95,8 @@
 
 <style lang="scss">
 	.root {
+		@apply h-[44px] flex items-center pt-0 px-6 z-30 relative;
+
 		:global([ref='delete']) {
 			display: none;
 		}
@@ -111,7 +113,7 @@
 	}
 
 	.save {
-		@apply bg-sky-800;
+		@apply bg-emerald-800;
 		&:hover {
 			@apply bg-emerald-700;
 		}
@@ -133,7 +135,7 @@
 				}
 
 				&:hover {
-					@apply bg-sky-900;
+					@apply bg-emerald-900;
 				}
 			}
 		}

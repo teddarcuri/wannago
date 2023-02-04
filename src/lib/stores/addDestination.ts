@@ -4,7 +4,7 @@ import type { Marker } from 'mapbox-gl';
 
 export interface AddDestinationStore {
 	marker: Marker | null;
-	destinationTypeId: number | null;
+	destinationTypeId: number;
 	createFromSearchResult: boolean;
 	screenPos: { x: number; y: number } | null;
 	active: boolean;
@@ -12,7 +12,7 @@ export interface AddDestinationStore {
 
 export const addDestinationStore: Writable<AddDestinationStore> = writable({
 	marker: null,
-	destinationTypeId: 0,
+	destinationTypeId: 1,
 	createFromSearchResult: false,
 	screenPos: null,
 	active: false,

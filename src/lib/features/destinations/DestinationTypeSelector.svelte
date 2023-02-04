@@ -4,9 +4,15 @@
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import { onMount } from 'svelte';
 
+	interface DestinationType {
+		id: number;
+		name: string;
+		icon: string;
+	}
+
 	let destinationTypes = $userDestinationsStore.destinationTypes;
-	export let onSelect: () => void = () => {};
-	export let activeTypeId = 0;
+	export let onSelect: (type: number) => void = () => {};
+	export let activeTypeId = 1;
 	$: selectedType = destinationTypes.find(t => t.id === activeTypeId);
 
 	let showDropdown = false;
@@ -14,11 +20,11 @@
 	// on mount set the destinationTypeId to the first type
 	onMount(() => {
 		console.log('MOUNT: ', selectedType, activeTypeId, destinationTypes);
-		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType.id }));
+		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType?.id ?? 0 }));
 	});
 
 	// set type, close drop, call CB
-	const setActivetype = type => {
+	const setActivetype = (type: DestinationType) => {
 		showDropdown = false;
 		onSelect(type);
 	};
@@ -65,7 +71,7 @@
 		@apply pr-2;
 
 		button.toggle.active {
-			@apply border-zinc-600 rounded-2xl;
+			@apply border-zinc-600 bg-black rounded-2xl;
 
 			span {
 				transform: rotate(180deg);
@@ -75,7 +81,11 @@
 	}
 
 	button.toggle {
-		@apply border-2 rounded-xl border-transparent;
+		@apply border-2 rounded-xl border-transparent ml-2;
+
+		img {
+			filter: drop-shadow(2px 2px 0px rgb(0 0 0 / 1));
+		}
 
 		&:hover {
 			@apply bg-stone-900;
@@ -88,6 +98,7 @@
 
 	.dropdown {
 		@apply border border-zinc-800 rounded-md;
+		z-index: 99;
 		// animation: barberpole 42s linear infinite;
 		// background: repeating-linear-gradient(120deg, #000, #000 11px, #222 11px, #222 12px);
 		background-size: 200%;

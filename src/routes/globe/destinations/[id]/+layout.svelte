@@ -24,7 +24,7 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
-	import DestinationTypeSelector from '@/lib/features/destinations/DestinationTypeSelector.svelte';
+	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
 
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
@@ -42,8 +42,6 @@
 	let formData = {
 		...data.destination,
 	};
-
-	console.log('data', data);
 
 	$: destination = data.destination;
 	$: lat = destination?.coordinates?.coordinates[1];
@@ -76,7 +74,6 @@
 	});
 
 	const handleFlyTo = () => {
-		console.log(map, lat, lng);
 		if (!map || !lat || !lng) throw Error('Map not loaded or something!?!?!');
 		map.flyTo({
 			center: [lng, lat],
@@ -85,7 +82,6 @@
 	};
 
 	const handleSubmit = async field => {
-		console.log('FIELD', Fields[field], formData);
 		if (field === Fields.name && formData.name === destination.name) return;
 		if (field === Fields.type_id && formData.type_id === destination.type_id) return;
 		if (field === Fields.description && formData.description === destination.description)
@@ -194,9 +190,10 @@
 						<!-- Form -->
 						<form on:submit|preventDefault={handleSubmit}>
 							<section>
-								<div class="flex flex-col relative">
+								<div class="flex flex-col relative mt-[-80px]">
+									<div class="shadow" />
 									{#if formData.type_id}
-										<div class="absolute top-[60px] left-[-20px]">
+										<div class="absolute top-[0px] left-[0px]">
 											<DestinationTypeSelector
 												activeTypeId={formData.type_id}
 												onSelect={type => {
@@ -209,15 +206,16 @@
 									<textarea
 										name="name"
 										rows="1"
+										spellcheck={false}
 										disabled={isGallery}
 										class="text-3xl bg-transparent font-semibold z-40"
 										bind:value={formData.name}
 										on:blur={() => handleSubmit(Fields.name)}
 									/>
-									{#if destination.coordinates}
-										<Coordinates disabled={isGallery} {lat} {lng} />
-									{/if}
 								</div>
+								{#if destination.coordinates}
+									<Coordinates disabled={isGallery} {lat} {lng} />
+								{/if}
 								<Textarea
 									name="description"
 									bind:value={formData.description}
@@ -228,6 +226,7 @@
 							</section>
 						</form>
 					{/if}
+
 					<!-- <Waypoints {map} waypoints={destination.waypoints} /> -->
 				</div>
 			</DisplayCard>
@@ -244,7 +243,7 @@
 		position: relative;
 		max-height: calc(100vh - 80px);
 		overflow: visible;
-		width: 399px;
+		width: auto;
 		display: flex;
 		flex-flow: column nowrap;
 
@@ -299,11 +298,16 @@
 	}
 
 	[name='name'] {
-		@apply rounded-md ml-[50px];
-		padding: 6px 0px 6px 0px;
+		@apply rounded-md ml-[75px];
+		padding: 10px 0px 6px 0px;
 		border: solid 2px transparent;
 		transition: all ease 0.2s;
 		resize: none;
+		overflow: hidden; /* Hide any overflowing content */
+		text-overflow: ellipsis; /* Add an ellipsis when text overflows */
+		white-space: nowrap; /* Prevent text from wrapping to a new line */
+		width: calc(100% - 90px);
+
 		&:focus:not([disabled]),
 		&:hover:not([disabled]) {
 			padding: 6px;
@@ -374,10 +378,10 @@
 		@apply relative;
 	}
 
-	section div:first-child {
-		@apply px-8;
-		margin-top: -70px;
-		background-image: linear-gradient(0deg, #000 20%, rgba(0, 0, 0, 0));
+	.shadow {
+		@apply w-full absolute top-0 left-0 z-0;
+		background-image: linear-gradient(0deg, #000 70%, rgba(0, 0, 0, 0));
+		height: calc(100% + 50px);
 	}
 
 	/* View Gallery */

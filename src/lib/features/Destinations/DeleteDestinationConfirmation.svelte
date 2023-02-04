@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
-	import { supabaseClient } from '../db';
-	import { activeDestinationStore } from '../stores/activeDestination';
+	import { supabaseClient } from '@/lib/db';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
-	} from '../stores/activeInfoDisplay';
+	} from '@/lib/stores/activeInfoDisplay';
 
 	let confirmationValue = '';
 	$: name = $activeDestinationStore?.destination?.name ?? 'destination';

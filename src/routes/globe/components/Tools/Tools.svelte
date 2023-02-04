@@ -69,7 +69,7 @@
 				class="text-md ml-3"
 				on:click={() => toggleTool(Tool.mapboxOptions)}
 			>
-				<img class="w-[22px] h-[22px]" src={globeIcon} alt="search" />
+				<img class="w-[28px] h-[28px]" src={globeIcon} alt="search" />
 			</button>
 			{#if activeTool === Tool.mapboxOptions}
 				<FloatingWindow>
@@ -98,7 +98,7 @@
 <style lang="scss">
 	.root {
 		@apply fixed flex top-[15px] right-[20px];
-		z-index: 998;
+		z-index: 1001;
 	}
 
 	button {

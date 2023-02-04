@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
-	import { activeDestinationStore } from '../stores/activeDestination';
+	import { activeDestinationStore } from '$lib/stores/activeDestination';
 	$: session = $page.data.session;
 	$: udDump = JSON.stringify($userDestinationsStore, null, 2);
 	$: adDump = JSON.stringify($activeDestinationStore.newLocation, null, 2);

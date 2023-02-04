@@ -1,11 +1,11 @@
 <script>
 	import { fade } from 'svelte/transition';
-	import { addWaypointStore } from '../stores/addWaypoint';
-	import { addDestinationStore } from '../stores/addDestination';
-	import { activeDestinationStore } from '../stores/activeDestination';
-	import AddWaypoint from '$lib/components/AddWaypoint.svelte';
-	import AddDestination from '$lib/components/AddDestination.svelte';
-	import DeleteDestinationConfirmation from './DeleteDestinationConfirmation.svelte';
+	import { addWaypointStore } from '$lib/stores/addWaypoint';
+	import { addDestinationStore } from '$lib/stores/addDestination';
+	import { activeDestinationStore } from '$lib/stores/activeDestination';
+	import AddWaypoint from '$lib/features/Waypoints/AddWaypoint.svelte';
+	import AddDestination from '$lib/features/Destinations/AddDestination.svelte';
+	import DeleteDestinationConfirmation from '$lib/features/Destinations/DeleteDestinationConfirmation.svelte';
 </script>
 
 <div class="root">
@@ -29,7 +29,7 @@
 
 <style lang="scss">
 	.root {
-		@apply h-[55px] relative z-50 px-8 -mt-[20px];
+		@apply h-[55px] relative px-8 -mt-[20px];
 
 		@media screen and (max-width: 1268px) {
 			@apply mt-[10px];

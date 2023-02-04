@@ -5,7 +5,7 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import VanillaTilt from 'vanilla-tilt';
 	import { onMount } from 'svelte';
-	import TitleTile from '../TitleTile.svelte';
+	import TiltTile from '$lib/components/TiltTile.svelte';
 
 	$: destinations = $userDestinationsStore.destinations;
 	$: filteredDestinations = destinations.filter(destination => {
@@ -23,13 +23,18 @@
 </script>
 
 <div class="root relative">
-	<div class="input-wrapper mb-8">
-		<img src={search} height="14px" width="14px" />
-		<input placeholder="Search your destinations" bind:value={searchQuery} />
-		{#if searchQuery}
-			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
-		{/if}
-	</div>
+	{#if filteredDestinations.length}
+		<div class="input-wrapper mb-8">
+			<img src={search} height="14px" width="14px" />
+			<input placeholder="Search your destinations" bind:value={searchQuery} />
+			{#if searchQuery}
+				<button class="clear" on:click={() => (searchQuery = '')}>X</button>
+			{/if}
+		</div>
+	{:else}
+		<h4>Your Destinations</h4>
+		<p>Create some destinations</p>
+	{/if}
 
 	<div class="flex flex-col">
 		{#each filteredDestinations as destination}
@@ -38,7 +43,7 @@
 				destination.coordinates.coordinates[0],
 			)}
 			<div class="h-[200px] w-full mb-3">
-				<TitleTile
+				<TiltTile
 					maxTilt={5}
 					title={destination.name}
 					subtitle={coordinates}

@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Account from '@/lib/components/Account/Details.svelte';
-	import LoginForm from '$lib/components/Account/LoginForm.svelte';
+	import Account from '$lib/features/Account/Details.svelte';
+	import LoginForm from '$lib/features/Account/LoginForm.svelte';
 	import GlobeTile from './GlobeTile.svelte';
 	import MyDestinations from './DestinationList.svelte';
 	import GettingStarted from '@/routes/globe/components/GettingStarted.svelte';
 	import { fly } from 'svelte/transition';
-	import DevelopmentBanner from '../DevelopmentBanner.svelte';
+	import DevelopmentBanner from '$lib/components/DevelopmentBanner.svelte';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
-	import Textarea from '../Textarea.svelte';
-	import ButtonPill from '../ButtonPill.svelte';
+	import Textarea from '$lib/components/Textarea.svelte';
+	import ButtonPill from '$lib/components/ButtonPill.svelte';
 	$: session = $page.data.session;
 </script>
 
@@ -23,14 +23,12 @@
 		<div class="wrapper h-full flex">
 			<!-- <DevelopmentBanner /> -->
 			<section class="w-full h-full">
-				<div
-					class="w-[669px] h-full flex-shrink-0 flex-grow overflow-auto p-8 pt-[60px] relative"
-				>
+				<div class="w-[669px] h-full flex-shrink-0 flex-grow overflow-auto p-8  relative">
 					<GlobeTile />
 					<MyDestinations />
 				</div>
 
-				<div class="p-8 pt-[60px]">
+				<div class="p-8 pt-[30px]">
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 						<!-- <GettingStarted /> -->
 						<!-- <MyDestinations /> -->
@@ -40,9 +38,8 @@
 								<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
 							</h2>
 							<p class="px-3 mb-8  text-stone-400">
-								If you're seeing this you are one of the first people to use Wannago. I'd
-								love to know how you're using it and what features would add value to your
-								experience.
+								Thanks for using Wannago. You are one of the first. There's a lot of
+								places
 							</p>
 							<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
 						<ul>
@@ -64,14 +61,15 @@
 						</p> -->
 							<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
 
-							<Textarea
-								class="p-6 bg-stone-900 w-full"
-								placeholder="Leave us some feedback."
-								name="feedback"
-							/>
-							<ButtonPill>Submit feedback</ButtonPill>
+							<div class="feedback">
+								<textarea placeholder="Leave us some feedback." name="feedback" />
+							</div>
+
+							<div class="flex justify-end mt-4">
+								<ButtonPill>Submit feedback</ButtonPill>
+							</div>
 						</form>
-						<div class="flex flex-col items-center">
+						<!-- <div class="flex flex-col items-center">
 							<p>
 								You have
 								<span class="text-2xl mx-2">
@@ -85,7 +83,7 @@
 								<span class="text-2xl mx-2"> 15 </span>
 								<span>of them are campsites</span>
 							</p>
-						</div>
+						</div> -->
 						<Account session={$page.data.session} />
 					</div>
 				</div>
@@ -167,6 +165,10 @@
 	a img {
 		transform: scale(1.1);
 		@apply absolute top-0 left-0 opacity-30 h-full w-full object-cover;
+	}
+
+	.feedback textarea {
+		@apply border border-slate-800 bg-transparent w-full p-8 rounded-md;
 	}
 
 	@media (max-width: 768px) {

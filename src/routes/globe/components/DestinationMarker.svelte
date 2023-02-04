@@ -344,7 +344,7 @@
 	}
 
 	.mapboxgl-marker.loading img {
-		width: 28px;
+		width: 40px;
 		opacity: 0.7;
 		transform: rotate(var(--angle));
 		animation: 1.69s rotate cubic-bezier(0.84, 0.16, 0.39, 1.2) infinite;

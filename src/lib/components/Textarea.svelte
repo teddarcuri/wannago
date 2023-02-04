@@ -60,7 +60,7 @@
 		@apply bg-black
          resize-none
 		 w-full 
-		 p-8 py-6
+		 p-6 py-6
 		 border-2
 		 border-transparent
 		 text-stone-300

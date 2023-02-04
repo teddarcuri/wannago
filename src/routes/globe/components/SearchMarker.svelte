@@ -1,12 +1,13 @@
 <script>
 	import { searchStore } from '@/lib/stores/search';
-	import { onDestroy } from 'svelte';
+	import { afterUpdate, beforeUpdate, onDestroy } from 'svelte';
 	import createMarker, { MarkerType } from '../util/createMarker';
 
 	export let map;
 	let marker;
+	let previousId;
 
-	$: if ($searchStore.activeResult) {
+	$: if ($searchStore?.activeResult?.id) {
 		const lat = $searchStore.activeResult.center[1];
 		const lng = $searchStore.activeResult.center[0];
 		marker = createMarker({
@@ -21,6 +22,16 @@
 		if (marker) marker.remove();
 		searchStore.update(s => ({ ...s, marker: null }));
 	}
+
+	beforeUpdate(() => {
+		if (previousId !== $searchStore.activeResult?.id) {
+			if (marker) marker.remove();
+		}
+	});
+
+	afterUpdate(() => {
+		previousId = $searchStore.activeResult?.id;
+	});
 
 	onDestroy(() => {
 		if (marker) marker.remove();

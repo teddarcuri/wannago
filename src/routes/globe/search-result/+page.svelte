@@ -12,8 +12,6 @@
 	const { getMap } = getContext('map');
 	const map = getMap();
 
-	$: console.log('SEARCH: ', $searchStore);
-
 	const lat = $searchStore.activeResult?.center[1];
 	const lng = $searchStore.activeResult?.center[0];
 

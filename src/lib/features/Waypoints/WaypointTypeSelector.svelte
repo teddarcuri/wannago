@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { addWaypointStore } from '../stores/addWaypoint';
-	import createWaypointCanvas from '../util/createWaypointCanvas';
-	import colors from '$lib/features/waypoints/colors';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import createWaypointCanvas from '@/lib/features/Waypoints/utils/createWaypointCanvas';
+	import colors from '$lib/features/Waypoints/colors';
 
 	export let waypointName: string = '';
 

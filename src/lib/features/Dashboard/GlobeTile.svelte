@@ -1,9 +1,9 @@
 <script>
-	import TitleTile from '../TitleTile.svelte';
+	import TiltTile from '$lib/components/TiltTile.svelte';
 </script>
 
 <div class="h-[400px] mb-4">
-	<TitleTile
+	<TiltTile
 		title="View Your Globe"
 		subtitle="Document your World"
 		link="/globe"

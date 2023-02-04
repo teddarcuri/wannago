@@ -16,19 +16,16 @@
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
 	import confetti from 'canvas-confetti';
 	import { fade } from 'svelte/transition';
-	import DestinationTypeSelector from '$lib/features/destinations/DestinationTypeSelector.svelte';
+	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
-	import { searchStore } from '../stores/search';
+	import { searchStore } from '$lib/stores/search';
 
 	export let map: Map;
-
-	console.log('ADD DESTINATION STORE', $addDestinationStore);
-
-	let name = $addDestinationStore.createFromSearchResult
-		? $searchStore?.activeResult?.place_name
-		: '';
+	let name = $addDestinationStore.createFromSearchResult ? $searchStore?.query : '';
 	let loading = false;
 	$: marker = $addDestinationStore.marker || $searchStore.marker;
+	$: coordinates = marker?.getLngLat() ?? { lat: 0, lng: 0 };
+	$: coordinatesFormatted = getLatLngDisplayText(coordinates.lat, coordinates.lng);
 
 	const handleSubmit = async () => {
 		loading = true;
@@ -97,7 +94,7 @@
 					origin: { y: 1.2 },
 				});
 
-				// // launch a few confetti from the left edge
+				// launch a few confetti from the left edge
 				confetti({
 					particleCount: 333,
 					angle: 60,
@@ -146,9 +143,6 @@
 		addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 		clearActiveInfoDisplay();
 	};
-
-	$: coordinates = marker?.getLngLat() ?? { lat: 0, lng: 0 };
-	$: coordinatesFormatted = getLatLngDisplayText(coordinates.lat, coordinates.lng);
 </script>
 
 {#if marker}
@@ -193,11 +187,6 @@
 {/if}
 
 <style lang="scss">
-	.root {
-		--angle: -50deg;
-		background-image: linear-gradient(var(--angle), #2b3441, #3a4554);
-	}
-
 	h3 {
 		@apply text-xl text-stone-600;
 	}

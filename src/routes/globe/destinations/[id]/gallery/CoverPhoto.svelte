@@ -6,7 +6,7 @@
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
-	import ImageUpload from '@/lib/components/ImageUpload.svelte';
+	import ImageUpload from '@/lib/features/Images/ImageUpload.svelte';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
 	interface CoverPhoto {
 		id: string;
@@ -184,7 +184,7 @@
 			>
 				<h4 class="px-4">Upload a Cover Photo</h4>
 
-				<p class="p-4 opacity-60">
+				<p class="p-4 opacity-80">
 					This photo will be used to identify this destination throughout the app
 				</p>
 			</div>

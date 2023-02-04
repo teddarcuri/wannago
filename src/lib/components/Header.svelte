@@ -1,19 +1,19 @@
 <script lang="ts">
 	import dashboard from '$lib/img/dashboard.svg';
 	import { page } from '$app/stores';
-	import { addWaypointStore } from '../stores/addWaypoint';
-	import { addDestinationStore } from '../stores/addDestination';
-	import { activeDestinationStore } from '../stores/activeDestination';
+	import { addWaypointStore } from '$lib/stores/addWaypoint';
+	import { addDestinationStore } from '$lib/stores/addDestination';
+	import { activeDestinationStore } from '$lib/stores/activeDestination';
 	$: pathname = $page.url.pathname;
 	$: isRoot = pathname === '/';
 	$: navLink = isRoot ? '/globe' : '/';
 	$: navText = isRoot ? 'Exit Dashboard' : 'Dashboard';
 	$: session = $page.data.session;
-	$: transparent = $activeDestinationStore.deleteMode;
+	$: transparent = $activeDestinationStore.deleteMode || $addDestinationStore.active;
 </script>
 
 <header class:transparent id="app-nav">
-	<div id="logo" class="mr-7">wannago</div>
+	<a href="/"><div id="logo" class="mr-7">wannago</div></a>
 	<nav>
 		{#if !$addWaypointStore.active && !$addDestinationStore.active && !$activeDestinationStore.deleteMode && session}
 			<a
@@ -46,7 +46,7 @@
 		display: flex;
 		width: 100%;
 		align-items: center;
-		z-index: 99;
+		z-index: 999;
 
 		&.transparent {
 			@apply bg-transparent;

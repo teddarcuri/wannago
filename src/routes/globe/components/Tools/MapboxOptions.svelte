@@ -7,20 +7,36 @@
 	import natural from '$lib/features/mapbox/styles/natural.png';
 	import streets from '$lib/features/mapbox/styles/streets.png';
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+	import { mapStore } from '$lib/stores/map';
 
 	export let map;
-	// fetch from mapbox api all styles
-	const mapboxStyles = () => {
-		fetch(
-			`https://api.mapbox.com/styles/v1/mapbox?access_token=${PUBLIC_MAPBOX_ACCESS_TOKEN}`,
-		)
-			.then(res => res.json())
-			.then(data => {
-				console.log('MAPBOX STYLES: ', data);
-			});
+	// active style will look at the mapStore.activeStyle
+	// it will be a switch statement that will return a Mapstyle if the string I provide for each case matches the mapstore.activestyle
+	// if it doesn't match, it will return the default case
+	$: activeStyle = getActiveStyle($mapStore.activeStyle);
+
+	function getActiveStyle(style) {
+		if (style === 'Mapbox Outdoors') {
+			return Mapstyle.Outdoors;
+		} else if (style === 'Mapbox Navigation Preview Night') {
+			return Mapstyle.Dark;
+		} else if (style === 'Mapbox Navigation Preview Day') {
+			return Mapstyle.Light;
+		} else if (style === 'Mapbox Satellite') {
+			return Mapstyle.Earth;
+		} else if (style === 'Mapbox Satellite Streets') {
+			return Mapstyle.Streets;
+		} else if (style === '3D Terrain Satellite') {
+			return Mapstyle.Minimal;
+		} else {
+			return Mapstyle.Earth;
+		}
+	}
+
+	const setStyleOnMap = style => {
+		map.setStyle(style);
 	};
 
-	mapboxStyles();
 	const getImage = style => {
 		if (style === Mapstyle.Outdoors) return outdoors;
 		if (style === Mapstyle.Dark) return dark;
@@ -29,30 +45,12 @@
 		if (style === Mapstyle.Streets) return streets;
 		if (style === Mapstyle.Minimal) return natural;
 	};
-
-	const isActive = style => {
-		let activeStyle = map.getStyle();
-
-		console.log('ISSS ACTIVE STYLE: ', activeStyle.name, ' === ', style, ' ?');
-
-		if (activeStyle.name === 'Mapbox Satellite') {
-			return true;
-		} else {
-			return false;
-		}
-	};
 </script>
 
 <div>
 	{#each Object.keys(Mapstyle) as key}
 		{@const style = Mapstyle[key]}
-		{@const active = isActive(style)}
-		<button
-			class:active
-			on:click={() => {
-				map.setStyle(style);
-			}}
-		>
+		<button class:active={activeStyle === style} on:click={() => setStyleOnMap(style)}>
 			<img src={getImage(style)} />
 			<p>{key}</p></button
 		>
@@ -66,9 +64,9 @@
 
 	button {
 		@apply relative text-left text-lg text-stone-400
-		flex align-middle h-[55px] items-center
+		flex align-middle h-[50px] items-center
 		overflow-hidden
-		  bg-black border-y border-b-2 border-black 
+		  bg-black border-y border-stone-900 
 			hover:bg-black
 			hover:text-white;
 		transition: all 0.1s ease-out;
@@ -83,16 +81,15 @@
 			@apply border-stone-700 text-stone-100 text-lg;
 			img {
 				@apply mr-5 opacity-100;
-				transform: scale(1.6);
 			}
 		}
 	}
 
 	.active {
-		// @apply border-y border-b-2 border-b-stone-700;
+		@apply text-white bg-stone-900 border-stone-800;
 		img {
-			@apply mr-5 opacity-100;
-			transform: scale(1.6);
+			@apply mr-5 opacity-100 w-[30px];
+			transform: scale(1.1);
 		}
 	}
 </style>

@@ -82,7 +82,10 @@
 	}
 </script>
 
-<div class="mt-8 rounded-md bg-black p-4" in:fly={{ delay: 669, duration: 1000 }}>
+<div
+	class="flex mt-8 rounded-md p-4  justify-end"
+	in:fly={{ delay: 669, duration: 1000 }}
+>
 	<!-- <h1 class="text-xl pb-4">My Account</h1> -->
 	<!-- <form
 		class="w-full relative
@@ -114,11 +117,10 @@
 			disabled={loading}>Log Out</button
 		>
 	</div> -->
+	<span class="text-lg mx-2">{session.user.email}</span>
+
 	<button
-		class="
-			text-sm bg-sky-900 
-			right-[20px] z-50 
-			bottom-[20px] p-4 rounded-md
+		class=" text-sm bg-sky-900 p-4 rounded-md
 			hover:bg-sky-700
 		"
 		on:click={signOut}
@@ -128,7 +130,7 @@
 
 <style>
 	div {
-		@apply text-zinc-300;
+		@apply text-zinc-300 bg-black;
 	}
 
 	input {
@@ -140,7 +142,7 @@
 	}
 
 	.gradient {
-		background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.165));
+		background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.9));
 		height: 100%;
 		width: 100%;
 		position: absolute;

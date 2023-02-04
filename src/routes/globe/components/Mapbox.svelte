@@ -6,7 +6,7 @@
 	import AddWaypointMarker from './AddWaypointMarker.svelte';
 	import ActiveInfoDisplay from '@globe/components/ActiveInfoDisplay.svelte';
 	import DestinationMarkers from '@globe/components/DestinationMarkers.svelte';
-	import CameraControls from '@/lib/features/mapbox/CameraControls.svelte';
+	import CameraControls from '$lib/features/Mapbox/CameraControls.svelte';
 	import { addWaypointStore } from '$lib/stores/addWaypoint';
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
@@ -14,6 +14,7 @@
 	import WaypointMarkers from './WaypointMarkers.svelte';
 	import SearchMarker from './SearchMarker.svelte';
 	import { searchStore } from '@/lib/stores/search';
+	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
 
 	export let map: Map;
 	onMount(async () => {
@@ -31,25 +32,44 @@
 		$addWaypointStore.active ||
 		$addDestinationStore.active ||
 		$activeDestinationStore.deleteMode;
-	$: showCursor = $addWaypointStore.active || $addDestinationStore.active;
+
+	let mouseCoordinates = null;
+	let mouseLatLng = null;
+	let showCoordinates = false;
 
 	// reset cursor to default on map canvas when addDestination.active is false
 	$: if (!$addDestinationStore.active && map) {
 		map.getCanvas().style.cursor = '';
 	}
 
-	$: console.log('SEAAARCHHH: ', $searchStore);
+	$: if (map && $addDestinationStore.active) {
+		map.on('mousemove', e => {
+			const { lat, lng } = e.lngLat;
+			mouseLatLng = getLatLngDisplayText(lat, lng);
+			mouseCoordinates = e.point;
+		});
+
+		map.on('mouseenter', () => {
+			showCoordinates = true;
+		});
+
+		map.on('mouseleave', () => {
+			showCoordinates = false;
+		});
+	}
 </script>
 
-<div id="mapbox-mount" class:blur class:border class:showCursor />
+<div id="mapbox-mount" class:blur class:border />
 <slot />
 
-{#if $addWaypointStore.mousePos}
+{#if showCoordinates && mouseCoordinates && $addDestinationStore.active && !$addDestinationStore.marker}
 	<div
-		style:left={$addWaypointStore?.mousePos?.x + 'px'}
-		style:top={$addWaypointStore?.mousePos?.y + 160 + 'px'}
+		style:left={mouseCoordinates.x + 5 + 'px'}
+		style:top={mouseCoordinates.y + 150 + 'px'}
 		class="cursor"
-	/>
+	>
+		{mouseLatLng}
+	</div>
 {/if}
 
 {#if map}
@@ -99,12 +119,10 @@
 	}
 
 	.cursor {
-		@apply h-6 w-6 
-		border-4 border-black
-		rounded-full
-		 z-10 pointer-events-none
-		fixed top-1/2 left-1/2
-		-translate-x-1/2 -translate-y-8;
+		@apply bg-black h-[40px] px-3 rounded-md
+		z-10 pointer-events-none
+		flex items-center
+		fixed;
 	}
 
 	:global(.mapboxgl-canvas) {

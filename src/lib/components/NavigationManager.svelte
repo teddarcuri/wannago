@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { navigating } from '$app/stores';
 	import ProgressBar from 'svelte-progress-bar';
-	import { activeDestinationStore } from '../stores/activeDestination';
+	import { activeDestinationStore } from '$lib/stores/activeDestination';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
-	} from '../stores/activeInfoDisplay';
-	import { addDestinationStore } from '../stores/addDestination';
-	import { addWaypointStore } from '../stores/addWaypoint';
+	} from '$lib/stores/activeInfoDisplay';
+	import { addDestinationStore } from '$lib/stores/addDestination';
+	import { addWaypointStore } from '$lib/stores/addWaypoint';
 	let progress: ProgressBar;
 
 	$: {

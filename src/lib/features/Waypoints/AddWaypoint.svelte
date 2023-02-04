@@ -1,12 +1,12 @@
 <script>
-	import { addWaypointStore } from '../stores/addWaypoint';
-	import { activeDestinationStore } from '../stores/activeDestination';
 	import { fade } from 'svelte/transition';
-	import { supabaseClient } from '../db';
+	import { addWaypointStore } from '@/lib/stores/addWaypoint';
+	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import { supabaseClient } from '@/lib/db';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
-	} from '../stores/activeInfoDisplay';
+	} from '../../stores/activeInfoDisplay';
 	import { invalidateAll } from '$app/navigation';
 	import WaypointTypeSelector from './WaypointTypeSelector.svelte';
 
