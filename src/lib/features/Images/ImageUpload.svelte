@@ -35,14 +35,17 @@
 		files = event.dataTransfer.files;
 		handleChange();
 	}
+	let isDragOver = false;
 </script>
 
 <button
+	class:dragover={isDragOver}
 	class="p-4 absolute w-full h-full  hover:bg-stone-900 "
 	on:click={() => fileInput.click()}
-	on:dragenter={e => e.preventDefault()}
 	on:dragover={e => e.preventDefault()}
 	on:drop={handleDrop}
+	on:dragenter|preventDefault={() => (isDragOver = true)}
+	on:dragleave={() => (isDragOver = false)}
 >
 	{#if error}
 		<div class="absolute top-0 left-0 w-full bg-red-700">{error}</div>
@@ -56,7 +59,11 @@
 		on:change={handleChange}
 	/>
 	<div class="grid place-items-center h-full justify-center items-center">
-		<img class="w-[24px] h-[24px]" src={addIcon} />
+		{#if isDragOver}
+			<h2 class="text-2xl text-white">Drop to upload</h2>
+		{:else}
+			<img class="w-[24px] h-[24px]" src={addIcon} />
+		{/if}
 	</div>
 </button>
 
@@ -70,6 +77,15 @@
 
 	button {
 		background: black;
+
+		& > * {
+			pointer-events: none;
+		}
+
+		&.dragover {
+			@include barberpole-background;
+			animation: barberpole 33s linear infinite;
+		}
 
 		img {
 			transition: all ease 0.3s;

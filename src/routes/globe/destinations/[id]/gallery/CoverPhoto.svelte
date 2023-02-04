@@ -197,17 +197,10 @@
 		@apply bg-black w-[90%] max-w-[444px] h-[400px]
         grid place-items-center rounded-lg relative overflow-hidden;
 		padding: 20px;
-
-		// &:hover {
-		// 	@apply bg-slate-800;
-		// }
 	}
 
 	.preview {
 		opacity: 0.69;
-	}
-
-	.photo {
 	}
 
 	.buttons {
