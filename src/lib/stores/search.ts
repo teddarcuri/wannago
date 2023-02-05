@@ -11,7 +11,7 @@ const getHistory = () => {
 	let history = [];
 	// if localstorage exists, get search history from there and convert into javascript otherwise return empty array
 	if (typeof localStorage !== 'undefined') {
-		history = JSON.parse(localStorage.getItem(SEARCH_HISTORY_LOCAL_STORAGE_KEY));
+		history = JSON.parse(localStorage.getItem(SEARCH_HISTORY_LOCAL_STORAGE_KEY) || '[]');
 	}
 	return history;
 };

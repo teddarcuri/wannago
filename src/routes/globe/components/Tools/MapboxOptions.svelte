@@ -63,8 +63,8 @@
 	}
 
 	button {
-		@apply relative text-left text-lg text-stone-400
-		flex align-middle h-[50px] items-center
+		@apply relative text-left text-base text-stone-400
+		flex align-middle h-[44px] items-center
 		overflow-hidden
 		  bg-black border-y border-stone-900 
 			hover:bg-black
@@ -72,7 +72,7 @@
 		transition: all 0.1s ease-out;
 
 		img {
-			@apply w-[20px] h-full mr-4 opacity-50;
+			@apply w-[12px] h-full mr-4 opacity-50;
 
 			transition: all 0.12s ease-out;
 		}
@@ -88,7 +88,7 @@
 	.active {
 		@apply text-white bg-stone-900 border-stone-800;
 		img {
-			@apply mr-5 opacity-100 w-[30px];
+			@apply mr-5 opacity-100 w-[24px];
 			transform: scale(1.1);
 		}
 	}

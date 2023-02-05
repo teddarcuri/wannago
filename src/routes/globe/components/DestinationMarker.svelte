@@ -67,12 +67,12 @@
 		domElement.classList.add('active-destination');
 		// domElement.classList.add('golden2');
 
-		// map.flyTo({
-		// 	zoom: map.getZoom() < 10 ? map.getZoom() + 1 : map.getZoom(),
-		// 	center,
-		// 	// pitch: 69,
-		// 	duration: 2000,
-		// });
+		map.flyTo({
+			zoom: map.getZoom() < 10 ? map.getZoom() + 1 : map.getZoom(),
+			center,
+			// pitch: 69,
+			duration: 2000,
+		});
 
 		// Edit location mode
 		if ($activeDestinationStore.editLocationMode) {
@@ -92,9 +92,9 @@
 		}
 	} else {
 		marker.setDraggable(false);
-		// console.log(
-		// 	'ELSE - this is run for every marker, every time the route changes. It would behoove us to address this.',
-		// );
+		console.log(
+			'ELSE - this is run for every marker, every time the route changes. It would behoove us to address this.',
+		);
 		domElement.classList.remove('active-destination');
 
 		// // if there is an active destination, hide all other markers

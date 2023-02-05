@@ -42,7 +42,7 @@
 					<img class="bg" src={destination.images.public_url} />
 				{/if}
 				<a
-					class="p-6 pl-3 flex bg-black  hover:bg-gray-900"
+					class="p-6 pt-0 pl-3 flex bg-black  hover:bg-gray-900"
 					href={`/globe/destinations/${destination.id}`}
 				>
 					<img class="w-[26px] h-[26px] mt-2 mr-4" src={icon} />
@@ -101,7 +101,7 @@
 			text-left rounded-t-lg
 			overflow-hidden;
 			background: black;
-			height: 48px;
+			height: 44px;
 			padding-left: 48px;
 			width: 100%;
 			transition: all ease 0.3s;

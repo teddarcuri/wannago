@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import { afterNavigate, invalidate, invalidateAll } from '$app/navigation';
 	import { fade } from 'svelte/transition';
-	import DisplayCard from '../../components/DisplayCard.svelte';
+	import DisplayCard from '$lib/components/DisplayCard.svelte';
 	import Coordinates from './components/Coordinates.svelte';
 	import closeIcon from '$lib/img/close.svg';
 	import galleryIcon from '$lib/img/gallery.svg';

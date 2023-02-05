@@ -13,9 +13,8 @@
 	import Tools from './Tools/Tools.svelte';
 	import WaypointMarkers from './WaypointMarkers.svelte';
 	import SearchMarker from './SearchMarker.svelte';
-	import { searchStore } from '@/lib/stores/search';
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
-
+	import { searchStore } from '@/lib/stores/search';
 	export let map: Map;
 	onMount(async () => {
 		map = await bootstrapMapbox();
@@ -51,6 +50,8 @@
 	$: if (!$addDestinationStore.active && map) {
 		map.getCanvas().style.cursor = '';
 	}
+
+	$: console.log($searchStore?.activeResult);
 </script>
 
 <div id="mapbox-mount" class:blur class:border />
@@ -73,6 +74,7 @@
 			<CameraControls />
 		{/if}
 	{/if}
+
 	{#if !isRoot && !isGallery}
 		<Tools {map} />
 	{/if}
@@ -80,7 +82,9 @@
 	{#if $addWaypointStore.coordinates}
 		<AddWaypointMarker {map} />
 	{/if}
-	<SearchMarker {map} />
+	{#key $searchStore?.activeResult?.id}
+		<SearchMarker {map} />
+	{/key}
 {/if}
 
 <style lang="scss">

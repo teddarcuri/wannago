@@ -2,7 +2,7 @@
 	import { searchStore } from '@/lib/stores/search';
 </script>
 
-<div class="bg-white bg-opacity-5 p-2">
+<div class="bg-white bg-opacity-5 p-2 py-4">
 	<h4 class="text-stone-400 p-2 text-sm">Recent Searches</h4>
 	{#each $searchStore.history as history}
 		<button

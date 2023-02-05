@@ -74,7 +74,7 @@
 			...s,
 			activeResult: result,
 		}));
-		await goto('/globe/search-result');
+		await goto('/globe');
 		map.flyTo({ center: result.center, zoom: 15 });
 	};
 

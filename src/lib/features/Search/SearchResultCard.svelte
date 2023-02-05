@@ -3,7 +3,7 @@
 	import ButtonPill from '@/lib/components/ButtonPill.svelte';
 	import { searchStore } from '@/lib/stores/search';
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
-	import DisplayCard from '../components/DisplayCard.svelte';
+	import DisplayCard from '$lib/components/DisplayCard.svelte';
 	import { getContext } from 'svelte';
 	import closeIcon from '$lib/img/close.svg';
 	import centerIcon from '$lib/img/center.svg';
@@ -47,13 +47,13 @@
 		<DisplayCard>
 			<div class="root group relative z-50 bg-black w-full rounded-lg">
 				<!-- Buttons/Controls -->
-				<div class="control-button absolute flex top-6 left-6 z-30">
+				<div class="control-button absolute flex top-3 left-3 z-30">
 					<button on:click={clearSearch}
 						><img class="h-[15px] w-[15px]" src={closeIcon} /></button
 					>
 				</div>
 
-				<div class="absolute right-6 top-6">
+				<div class="absolute right-3 top-3">
 					<button alt="Fly to destination" on:click={handleFlyTo}>
 						<img
 							src={centerIcon}
@@ -62,6 +62,7 @@
 						/>
 					</button>
 				</div>
+				<p class="text-stone-400 pb-3">Search Results:</p>
 				<h1 class="text-2xl  bg-transparent font-semibold">
 					{$searchStore.activeResult.place_name}
 				</h1>
@@ -85,7 +86,7 @@
 	}
 
 	main {
-		@apply mt-[30px] pt-[40px] pb-3 px-[20px];
+		@apply pb-3 px-[20px];
 		position: relative;
 		max-height: calc(100vh - 80px);
 		overflow: auto;
@@ -95,8 +96,12 @@
 		flex-flow: column nowrap;
 	}
 
+	button {
+		@apply grid place-items-center h-[50px] w-[50px] rounded-full hover:bg-gray-800;
+	}
+
 	.root {
-		@apply p-[40px] pt-[69px] border-stone-600 overflow-hidden rounded-lg;
+		@apply p-[40px] pt-[64px] border-stone-600 overflow-hidden rounded-lg;
 		@include barberpole-background;
 
 		&:hover {

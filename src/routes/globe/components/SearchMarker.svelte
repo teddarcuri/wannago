@@ -5,7 +5,6 @@
 
 	export let map;
 	let marker;
-	let previousId;
 
 	$: if ($searchStore?.activeResult?.id) {
 		const lat = $searchStore.activeResult.center[1];
@@ -20,18 +19,7 @@
 		searchStore.update(s => ({ ...s, marker }));
 	} else {
 		if (marker) marker.remove();
-		searchStore.update(s => ({ ...s, marker: null }));
 	}
-
-	beforeUpdate(() => {
-		if (previousId !== $searchStore.activeResult?.id) {
-			if (marker) marker.remove();
-		}
-	});
-
-	afterUpdate(() => {
-		previousId = $searchStore.activeResult?.id;
-	});
 
 	onDestroy(() => {
 		if (marker) marker.remove();
@@ -40,9 +28,10 @@
 
 <style global lang="scss">
 	.search-result {
-		@apply h-[66px] w-[66px] flex items-center justify-center;
+		@apply h-[44px] w-[44px] flex items-center justify-center;
 
 		img {
+			@apply h-[15px] w-[15px];
 			opacity: 1;
 		}
 	}

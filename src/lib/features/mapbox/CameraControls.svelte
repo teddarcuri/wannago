@@ -29,9 +29,10 @@
 
 	// flyToSpace function that get coordinates of active destination and flies to it
 	function flyToSpace() {
-		const [lng, lat] = $activeDestinationStore.destination.coordinates.coordinates;
+		const center =
+			$activeDestinationStore?.destination?.coordinates?.coordinates ?? map.getCenter();
 		map.flyTo({
-			center: [lng, lat],
+			center,
 			zoom: 4,
 		});
 	}
