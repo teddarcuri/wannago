@@ -42,33 +42,39 @@
 	};
 </script>
 
-<main>
-	<DisplayCard>
-		<div class="root group relative z-50 bg-black w-full rounded-lg">
-			<!-- Buttons/Controls -->
-			<div class="control-button absolute flex top-6 left-6 z-30">
-				<button on:click={clearSearch}
-					><img class="h-[15px] w-[15px]" src={closeIcon} /></button
+{#if $searchStore.activeResult}
+	<main>
+		<DisplayCard>
+			<div class="root group relative z-50 bg-black w-full rounded-lg">
+				<!-- Buttons/Controls -->
+				<div class="control-button absolute flex top-6 left-6 z-30">
+					<button on:click={clearSearch}
+						><img class="h-[15px] w-[15px]" src={closeIcon} /></button
+					>
+				</div>
+
+				<div class="absolute right-6 top-6">
+					<button alt="Fly to destination" on:click={handleFlyTo}>
+						<img
+							src={centerIcon}
+							alt="Fly to destination"
+							class="icon w-[24px] h-[24px]"
+						/>
+					</button>
+				</div>
+				<h1 class="text-2xl  bg-transparent font-semibold">
+					{$searchStore.activeResult.place_name}
+				</h1>
+
+				<p class="my-4">{coordinates}</p>
+
+				<ButtonPill handleClick={createDestinationFromSearchResult}
+					>Create Destination</ButtonPill
 				>
-			</div>
-
-			<div class="absolute right-6 top-6">
-				<button alt="Fly to destination" on:click={handleFlyTo}>
-					<img src={centerIcon} alt="Fly to destination" class="icon w-[24px] h-[24px]" />
-				</button>
-			</div>
-			<h1 class="text-2xl  bg-transparent font-semibold">
-				{$searchStore.activeResult.place_name}
-			</h1>
-
-			<p class="my-4">{coordinates}</p>
-
-			<ButtonPill handleClick={createDestinationFromSearchResult}
-				>Create Destination</ButtonPill
-			>
-		</div></DisplayCard
-	>
-</main>
+			</div></DisplayCard
+		>
+	</main>
+{/if}
 
 <style lang="scss">
 	@mixin barberpole-background {

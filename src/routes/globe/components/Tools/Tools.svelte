@@ -6,7 +6,7 @@
 	import mountainIcon from '$lib/img/mountain.svg';
 	import FloatingWindow from './FloatingWindow.svelte';
 	import MyDestinations from '@/routes/globe/components/Tools/MyDestinations.svelte';
-	import Search from './Search.svelte';
+	import Search from '@/lib/features/Search/Search.svelte';
 	import MapboxOptions from './MapboxOptions.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';

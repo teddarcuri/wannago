@@ -5,6 +5,7 @@
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 	import { searchStore } from '$lib/stores/search';
 	import { goto } from '$app/navigation';
+	import RecentSearches from './RecentSearches.svelte';
 
 	export let map;
 
@@ -32,11 +33,18 @@
 		};
 	};
 
+	const updateHistory = debounce(data => {
+		if (!searchQuery) return;
+		searchStore.update(s => ({
+			...s,
+			history: [{ searchQuery, ...data }, ...s.history].splice(0, 8),
+		}));
+	}, 2000);
+
 	const searchDestinations = debounce(async () => {
 		isLoading = true;
-		// get the current center lat long from mapbox map
-		// this sorts the results by proximity to the center of the current map
-		searchStore.update(s => ({ ...s, query: searchQuery }));
+		searchStore.update(s => ({ ...s, activeHistory: null }));
+		// Begin search
 		const center = map.getCenter();
 		const { lng, lat } = center;
 		const response = await fetch(
@@ -49,11 +57,13 @@
 		setTimeout(() => {
 			isLoading = false;
 			searchResults = data.features;
-		}, 555);
+			searchStore.update(s => ({ ...s, data }));
+		}, 222);
+
+		updateHistory(data);
 	}, 222);
 
 	const setActiveSearchResult = async result => {
-		console.log('RESULT: ', result);
 		searchStore.update(s => ({
 			...s,
 			activeResult: result,
@@ -61,6 +71,11 @@
 		await goto('/globe/search-result');
 		map.flyTo({ center: result.center, zoom: 15 });
 	};
+
+	// if there is a activehistory on the search store, set the search query to the active history searchQuery
+	$: if ($searchStore.activeHistory) {
+		searchQuery = $searchStore.activeHistory.searchQuery;
+	}
 </script>
 
 <div class="root" class:hasResults={searchResults.length}>
@@ -79,6 +94,12 @@
 				on:click={() => {
 					searchQuery = '';
 					searchResults = [];
+					if ($searchStore.activeHistory) {
+						searchStore.update(s => ({
+							...s,
+							activeHistory: null,
+						}));
+					}
 				}}>X</button
 			>
 		{/if}
@@ -90,7 +111,13 @@
 		</div>
 	{/if}
 
-	{#if searchQuery}
+	{#if $searchStore.activeHistory}
+		{#each $searchStore.activeHistory.features as result}
+			<button tabindex="0" on:click={() => setActiveSearchResult(result)}>
+				{result.place_name}
+			</button>
+		{/each}
+	{:else if searchQuery}
 		{#if !isLoading}
 			{#each searchResults as result}
 				<button tabindex="0" on:click={() => setActiveSearchResult(result)}>
@@ -98,8 +125,8 @@
 				</button>
 			{/each}
 		{/if}
-	{:else}
-		<div>Recent Searches</div>
+	{:else if $searchStore.history.length && !isLoading}
+		<RecentSearches />
 	{/if}
 </div>
 
