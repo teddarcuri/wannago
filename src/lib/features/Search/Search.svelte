@@ -6,6 +6,7 @@
 	import { searchStore } from '$lib/stores/search';
 	import { goto } from '$app/navigation';
 	import RecentSearches from './RecentSearches.svelte';
+	import { SEARCH_HISTORY_LOCAL_STORAGE_KEY } from './constants';
 
 	export let map;
 
@@ -39,6 +40,11 @@
 			...s,
 			history: [{ searchQuery, ...data }, ...s.history].splice(0, 8),
 		}));
+		// set the history in local storage
+		localStorage.setItem(
+			SEARCH_HISTORY_LOCAL_STORAGE_KEY,
+			JSON.stringify($searchStore.history),
+		);
 	}, 2000);
 
 	const searchDestinations = debounce(async () => {
