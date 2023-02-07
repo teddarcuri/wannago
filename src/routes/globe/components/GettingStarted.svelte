@@ -1,5 +1,5 @@
 <script>
-	import DisplayCard from '@globe/components/DisplayCard.svelte';
+	import DisplayCard from '$lib/components/DisplayCard.svelte';
 </script>
 
 <!-- <button class="absolute top-2 left-[235px]">?</button> -->
@@ -18,8 +18,10 @@
 	<button>Got it. Dismiss for now.</button> -->
 
 	<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
-	<h3 class="text-lg font-semibold my-7"><span>🏔️</span>Add your destinations</h3>
-	<h3 class="text-lg font-semibold my-7"><span>🌍</span>Upload Photos</h3>
+	<p>Use the Globe to create a map of <b>your</b> world.</p>
+	<br />
+	<p>Add and browse destinations using the tools in the top right corner</p>
+	<p>Camera controls below</p>
 </div>
 
 <!-- </DisplayCard> -->
@@ -37,7 +39,7 @@
 	div {
 		z-index: 1;
 		position: relative;
-		@apply bg-zinc-900 p-8 opacity-90 rounded-lg;
+		@apply bg-black p-8 opacity-90 rounded-lg;
 	}
 
 	span {

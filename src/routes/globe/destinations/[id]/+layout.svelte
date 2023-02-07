@@ -25,7 +25,6 @@
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
 	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
-
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
 		Sunset = 'https://imgs.search.brave.com/sQkT26CFbrcRgWamq9NmY2jCeyviP6LJF0MDJmvSlfI/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9qb29p/bm4uY29tL2ltYWdl/cy9nZXJtYW4tbW91/bnRhaW5zLTIuanBn',
@@ -226,15 +225,14 @@
 							</section>
 						</form>
 					{/if}
-
 					<!-- <Waypoints {map} waypoints={destination.waypoints} /> -->
 				</div>
 			</DisplayCard>
 		</main>
 	{/if}
 	<slot slot="content" />
-	<!-- {#if waypoints}
-		<WaypointMarkers {waypoints} />
+	<!-- {#if destination.waypoints}
+		<WaypointMarkers waypoints={destination.waypoints} />
 	{/if} -->
 </GlobePageLayout>
 

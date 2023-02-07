@@ -75,7 +75,7 @@
 		{/if}
 	{/if}
 
-	{#if !isRoot && !isGallery}
+	{#if !isGallery}
 		<Tools {map} />
 	{/if}
 	<DestinationMarkers {map} />

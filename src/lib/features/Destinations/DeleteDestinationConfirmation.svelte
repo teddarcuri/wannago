@@ -38,7 +38,14 @@
 				displayText: 'Destination deleted',
 			}));
 			activeDestinationStore.update(s => ({ ...s, deleteMode: false }));
-			goto('/globe');
+			await goto('/globe');
+			setTimeout(() => {
+				activeInfoDisplayStore.update(s => ({
+					...s,
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: '',
+				}));
+			}, 2000);
 		}
 	};
 </script>

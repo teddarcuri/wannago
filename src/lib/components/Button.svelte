@@ -6,13 +6,12 @@
 	<div class="inner">
 		<slot />
 	</div>
-	<!-- <div class="gradient" /> -->
 </button>
 
 <style lang="scss">
 	button {
-		@apply relative text-zinc-400 rounded-sm overflow-hidden;
-		padding: 1px;
+		@apply relative text-zinc-400 rounded-sm overflow-hidden bg-gray-900 hover:bg-gray-700;
+		padding: 2px;
 
 		&:hover {
 			.inner {

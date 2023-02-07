@@ -30,36 +30,15 @@
 
 				<div class="p-8 pt-[30px]">
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
-						<!-- <GettingStarted /> -->
-						<!-- <MyDestinations /> -->
+						<GettingStarted />
 
 						<form class="bg-black rounded-md overflow-auto p-[33px]">
 							<h2 class="text-xl text-stone-300 mb-8">
 								<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
 							</h2>
-							<p class="px-3 mb-8  text-stone-400">
-								Thanks for using Wannago. You are one of the first. There's a lot of
-								places
+							<p class="opacity-70 my-5 font-semibold">
+								Tell us what type of features would add value.
 							</p>
-							<!-- <h4 class="text-xl my-5 font-semibold">Some things on the roadmap:</h4>
-						<ul>
-							<li>
-								More destination types (icons) - let us know what you'd like to see!
-							</li>
-							<li>Full photo gallery</li>
-							<li>Directions</li>
-							<li>Trip planner</li>
-							<li>Trip Journal</li>
-						</ul>
-						<p class="mt-6">
-							In 2023, we have a lot of apps. Arguably too many. Our focus is to serve
-							outdoor enthusiasts to plan and document all the places they've been and all
-							the places they wannago. We have ideas, but that could look like a lot of
-							things - <span
-								>Take a minute to let us know what would be useful to you!</span
-							>
-						</p> -->
-							<!-- <h4 class="text-xl my-5 font-semibold">Tell us what you want to see.</h4> -->
 
 							<div class="feedback">
 								<textarea placeholder="Leave us some feedback." name="feedback" />

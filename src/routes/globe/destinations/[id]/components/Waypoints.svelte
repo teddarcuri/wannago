@@ -58,7 +58,7 @@
 	<button class:active on:click={active ? handleCancel : handleCreate}>+</button>
 </div>
 
-{#if waypoints}
+<!-- {#if waypoints}
 	<div class="waypoints">
 		{#each waypoints as waypoint}
 			{@const canvas = createWaypointCanvas(waypoint.name.charAt(0), waypoint.hex)}
@@ -69,8 +69,7 @@
 			</p>
 		{/each}
 	</div>
-{/if}
-
+{/if} -->
 <style lang="scss">
 	.root {
 		@apply flex overflow-hidden justify-between bg-stone-800 p-5 py-2 z-50 relative;

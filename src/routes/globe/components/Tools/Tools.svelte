@@ -29,8 +29,14 @@
 		$addDestinationStore.active ||
 		$activeDestinationStore.deleteMode ||
 		$addWaypointStore.active;
+	// ToDO: hoist this into store so it can be set when navigating to and from dashboard/destinations
 	let activeTool: Tool | null = null;
-	const toggleTool = (tool: Tool) => {
+	const toggleTool = async (tool: Tool) => {
+		// if current sveltekit route does not begin with the string /globe, go to /globe
+		if (window.location.pathname.indexOf('/globe') !== 0) {
+			await goto('/globe');
+		}
+
 		activeTool = activeTool === tool ? null : tool;
 	};
 </script>

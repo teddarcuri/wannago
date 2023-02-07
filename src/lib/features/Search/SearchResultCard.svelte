@@ -72,8 +72,8 @@
 				<ButtonPill handleClick={createDestinationFromSearchResult}
 					>Create Destination</ButtonPill
 				>
-			</div></DisplayCard
-		>
+			</div>
+		</DisplayCard>
 	</main>
 {/if}
 
@@ -86,7 +86,7 @@
 	}
 
 	main {
-		@apply pb-3 px-[20px];
+		@apply py-6 px-[20px];
 		position: relative;
 		max-height: calc(100vh - 80px);
 		overflow: auto;

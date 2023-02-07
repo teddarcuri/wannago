@@ -119,14 +119,18 @@
 
 	{#if $searchStore.activeHistory}
 		{#each $searchStore.activeHistory.features as result}
-			<button tabindex="0" on:click={() => setActiveSearchResult(result)}>
+			<button class="result" tabindex="0" on:click={() => setActiveSearchResult(result)}>
 				{result.place_name}
 			</button>
 		{/each}
 	{:else if searchQuery}
 		{#if !isLoading}
 			{#each searchResults as result}
-				<button tabindex="0" on:click={() => setActiveSearchResult(result)}>
+				<button
+					class="result"
+					tabindex="0"
+					on:click={() => setActiveSearchResult(result)}
+				>
 					{result.place_name}
 				</button>
 			{/each}
@@ -207,7 +211,6 @@
 			padding: 6px 12px;
 			border-radius: 5px;
 			text-transform: uppercase;
-			font-size: 12px;
 		}
 	}
 
@@ -218,5 +221,9 @@
 	button {
 		@apply p-3 hover:bg-gray-900
 		text-left;
+
+		&.result {
+			@apply text-sm opacity-80;
+		}
 	}
 </style>

@@ -13,13 +13,20 @@
 </script>
 
 <div class="root relative bg-black z-10 col-span-3">
-	<div class="input-wrapper">
-		<img src={search} height="14px" width="14px" />
-		<input placeholder="Search your destinations" bind:value={searchQuery} />
-		{#if searchQuery}
-			<button class="clear" on:click={() => (searchQuery = '')}>X</button>
-		{/if}
-	</div>
+	{#if destinations.length}
+		<div class="input-wrapper">
+			<img src={search} height="14px" width="14px" />
+			<input placeholder="Search your destinations" bind:value={searchQuery} />
+			{#if searchQuery}
+				<button class="clear" on:click={() => (searchQuery = '')}>X</button>
+			{/if}
+		</div>
+	{:else}
+		<div class="p-8">
+			<h3 class="mb-1 text-lg bold">My Destinations</h3>
+			<p class="opacity-70">You don't have any destinations yet</p>
+		</div>
+	{/if}
 
 	<div class="sticky top-[48px] z-40 pl-4 bg-black bg-opacity-80">
 		<!-- <button>Alphabetical</button> -->

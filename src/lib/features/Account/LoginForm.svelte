@@ -26,12 +26,15 @@
 	}
 </script>
 
-<div class="wrapper">
+<div class="wrapper text-center">
 	<header>
-		<h1 class="text-3xl">🌎 Welcome to Wannago</h1>
-		<h3 class="text-xl mt-4">We live in a beautiful World. Document yours.</h3>
+		<h1 class="text-3xl"><span class="mr-3">🌎</span> Welcome to Wannago</h1>
+		<h3 class="text-xl mt-4 opacity-50">We live in a beautiful World. Document yours.</h3>
 	</header>
-	<form class="w-[440px] grid place-items-center" on:submit|preventDefault={handleLogin}>
+	<form
+		class="w-[440px] mt-6 grid place-items-center"
+		on:submit|preventDefault={handleLogin}
+	>
 		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
 
 		<!-- <div class="gradient" /> -->

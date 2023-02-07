@@ -2,7 +2,7 @@
 	import TiltTile from '$lib/components/TiltTile.svelte';
 </script>
 
-<div class="h-[400px] mb-4">
+<div class="h-[333px] mb-4">
 	<TiltTile
 		title="View Your Globe"
 		subtitle="Document your World"
