@@ -17,7 +17,7 @@
 
 	function getActiveStyle(style) {
 		if (style === 'Mapbox Outdoors') {
-			return Mapstyle.Outdoors;
+			return Mapstyle.Topographic;
 		} else if (style === 'Mapbox Navigation Preview Night') {
 			return Mapstyle.Dark;
 		} else if (style === 'Mapbox Navigation Preview Day') {
@@ -38,7 +38,7 @@
 	};
 
 	const getImage = style => {
-		if (style === Mapstyle.Outdoors) return outdoors;
+		if (style === Mapstyle.Topographic) return outdoors;
 		if (style === Mapstyle.Dark) return dark;
 		if (style === Mapstyle.Light) return light;
 		if (style === Mapstyle.Earth) return satellite;
