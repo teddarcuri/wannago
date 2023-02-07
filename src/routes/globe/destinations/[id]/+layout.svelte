@@ -171,7 +171,7 @@
 						</a>
 						<!-- Buttons/Controls -->
 						<div class="fly-to control-button">
-							<button title="Focus Locationx" on:click={handleFlyTo}>
+							<button title="Focus Location" on:click={handleFlyTo}>
 								<img
 									src={centerIcon}
 									alt="Fly to destination"

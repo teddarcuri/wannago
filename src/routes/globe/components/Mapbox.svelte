@@ -16,6 +16,7 @@
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
 	import { searchStore } from '@/lib/stores/search';
 	export let map: Map;
+
 	onMount(async () => {
 		map = await bootstrapMapbox();
 
@@ -67,7 +68,7 @@
 	</div>
 {/if}
 
-{#if map}
+{#if map && session}
 	{#if session && !isRoot && !isGallery}
 		<ActiveInfoDisplay />
 		{#if !$activeDestinationStore.deleteMode}

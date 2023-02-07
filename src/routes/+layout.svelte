@@ -1,13 +1,17 @@
 <script lang="ts">
 	import '../app.css';
+	import { page } from '$app/stores';
+
 	import { supabaseClient } from '$lib/db';
-	import { invalidate } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { goto, invalidate } from '$app/navigation';
+	import { afterUpdate, onMount } from 'svelte';
 	import Header from '@/lib/components/Header.svelte';
 	import Mapbox from '@/routes/globe/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
+	$: session = $page.data.session;
+	$: deleteMode = $activeDestinationStore.deleteMode;
 
 	onMount(() => {
 		const {
@@ -21,7 +25,11 @@
 		};
 	});
 
-	$: deleteMode = $activeDestinationStore.deleteMode;
+	afterUpdate(async () => {
+		// return console.log($page);
+		// route does not equal /welcome and session is null
+		if ($page.url.pathname !== '/welcome' && !session) await goto('/welcome');
+	});
 </script>
 
 <div id="app-wrapper" class:delete-mode={deleteMode}>

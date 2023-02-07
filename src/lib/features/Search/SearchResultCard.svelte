@@ -86,7 +86,6 @@
 	}
 
 	main {
-		@apply py-6 px-[20px];
 		position: relative;
 		max-height: calc(100vh - 80px);
 		overflow: auto;

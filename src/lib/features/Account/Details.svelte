@@ -3,6 +3,7 @@
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabaseClient } from '$lib/db';
 	import { fly } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	export let session: AuthSession;
 
@@ -72,6 +73,7 @@
 			loading = true;
 			let { error } = await supabaseClient.auth.signOut();
 			if (error) throw error;
+			await goto('/welcome');
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);

@@ -10,10 +10,11 @@
 	$: navText = isRoot ? 'Exit Dashboard' : 'Dashboard';
 	$: session = $page.data.session;
 	$: transparent = $activeDestinationStore.deleteMode || $addDestinationStore.active;
+	$: logoLink = false ? '/globe' : '/';
 </script>
 
 <header class:transparent id="app-nav">
-	<a href="/"><div id="logo" class="mr-7">wannago</div></a>
+	<a href={logoLink}><div id="logo" class="mr-7">wannago</div></a>
 	<nav>
 		{#if !$addWaypointStore.active && !$addDestinationStore.active && !$activeDestinationStore.deleteMode && session}
 			<a

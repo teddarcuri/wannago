@@ -18,10 +18,10 @@
 	<button>Got it. Dismiss for now.</button> -->
 
 	<h1 class="text-xl font-semibold mb-7"><span>👋</span>Welcome to Wannago</h1>
-	<p>Use the Globe to create a map of <b>your</b> world.</p>
-	<br />
-	<p>Add and browse destinations using the tools in the top right corner</p>
-	<p>Camera controls below</p>
+	<p>Add destinations</p>
+	<p>Browse your destinations</p>
+	<p>Find Places</p>
+	<p>Map style</p>
 </div>
 
 <!-- </DisplayCard> -->

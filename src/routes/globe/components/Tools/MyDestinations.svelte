@@ -23,8 +23,12 @@
 		</div>
 	{:else}
 		<div class="p-8">
-			<h3 class="mb-1 text-lg bold">My Destinations</h3>
-			<p class="opacity-70">You don't have any destinations yet</p>
+			<h3 class="mb-1 text-lg bold">Your Destinations</h3>
+			<p class="opacity-70">You don't have any destinations yet!</p>
+			<p class="opacity-70">Add one using the <span class="text-4xl">+</span> above</p>
+
+			<p class="opacity-70">Assign a destination type</p>
+			<p class="opacity-70">Upload images</p>
 		</div>
 	{/if}
 

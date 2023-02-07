@@ -10,16 +10,14 @@
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import Textarea from '$lib/components/Textarea.svelte';
 	import ButtonPill from '$lib/components/ButtonPill.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	$: session = $page.data.session;
 </script>
 
 <main>
 	<div class="bg" />
-	{#if !$page.data.session}
-		<div class="absolute h-full w-full grid place-items-center">
-			<LoginForm />
-		</div>
-	{:else}
+	{#if !$page.data.session}{:else}
 		<div class="wrapper h-full flex">
 			<!-- <DevelopmentBanner /> -->
 			<section class="w-full h-full">
@@ -30,7 +28,7 @@
 
 				<div class="p-8 pt-[30px]">
 					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
-						<GettingStarted />
+						<!-- <GettingStarted /> -->
 
 						<form class="bg-black rounded-md overflow-auto p-[33px]">
 							<h2 class="text-xl text-stone-300 mb-8">

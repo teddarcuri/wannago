@@ -1,79 +1,33 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/db';
 	import Button from '$lib/components/Button.svelte';
-	let loading = false;
-	let email: string;
+	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
 
-	const handleLogin = async () => {
-		// try {
-		// 	loading = true;
-		// 	const { error } = await supabaseClient.auth.signInWithOtp({ email });
-		// 	if (error) throw error;
-		// 	alert('Check your email for the login link!');
-		// } catch (error) {
-		// 	if (error instanceof Error) {
-		// 		alert(error.message);
-		// 	}
-		// } finally {
-		// 	loading = false;
-		// }
-	};
+	let loading = false;
 
 	async function signInWithGoogle() {
+		loading = true;
+
 		const { data, error } = await supabaseClient.auth.signInWithOAuth({
 			provider: 'google',
 		});
+
+		loading = false;
+
+		if (error) alert(error?.message ?? 'There was an issue logging you in');
 	}
 </script>
 
 <div class="wrapper text-center">
+	{#if loading}
+		<LoadingOverlay />
+	{/if}
 	<header>
 		<h1 class="text-3xl"><span class="mr-3">🌎</span> Welcome to Wannago</h1>
 		<h3 class="text-xl mt-4 opacity-50">We live in a beautiful World. Document yours.</h3>
 	</header>
-	<form
-		class="w-[440px] mt-6 grid place-items-center"
-		on:submit|preventDefault={handleLogin}
-	>
+	<form class="w-[440px] mt-6 grid place-items-center">
 		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
-
-		<!-- <div class="gradient" /> -->
-		<!-- <div class="inner p-10">
-			<p class="py-4">Sign in via magic link with your email below</p>
-			<input
-				class="
-			  mb-5 border-b-2 
-			  border-zinc-500
-			  bg-transparent
-			  py-3
-			  w-full
-			  text-xl
-			  text-white
-			  focus:outline-none
-			  active:bg-transparent
-			"
-				type="email"
-				placeholder="Your email"
-				bind:value={email}
-			/>
-			<input
-				type="submit"
-				class="   
-			h-[44px]
-			self-end
-			rounded-md
-			px-6
-			cursor-pointer
-		  text-zinc-600
-			border-zinc-600
-			bg-gray-800
-			text-zinc-200
-			hover:bg-sky-800
-			active:bg-zinc-900"
-				value={loading ? 'Loading' : 'Send magic link'}
-				disabled={loading}
-			/>
-		</div> -->
 	</form>
 </div>
 
