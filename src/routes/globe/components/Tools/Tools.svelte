@@ -70,21 +70,6 @@
 		</span>
 		<span class="relative">
 			<button
-				title="Map Options"
-				class:active={activeTool === Tool.mapboxOptions}
-				class="text-md ml-3"
-				on:click={() => toggleTool(Tool.mapboxOptions)}
-			>
-				<img class="w-[28px] h-[28px]" src={globeIcon} alt="search" />
-			</button>
-			{#if activeTool === Tool.mapboxOptions}
-				<FloatingWindow>
-					<MapboxOptions {map} />
-				</FloatingWindow>
-			{/if}
-		</span>
-		<span class="relative">
-			<button
 				title="Find something"
 				class:active={activeTool === Tool.search}
 				class="text-md ml-3"
@@ -95,6 +80,21 @@
 			{#if activeTool === Tool.search}
 				<FloatingWindow>
 					<Search {map} />
+				</FloatingWindow>
+			{/if}
+		</span>
+		<span class="relative">
+			<button
+				title="Map Options"
+				class:active={activeTool === Tool.mapboxOptions}
+				class="text-md ml-3"
+				on:click={() => toggleTool(Tool.mapboxOptions)}
+			>
+				<img class="w-[28px] h-[28px]" src={globeIcon} alt="search" />
+			</button>
+			{#if activeTool === Tool.mapboxOptions}
+				<FloatingWindow>
+					<MapboxOptions {map} />
 				</FloatingWindow>
 			{/if}
 		</span>
