@@ -23,10 +23,14 @@
 		<LoadingOverlay />
 	{/if}
 	<header>
-		<h1 class="text-3xl"><span class="mr-3">🌎</span> Welcome to Wannago</h1>
-		<h3 class="text-xl mt-4 opacity-50">We live in a beautiful World. Document yours.</h3>
+		<h1 class="text-3xl select-none pointer-events-none">
+			<span class="mr-3">🌎</span> Welcome to Wannago
+		</h1>
+		<h3 class="text-xl mt-4 opacity-50 select-none pointer-events-none">
+			We live in a beautiful World. Document yours.
+		</h3>
 	</header>
-	<form class="w-[440px] mt-6 grid place-items-center">
+	<form class="w-[440px] mt-6 grid place-items-center select-none">
 		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
 	</form>
 </div>
