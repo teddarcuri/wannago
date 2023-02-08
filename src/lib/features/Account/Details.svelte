@@ -119,11 +119,10 @@
 			disabled={loading}>Log Out</button
 		>
 	</div> -->
-	<span class="text-lg mx-2">{session.user.email}</span>
+	<!-- <span class="text-lg mx-2">{session.user.email}</span> -->
 
 	<button
-		class=" text-sm bg-sky-900 p-4 rounded-md
-			hover:bg-sky-700
+		class="text-sm 
 		"
 		on:click={signOut}
 		disabled={loading}>Log Out</button
@@ -131,9 +130,9 @@
 </div>
 
 <style>
-	div {
+	/* div {
 		@apply text-zinc-300 bg-black;
-	}
+	} */
 
 	input {
 		@apply text-zinc-300 inline-flex  text-lg border-0 w-auto px-2;

@@ -2,6 +2,7 @@
 	import { supabaseClient } from '$lib/db';
 	import Button from '$lib/components/Button.svelte';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
+	import GoogleLogo from '$lib/img/google.svg';
 
 	let loading = false;
 
@@ -24,14 +25,17 @@
 	{/if}
 	<header>
 		<h1 class="text-3xl select-none pointer-events-none">
-			<span class="mr-3">🌎</span> Welcome to Wannago
+			<span class="mr-4 text-3xl">🌎</span>Welcome to Wannago
 		</h1>
 		<h3 class="text-xl mt-4 opacity-50 select-none pointer-events-none">
 			We live in a beautiful World. Document yours.
 		</h3>
 	</header>
-	<form class="w-[440px] mt-6 grid place-items-center select-none">
-		<Button onClick={signInWithGoogle}>Sign in with Google</Button>
+	<form class="w-[440px] mt-6 select-none">
+		<Button onClick={signInWithGoogle}>
+			<img class="opacity-60" width="20px" src={GoogleLogo} />
+			<span class="ml-4">Sign in with Google</span></Button
+		>
 	</form>
 </div>
 

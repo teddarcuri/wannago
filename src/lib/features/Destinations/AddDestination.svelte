@@ -22,7 +22,9 @@
 	import { onMount } from 'svelte';
 
 	export let map: Map;
-	let name = $addDestinationStore.createFromSearchResult ? $searchStore?.query : '';
+	let name = $addDestinationStore.createFromSearchResult
+		? $searchStore?.activeResult?.text
+		: '';
 	let loading = false;
 	let inputEl: HTMLInputElement;
 	$: marker = $addDestinationStore.marker || $searchStore.marker;
@@ -134,7 +136,7 @@
 				addDestinationStore.update(s => ({ marker: null, screenPos: null }));
 				name = '';
 				await goto(`/globe/destinations/${data.id}`);
-			}, 2200);
+			}, 1500);
 
 			setTimeout(() => clearActiveInfoDisplay(), 7777);
 		}

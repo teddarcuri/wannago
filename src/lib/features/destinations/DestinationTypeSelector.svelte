@@ -48,10 +48,10 @@
         	flex flex-row flex-wrap absolute
        	 bg-black bg-opacity-90 p-3
         	rounded-sm top-[77px] left-0 
-        	w-[700px]"
+        	w-[550px]"
 		>
 			{#each destinationTypes as type}
-				<div class="p-2 self-stretch w-[25%]">
+				<div class="p-2 self-stretch w-[33.3333%]">
 					<button
 						type="button"
 						on:click|preventDefault={() => {
