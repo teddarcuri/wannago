@@ -3,6 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
 	import GoogleLogo from '$lib/img/google.svg';
+	import iconStrip from '$lib/img/icon-strip-nobg.svg';
 
 	let loading = false;
 
@@ -27,6 +28,8 @@
 		<h1 class="text-3xl select-none pointer-events-none">
 			<span class="mr-4 text-3xl">🌎</span>Welcome to Wannago
 		</h1>
+		<!-- <img class="opacity-70 my-2 w-[333px] mx-auto" src={iconStrip} /> -->
+
 		<h3 class="text-xl mt-4 opacity-50 select-none pointer-events-none">
 			We live in a beautiful World. Document yours.
 		</h3>

@@ -10,6 +10,8 @@
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
+	import CommandCenter from '@/lib/components/CommandCenter.svelte';
+
 	$: session = $page.data.session;
 	$: deleteMode = $activeDestinationStore.deleteMode;
 
@@ -35,6 +37,7 @@
 <div id="app-wrapper" class:delete-mode={deleteMode}>
 	<Header />
 	<div id="app-body">
+		<CommandCenter />
 		<NavigationManager />
 		<div class="map w-full h-full flex absolute">
 			<Mapbox>

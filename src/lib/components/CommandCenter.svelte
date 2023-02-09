@@ -29,7 +29,8 @@
 
 <style lang="scss">
 	.root {
-		@apply h-[55px] relative px-8 -mt-[20px];
+		@apply h-[55px] fixed px-8 -mt-[20px] left-1/2 -translate-x-1/2;
+		z-index: 999;
 
 		@media screen and (max-width: 1268px) {
 			@apply mt-[10px];

@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-	import ContextBanner from '@/lib/components/ContextBanner.svelte';
 </script>
 
 <div class="root flex w-full h-full">
@@ -10,7 +9,6 @@
 		{/key}
 	</div>
 	<div class="flex-1 relative z-50">
-		<ContextBanner />
 		<slot name="content" />
 	</div>
 </div>
