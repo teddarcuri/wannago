@@ -245,14 +245,14 @@
 		opacity: 0.7;
 	}
 
-	.mapboxgl-marker-wrapper:hover img {
+	.mapboxgl-marker-wrapper:not(.add-destination):hover img {
 		opacity: 1 !important;
 		width: 28px;
 	}
 
 	.add-destination img {
 		opacity: 0.9 !important;
-		width: 18px !important;
+		width: 18px;
 	}
 
 	.add-destination:hover {
