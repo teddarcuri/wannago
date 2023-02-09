@@ -3,6 +3,7 @@
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import search from '$lib/img/search.svg';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
+	import iconStrip from '$lib/img/icon-strip.png';
 
 	$: destinations = $userDestinationsStore.destinations;
 	$: filteredDestinations = destinations.filter(destination => {
@@ -24,11 +25,13 @@
 	{:else}
 		<div class="p-8">
 			<h3 class="mb-1 text-lg bold">Your Destinations</h3>
-			<p class="opacity-70">You don't have any destinations yet!</p>
-			<p class="opacity-70">Add one using the <span class="text-4xl">+</span> above</p>
-
-			<p class="opacity-70">Assign a destination type</p>
-			<p class="opacity-70">Upload images</p>
+			<img class="opacity-70 my-4" src={iconStrip} />
+			<p class="text-stone-400">You don't have any destinations yet</p>
+			<p class="text-stone-400 flex items-center">
+				<span>Click the</span><span class="text-3xl px-2 text-white">+</span><span
+					>icon above to get started</span
+				>
+			</p>
 		</div>
 	{/if}
 

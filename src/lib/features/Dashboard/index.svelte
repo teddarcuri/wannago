@@ -1,72 +1,28 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import Account from '$lib/features/Account/Details.svelte';
-	import LoginForm from '$lib/features/Account/LoginForm.svelte';
 	import GlobeTile from './GlobeTile.svelte';
 	import MyDestinations from './DestinationList.svelte';
-	import GettingStarted from '@/routes/globe/components/GettingStarted.svelte';
 	import { fly } from 'svelte/transition';
-	import DevelopmentBanner from '$lib/components/DevelopmentBanner.svelte';
-	import { userDestinationsStore } from '@/lib/stores/userDestinations';
-	import Textarea from '$lib/components/Textarea.svelte';
-	import ButtonPill from '$lib/components/ButtonPill.svelte';
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	$: session = $page.data.session;
+	import FeedbackForm from './FeedbackForm.svelte';
 </script>
 
 <main>
 	<div class="bg" />
-	{#if !$page.data.session}{:else}
-		<div class="wrapper h-full flex">
-			<!-- <DevelopmentBanner /> -->
-			<section class="w-full h-full">
-				<div class="w-[633px] h-full flex-shrink-0 flex-grow overflow-auto p-8 relative">
-					<GlobeTile />
-					<MyDestinations />
+	<div class="wrapper h-full flex">
+		<section class="w-full h-full">
+			<div class="w-[633px] h-full flex-shrink-0 flex-grow overflow-auto p-8 relative">
+				<GlobeTile />
+				<MyDestinations />
+			</div>
+
+			<div class="p-8 pt-[30px]">
+				<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
+					<FeedbackForm />
+					<Account />
 				</div>
-
-				<div class="p-8 pt-[30px]">
-					<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
-						<!-- <GettingStarted /> -->
-
-						<form class="bg-black rounded-md overflow-auto p-[33px]">
-							<h2 class="text-xl text-stone-300 mb-8">
-								<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
-							</h2>
-							<p class="opacity-70 my-5 font-semibold">
-								Tell us what type of features would add value.
-							</p>
-
-							<div class="feedback">
-								<textarea placeholder="Leave us some feedback." name="feedback" />
-							</div>
-
-							<div class="flex justify-end mt-4">
-								<ButtonPill>Submit feedback</ButtonPill>
-							</div>
-						</form>
-						<!-- <div class="flex flex-col items-center">
-							<p>
-								You have
-								<span class="text-2xl mx-2">
-									{$userDestinationsStore.destinations.length}
-								</span>
-								<span>Destinations</span>
-							</p>
-
-							<br />
-							<p>
-								<span class="text-2xl mx-2"> 15 </span>
-								<span>of them are campsites</span>
-							</p>
-						</div> -->
-						<Account session={$page.data.session} />
-					</div>
-				</div>
-			</section>
-		</div>
-	{/if}
+			</div>
+		</section>
+	</div>
 </main>
 
 <style style="scss">

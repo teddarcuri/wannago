@@ -63,7 +63,7 @@
 		rounded-md
 		w-full
 		h-full;
-		box-shadow: 0 0 10px 1px rgba(194, 209, 227, 0.03);
+		box-shadow: 0 0 10px 1px rgba(194, 209, 227, 0.1);
 		transition: box-shadow 0.88s ease;
 		transform-style: preserve-3d;
 		transform: perspective(1000px);

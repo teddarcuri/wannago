@@ -6,6 +6,7 @@
 	import VanillaTilt from 'vanilla-tilt';
 	import { onMount } from 'svelte';
 	import TiltTile from '$lib/components/TiltTile.svelte';
+	import iconStrip from '$lib/img/icon-strip.png';
 
 	$: destinations = $userDestinationsStore.destinations;
 	$: filteredDestinations = destinations.filter(destination => {
@@ -22,8 +23,8 @@
 	});
 </script>
 
-<div class="root relative">
-	{#if filteredDestinations.length}
+<div class="root relative mt-8">
+	{#if filteredDestinations.length > 3}
 		<div class="input-wrapper mb-8">
 			<img src={search} height="14px" width="14px" />
 			<input placeholder="Search your destinations" bind:value={searchQuery} />
@@ -31,9 +32,14 @@
 				<button class="clear" on:click={() => (searchQuery = '')}>X</button>
 			{/if}
 		</div>
-	{:else}
-		<h4>Your Destinations</h4>
-		<p>Create some destinations</p>
+	{/if}
+	{#if filteredDestinations.length === 0}
+		<div class="blank-state bg-black p-[40px] grid place-items-center rounded-md">
+			<h3 class="text-2xl">Welcome to Wannago</h3>
+			<p class="mt-3 opacity-70">A place for you to document your world.</p>
+			<img class="opacity-60 my-5" src={iconStrip} />
+			<h4 class="text-base opacity-60 ">Create some destinations to get started</h4>
+		</div>
 	{/if}
 
 	<div class="flex flex-col">
@@ -69,6 +75,10 @@
 </div>
 
 <style lang="scss">
+	.blank-state {
+		box-shadow: 0 0 10px 1px rgba(194, 209, 227, 0.1);
+		transition: box-shadow 0.88s ease;
+	}
 	.input-wrapper {
 		@apply flex sticky
 		overflow-hidden top-[-60px] z-50;
