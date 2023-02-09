@@ -22,9 +22,6 @@
 		width: 333px;
 		max-height: calc(100vh - 195px);
 		overflow: auto;
-		/* background: repeating-linear-gradient(120deg, #000, #000 11px, #222 11px, #222 12px);
-		background-size: 200%;
-		animation: barberpole 20s linear infinite; */
 	}
 
 	@media (max-width: 420px) {

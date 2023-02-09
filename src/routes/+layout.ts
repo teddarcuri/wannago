@@ -1,14 +1,29 @@
-import type { LayoutLoad } from './$types';
+import type { LayoutLoad } from '../../.svelte-kit/types/src/routes/$types';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { supabaseClient } from '$lib/db';
 import { userDestinationsStore } from '@/lib/stores/userDestinations';
 import { get } from 'svelte/store';
+import auth from '$lib/stores/auth';
 
 let limit = 500;
 
 export const load: LayoutLoad = async event => {
 	const { session } = await getSupabase(event);
 
+	// Setup user profile + user
+	if (session) {
+		const { user } = session;
+
+		const { data: userProfile } = await supabaseClient
+			.from('profiles')
+			.select('*')
+			.eq('id', session.user.id)
+			.single();
+
+		auth.update(s => ({ ...s, userProfile, user }));
+	}
+
+	// Get all user destinations
 	try {
 		const { data: destinations } = await supabaseClient
 			.from('destinations')

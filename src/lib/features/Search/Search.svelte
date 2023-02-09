@@ -6,7 +6,9 @@
 	import { searchStore } from '$lib/stores/search';
 	import { goto } from '$app/navigation';
 	import RecentSearches from './RecentSearches.svelte';
-	import { SEARCH_HISTORY_LOCAL_STORAGE_KEY } from './constants';
+	import debounce from '$lib/util/debounce';
+	import getHistoryFromLocalStorage from './util/getHistoryFromLocalStorage';
+	import getSearchResultsLocalStorageKey from './util/getLocalStorageKey';
 
 	export let map;
 
@@ -14,37 +16,32 @@
 	let searchResults = [];
 	let isLoading = false;
 	let inputEl: HTMLInputElement;
+	let searchHistoryKey;
 
 	onMount(() => {
+		// Get and set any search history from local storage
+		searchStore.update(s => ({
+			...s,
+			history: getHistoryFromLocalStorage(),
+		}));
+
 		// Don't like this, but without it, the input doesn't get focus
 		setTimeout(() => {
 			inputEl.focus();
 		}, 222);
 	});
 
-	const debounce = (fn, delay) => {
-		let timeoutId;
-		return (...args) => {
-			if (timeoutId) {
-				clearTimeout(timeoutId);
-			}
-			timeoutId = setTimeout(() => {
-				fn.apply(null, args);
-			}, delay);
-		};
-	};
-
 	const updateHistory = debounce(data => {
 		if (!searchQuery) return;
+		searchHistoryKey = getSearchResultsLocalStorageKey();
+
 		searchStore.update(s => ({
 			...s,
 			history: [{ searchQuery, ...data }, ...s.history].splice(0, 8),
 		}));
+
 		// set the history in local storage
-		localStorage.setItem(
-			SEARCH_HISTORY_LOCAL_STORAGE_KEY,
-			JSON.stringify($searchStore.history),
-		);
+		localStorage.setItem(searchHistoryKey, JSON.stringify($searchStore.history));
 	}, 2000);
 
 	const searchDestinations = debounce(async () => {

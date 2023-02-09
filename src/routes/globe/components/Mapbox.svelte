@@ -51,8 +51,6 @@
 	$: if (!$addDestinationStore.active && map) {
 		map.getCanvas().style.cursor = '';
 	}
-
-	$: console.log($searchStore?.activeResult);
 </script>
 
 <div id="mapbox-mount" class:blur class:border />
