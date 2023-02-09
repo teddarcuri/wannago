@@ -122,8 +122,7 @@
 	<!-- <span class="text-lg mx-2">{session.user.email}</span> -->
 
 	<button
-		class="text-sm 
-		"
+		class="text-sm hover:bg-opacity-10 opacity-60 p-4 hover:bg-white"
 		on:click={signOut}
 		disabled={loading}>Log Out</button
 	>

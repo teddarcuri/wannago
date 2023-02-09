@@ -27,7 +27,7 @@
 		} else if (style === 'Mapbox Satellite Streets') {
 			return Mapstyle.Streets;
 		} else if (style === '3D Terrain Satellite') {
-			return Mapstyle.Minimal;
+			return Mapstyle.Natural;
 		} else {
 			return Mapstyle.Earth;
 		}
@@ -43,7 +43,7 @@
 		if (style === Mapstyle.Light) return light;
 		if (style === Mapstyle.Earth) return satellite;
 		if (style === Mapstyle.Streets) return streets;
-		if (style === Mapstyle.Minimal) return natural;
+		if (style === Mapstyle.Natural) return natural;
 	};
 </script>
 

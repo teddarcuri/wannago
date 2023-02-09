@@ -27,7 +27,7 @@
 		animation: barberpole 20s linear infinite; */
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 420px) {
 		.root {
 			width: 100%;
 			max-height: calc(100vh - 80px);

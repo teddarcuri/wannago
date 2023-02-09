@@ -21,7 +21,7 @@
 		<div class="wrapper h-full flex">
 			<!-- <DevelopmentBanner /> -->
 			<section class="w-full h-full">
-				<div class="w-[669px] h-full flex-shrink-0 flex-grow overflow-auto p-8  relative">
+				<div class="w-[633px] h-full flex-shrink-0 flex-grow overflow-auto p-8 relative">
 					<GlobeTile />
 					<MyDestinations />
 				</div>
