@@ -20,6 +20,7 @@
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import { searchStore } from '$lib/stores/search';
 	import { onMount } from 'svelte';
+	import tools from '@/lib/stores/tools';
 
 	export let map: Map;
 	let name = $addDestinationStore.createFromSearchResult
@@ -130,6 +131,11 @@
 					status: ActiveInfoDisplayStatus.Success,
 					displayText: `Succesfully created ${data.name}`,
 				}));
+
+				// if tools are active, turn them off
+				if ($tools.activeTool) {
+					tools.update(s => ({ ...s, activeTool: null }));
+				}
 
 				// rotateCameraAroundPoint({ point, init: 0, map });
 				marker?.remove();

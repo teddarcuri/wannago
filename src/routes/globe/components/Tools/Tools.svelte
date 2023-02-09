@@ -11,6 +11,7 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { goto } from '$app/navigation';
+	import tools from '@/lib/stores/tools';
 
 	const setAddDestinationActive = async () => {
 		map.getCanvas().style.cursor = 'crosshair';
@@ -29,15 +30,18 @@
 		$addDestinationStore.active ||
 		$activeDestinationStore.deleteMode ||
 		$addWaypointStore.active;
-	// ToDO: hoist this into store so it can be set when navigating to and from dashboard/destinations
-	let activeTool: Tool | null = null;
+	$: activeTool = $tools.activeTool;
+
 	const toggleTool = async (tool: Tool) => {
 		// if current sveltekit route does not begin with the string /globe, go to /globe
 		if (window.location.pathname.indexOf('/globe') !== 0) {
 			await goto('/globe');
 		}
 
-		activeTool = activeTool === tool ? null : tool;
+		tools.update(s => ({
+			...s,
+			activeTool: s.activeTool === tool ? null : tool,
+		}));
 	};
 </script>
 

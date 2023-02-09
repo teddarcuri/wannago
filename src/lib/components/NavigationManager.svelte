@@ -8,6 +8,7 @@
 	} from '$lib/stores/activeInfoDisplay';
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import { addWaypointStore } from '$lib/stores/addWaypoint';
+	import tools from '../stores/tools';
 	let progress: ProgressBar;
 
 	$: {
@@ -53,6 +54,11 @@
 					$activeDestinationStore.deleteMode
 				) {
 					activeDestinationStore.update(s => ({ ...s, deleteMode: false }));
+				}
+
+				// when leaving any route that starts with /globe, turn off activeTool
+				if (from.routeId.startsWith('/globe') && !to?.routeId?.startsWith('/globe')) {
+					tools.update(s => ({ ...s, activeTool: null }));
 				}
 			}
 
