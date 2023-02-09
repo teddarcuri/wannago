@@ -14,8 +14,6 @@
 	$: {
 		if ($navigating) {
 			const { from, to } = $navigating;
-
-			console.log($navigating);
 			// progress bar kick off
 			if (progress) progress.start();
 
@@ -73,7 +71,7 @@
 
 		if (!$navigating) {
 			// progress bar end
-			if (progress) progress.complete();
+			if (progress && progress.getState().running) progress.complete();
 		}
 	}
 </script>
