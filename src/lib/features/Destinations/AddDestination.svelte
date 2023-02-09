@@ -133,7 +133,7 @@
 				}));
 
 				// if tools are active, turn them off
-				if ($tools.activeTool) {
+				if ($tools.activeTool !== null) {
 					tools.update(s => ({ ...s, activeTool: null }));
 				}
 
