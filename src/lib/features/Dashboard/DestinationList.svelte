@@ -23,7 +23,7 @@
 			{/if}
 		</div>
 	{/if}
-	{#if filteredDestinations.length === 0}
+	{#if filteredDestinations.length === 0 && !searchQuery}
 		<div class="blank-state bg-black p-[40px] rounded-md">
 			<h4 class="text-2xl opacity-80 my-4 text-center">Welcome to wannago.</h4>
 

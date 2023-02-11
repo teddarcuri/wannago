@@ -10,6 +10,7 @@
 	let fileInput: HTMLInputElement;
 	let files: FileList;
 	let error: string;
+	let isDragOver: boolean = false;
 
 	async function handleChange() {
 		const file = files?.[0];
@@ -35,12 +36,11 @@
 		files = event.dataTransfer.files;
 		handleChange();
 	}
-	let isDragOver = false;
 </script>
 
 <button
 	class:dragover={isDragOver}
-	class="p-4 absolute w-full h-full  hover:bg-stone-900 "
+	class="p-4 absolute w-full h-full  hover:bg-stone-900"
 	on:click={() => fileInput.click()}
 	on:dragover={e => e.preventDefault()}
 	on:drop={handleDrop}
