@@ -10,9 +10,6 @@
 	import { mapStore } from '$lib/stores/map';
 
 	export let map;
-	// active style will look at the mapStore.activeStyle
-	// it will be a switch statement that will return a Mapstyle if the string I provide for each case matches the mapstore.activestyle
-	// if it doesn't match, it will return the default case
 	$: activeStyle = getActiveStyle($mapStore.activeStyle);
 
 	function getActiveStyle(style) {
@@ -33,8 +30,9 @@
 		}
 	}
 
-	const setStyleOnMap = style => {
+	const handleStyleChange = style => {
 		map.setStyle(style);
+		setStyleInLocalStorage(style);
 	};
 
 	const getImage = style => {
@@ -45,12 +43,19 @@
 		if (style === Mapstyle.Streets) return streets;
 		if (style === Mapstyle.Natural) return natural;
 	};
+
+	const setStyleInLocalStorage = style => {
+		localStorage.setItem('mapboxStyle', style);
+	};
 </script>
 
 <div>
 	{#each Object.keys(Mapstyle) as key}
 		{@const style = Mapstyle[key]}
-		<button class:active={activeStyle === style} on:click={() => setStyleOnMap(style)}>
+		<button
+			class:active={activeStyle === style}
+			on:click={() => handleStyleChange(style)}
+		>
 			<img src={getImage(style)} />
 			<p>{key}</p></button
 		>

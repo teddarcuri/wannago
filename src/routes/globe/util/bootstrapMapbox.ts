@@ -42,6 +42,16 @@ export enum Mapstyle {
 	// NavigationGuidanceNight = 'mapbox://styles/mapbox/navigation-guidance-night-v4',
 }
 
+const getMapStyleFromLocalStorage = (): Mapstyle => {
+	if (!localStorage) return Mapstyle.Earth;
+
+	const mapStyle = localStorage.getItem('mapboxStyle');
+	if (mapStyle) {
+		return mapStyle as Mapstyle;
+	}
+	return Mapstyle.Earth;
+};
+
 export default async (): Promise<Map> => {
 	/*
 		wannago uses MapboxGL JS to render out a 3D globe
@@ -53,7 +63,7 @@ export default async (): Promise<Map> => {
 
 	const map: Map = new mapboxgl.Map({
 		container: 'mapbox-mount',
-		style: Mapstyle.Earth,
+		style: getMapStyleFromLocalStorage(),
 		projection: 'globe',
 		zoom: 3.6,
 		bearing: 0,
