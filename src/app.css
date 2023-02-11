@@ -36,6 +36,26 @@ html {
 	font-family: 'proxima-nova';
 }
 
+/* Scrollbar */
+* {
+	/* Foreground, Background */
+	scrollbar-color: rgba(255, 255, 255, 0.02) #555;
+}
+*::-webkit-scrollbar {
+	width: 2px; /* Mostly for vertical scrollbars */
+	height: 3px; /* Mostly for horizontal scrollbars */
+}
+*::-webkit-scrollbar-thumb {
+	/* Foreground */
+	background: #555;
+	border-radius: 7px;
+	border: 2px solid transparent;
+}
+*::-webkit-scrollbar-track {
+	/* Background */
+	background: rgba(255, 255, 255, 0.02);
+}
+
 /* GLOBALS */
 button {
 	cursor: pointer;
