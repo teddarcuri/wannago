@@ -1,5 +1,6 @@
 <!-- TODO - THIS FILE IS RIPE FOR A CLEANUP-->
 <script lang="ts">
+	import { z } from 'zod';
 	import type { Map } from 'mapbox-gl';
 	import { goto } from '$app/navigation';
 	import { supabaseClient } from '$lib/db';
@@ -21,13 +22,16 @@
 	import { searchStore } from '$lib/stores/search';
 	import { onMount } from 'svelte';
 	import tools from '@/lib/stores/tools';
-
+	import destinationSchema from '$lib/features/Destinations/schema';
 	export let map: Map;
 	let name = $addDestinationStore.createFromSearchResult
 		? $searchStore?.activeResult?.text
 		: '';
+
 	let loading = false;
 	let inputEl: HTMLInputElement;
+	let validationError = false;
+
 	$: marker = $addDestinationStore.marker || $searchStore.marker;
 	$: coordinates = marker?.getLngLat() ?? { lat: 0, lng: 0 };
 	$: coordinatesFormatted = getLatLngDisplayText(coordinates.lat, coordinates.lng);
@@ -40,12 +44,21 @@
 	});
 
 	const handleSubmit = async () => {
+		const validation = destinationSchema.safeParse({ name });
+
+		if (!validation.success) {
+			validationError = validation.error.issues[0];
+			return;
+		}
+
 		loading = true;
 		let element = marker?._element;
 		const img = getMarkerImgChildNode(element);
 		img.src = spinner;
 		element?.classList.add('loading');
 		const { lng, lat } = marker?.getLngLat() ?? { lat: 0, lng: 0 };
+
+		element?.classList.remove('loading');
 
 		const { data, error } = await supabaseClient.rpc('new_destination_from_lng_lat', {
 			name,
@@ -155,6 +168,12 @@
 		}));
 	};
 
+	const handleInput = () => {
+		if (validationError) {
+			validationError = null;
+		}
+	};
+
 	const handleCancel = () => {
 		marker?.remove();
 		addDestinationStore.update(s => ({ marker: null, screenPos: null }));
@@ -180,12 +199,17 @@
 		<div class=" flex flex-col items-start -mt-[11px]">
 			<input
 				class="w-full"
+				on:input={handleInput}
 				bind:value={name}
 				bind:this={inputEl}
 				placeholder="Name this Destination"
 			/>
 			<p class="tracking-wide text-sm px-3 -mt-[11px] text-stone-400">
-				{coordinatesFormatted}
+				{#if validationError}
+					<p class="text-rose-700 text-sm ">{validationError.message}</p>
+				{:else}
+					{coordinatesFormatted}
+				{/if}
 			</p>
 		</div>
 

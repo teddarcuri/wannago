@@ -4,7 +4,7 @@
 	import { supabaseClient } from '@/lib/db';
 	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
 	import { page } from '$app/stores';
-	import { afterNavigate, invalidate, invalidateAll } from '$app/navigation';
+	import { invalidate, invalidateAll } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 	import DisplayCard from '$lib/components/DisplayCard.svelte';
 	import Coordinates from './components/Coordinates.svelte';
@@ -12,19 +12,17 @@
 	import galleryIcon from '$lib/img/gallery.svg';
 	import centerIcon from '$lib/img/center.svg';
 	import backIcon from '$lib/img/back.svg';
-	import mountainIcon from '$lib/img/mountain.svg';
 	import {
 		ActiveInfoDisplayStatus,
 		activeInfoDisplayStore,
 	} from '@/lib/stores/activeInfoDisplay';
 	import Textarea from '@/lib/components/Textarea.svelte';
 	import GlobePageLayout from '../../_globePageLayout.svelte';
-	import Waypoints from './components/Waypoints.svelte';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import { userDestinationsStore } from '@/lib/stores/userDestinations';
-	import WaypointMarkers from '../../components/WaypointMarkers.svelte';
 	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
+	import destinationSchema from '$lib/features/Destinations/schema';
+
 	enum DefaultWallpapers {
 		Aurora = 'https://imgs.search.brave.com/mAiiqzY80x4U-OWobUWXLBfbnUxZxrCIHw1bl2BwZHM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9pMi53/cC5jb20vd3d3LnRv/cDEwbGlmZXN0eWxl/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTgvMTEvYXJ0/LWFzdHJvbm9teS1h/dG1vc3BoZXJlLTM2/MDkxMi5qcGc',
 		Sunset = 'https://imgs.search.brave.com/sQkT26CFbrcRgWamq9NmY2jCeyviP6LJF0MDJmvSlfI/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9qb29p/bm4uY29tL2ltYWdl/cy9nZXJtYW4tbW91/bnRhaW5zLTIuanBn',
@@ -85,6 +83,28 @@
 		if (field === Fields.type_id && formData.type_id === destination.type_id) return;
 		if (field === Fields.description && formData.description === destination.description)
 			return;
+
+		const validation = destinationSchema.safeParse({
+			name: formData.name,
+			description: formData.description,
+			type_id: formData.type_id,
+		});
+
+		if (validation.success === false) {
+			activeInfoDisplayStore.update(s => ({
+				status: ActiveInfoDisplayStatus.Error,
+				displayText: validation.error.issues[0].message,
+			}));
+
+			setTimeout(() => {
+				activeInfoDisplayStore.update(s => ({
+					status: ActiveInfoDisplayStatus.Normal,
+					displayText: '',
+				}));
+			}, 5000);
+			return;
+		}
+
 		loading = true;
 
 		activeInfoDisplayStore.update(s => ({
