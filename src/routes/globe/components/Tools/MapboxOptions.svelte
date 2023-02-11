@@ -8,6 +8,7 @@
 	import streets from '$lib/features/mapbox/styles/streets.png';
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 	import { mapStore } from '$lib/stores/map';
+	import { getLocalStorageKey } from '$lib/features/Mapbox/localStorage.ts';
 
 	export let map;
 	$: activeStyle = getActiveStyle($mapStore.activeStyle);
@@ -45,7 +46,8 @@
 	};
 
 	const setStyleInLocalStorage = style => {
-		localStorage.setItem('mapboxStyle', style);
+		const key = getLocalStorageKey();
+		localStorage.setItem(key, style);
 	};
 </script>
 

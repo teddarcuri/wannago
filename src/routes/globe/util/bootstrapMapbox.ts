@@ -19,6 +19,7 @@ import { addWaypointStore } from '@/lib/stores/addWaypoint';
 import { goto } from '$app/navigation';
 import { get } from 'svelte/store';
 import { mapStore } from '$lib/stores/map';
+import { getMapStyleFromLocalStorage } from '$lib/features/Mapbox/localStorage';
 
 let activeInfoDisplayStatus: ActiveInfoDisplayStatus | undefined;
 activeInfoDisplayStore.subscribe(d => {
@@ -41,16 +42,6 @@ export enum Mapstyle {
 	// NavigationGuidanceDay = 'mapbox://styles/mapbox/navigation-guidance-day-v4',
 	// NavigationGuidanceNight = 'mapbox://styles/mapbox/navigation-guidance-night-v4',
 }
-
-const getMapStyleFromLocalStorage = (): Mapstyle => {
-	if (!localStorage) return Mapstyle.Earth;
-
-	const mapStyle = localStorage.getItem('mapboxStyle');
-	if (mapStyle) {
-		return mapStyle as Mapstyle;
-	}
-	return Mapstyle.Earth;
-};
 
 export default async (): Promise<Map> => {
 	/*
