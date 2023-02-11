@@ -38,7 +38,7 @@
 
 <style lang="scss">
 	main {
-		padding: 0px 20px 50px 80px;
+		padding: 40px 20px 50px 80px;
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 		grid-gap: 20px;

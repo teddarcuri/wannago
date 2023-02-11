@@ -1,7 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import VanillaTilt from 'vanilla-tilt';
 
 	export let link;
 	export let title;
@@ -9,15 +7,6 @@
 	export let img;
 	export let maxTilt = 3;
 	export let minHeight = 'auto';
-
-	onMount(() => {
-		setTimeout(() => {
-			VanillaTilt.init(document.querySelector('.tilt-tile'), {
-				max: maxTilt,
-				speed: 600,
-			});
-		}, 222);
-	});
 </script>
 
 <a
@@ -33,7 +22,7 @@
 	{#if img}
 		<img src={img} />
 	{/if}
-	<span class="text-4xl absolute bottom-[60px] left-8">{title}</span>
+	<span class="text-3xl absolute bottom-[60px] left-8">{title}</span>
 	{#if subtitle}
 		<span class="text-lg absolute bottom-6 left-8 opacity-60">{subtitle}</span>
 	{/if}

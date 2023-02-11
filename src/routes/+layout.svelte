@@ -28,8 +28,6 @@
 	});
 
 	afterUpdate(async () => {
-		// return console.log($page);
-		// route does not equal /welcome and session is null
 		if ($page.url.pathname !== '/welcome' && !session) await goto('/welcome');
 	});
 </script>

@@ -182,11 +182,11 @@
 			<div
 				class="drawer pointer-events-none absolute grid z-50 bottom-0 left-0 p-4 w-full bg-black/0"
 			>
-				<h4 class="px-4">Upload a Cover Photo</h4>
+				<h4 class="px-4">Cover Photo</h4>
 
-				<p class="p-4 opacity-80">
-					This photo will be used to identify this destination throughout the app
-				</p>
+				<!-- <p class="p-4 opacity-80"> -->
+				<!-- 	This photo will be used to identify this destination throughout the app -->
+				<!-- </p> -->
 			</div>
 		</div>
 	{/if}

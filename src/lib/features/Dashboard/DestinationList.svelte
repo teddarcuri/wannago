@@ -2,9 +2,6 @@
 	import { userDestinationsStore } from '$lib/stores/userDestinations';
 	import getLatLngDisplayText from '$lib/util/getLatLngDisplayText';
 	import search from '$lib/img/search.svg';
-	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import VanillaTilt from 'vanilla-tilt';
-	import { onMount } from 'svelte';
 	import TiltTile from '$lib/components/TiltTile.svelte';
 	import iconStrip from '$lib/img/icon-strip.png';
 
@@ -14,17 +11,10 @@
 	});
 
 	let searchQuery = '';
-
-	onMount(() => {
-		VanillaTilt.init(document.querySelector('.tilt-tile'), {
-			max: 3,
-			speed: 600,
-		});
-	});
 </script>
 
 <div class="root relative mt-8">
-	{#if filteredDestinations.length > 3}
+	{#if filteredDestinations.length > 3 || searchQuery}
 		<div class="input-wrapper mb-8">
 			<img src={search} height="14px" width="14px" />
 			<input placeholder="Search your destinations" bind:value={searchQuery} />
@@ -34,21 +24,24 @@
 		</div>
 	{/if}
 	{#if filteredDestinations.length === 0}
-		<div class="blank-state bg-black p-[40px] grid place-items-center rounded-md">
-			<h3 class="text-2xl">Welcome to Wannago</h3>
-			<p class="mt-3 opacity-70">A place for you to document your world.</p>
-			<img class="opacity-60 my-5" src={iconStrip} />
-			<h4 class="text-base opacity-60 ">Create some destinations to get started</h4>
+		<div class="blank-state bg-black p-[40px] rounded-md">
+			<h4 class="text-2xl opacity-80 my-4 text-center">Welcome to wannago.</h4>
+
+			<h4 class="text-base opacity-50 my-4 text-center">
+				Create some destinations to get started
+			</h4>
+
+			<img class="mx-auto opacity-30 my-5" src={iconStrip} />
 		</div>
 	{/if}
 
-	<div class="flex flex-col">
+	<div class="flex flex-row flex-wrap">
 		{#each filteredDestinations as destination}
 			{@const coordinates = getLatLngDisplayText(
 				destination.coordinates.coordinates[1],
 				destination.coordinates.coordinates[0],
 			)}
-			<div class="h-[200px] w-full mb-3">
+			<div class="h-[200px] w-1/2 p-3 mb-3">
 				<TiltTile
 					maxTilt={5}
 					title={destination.name}
@@ -79,9 +72,10 @@
 		box-shadow: 0 0 10px 1px rgba(194, 209, 227, 0.1);
 		transition: box-shadow 0.88s ease;
 	}
+
 	.input-wrapper {
 		@apply flex sticky
-		overflow-hidden top-[-60px] z-50;
+		overflow-hidden top-[-32px] z-50;
 
 		img {
 			position: absolute;
