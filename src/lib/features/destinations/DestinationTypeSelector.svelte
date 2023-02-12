@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { supabaseClient } from '@/lib/db';
 	import { addDestinationStore } from '@/lib/stores/addDestination';
 	import { userDestinationsStore } from '@/lib/stores/userDestinations';
 	import { onMount } from 'svelte';
@@ -11,6 +10,7 @@
 	}
 
 	let destinationTypes = $userDestinationsStore.destinationTypes;
+
 	export let onSelect: (type: number) => void = () => {};
 	export let activeTypeId = 1;
 	$: selectedType = destinationTypes.find(t => t.id === activeTypeId);
@@ -31,7 +31,6 @@
 </script>
 
 <div class="group root relative">
-	<!-- {(activeTypeId, JSON.stringify(selectedType))} -->
 	{#if selectedType?.id}
 		<button
 			class:active={showDropdown}
@@ -39,7 +38,7 @@
 			class="toggle flex p-3"
 			type="button"
 			><img src={selectedType.icon} class="w-[34px] h-[34px] opacity-80" />
-			<!-- <span class="text-xl group-hover:opacity-90 opacity-0">&#9662;</span> -->
+			<span class="text-xl ml-3 mt-1 group-hover:opacity-90 opacity-0">&#9662;</span>
 		</button>
 	{/if}
 	{#if showDropdown}

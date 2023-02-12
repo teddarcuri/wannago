@@ -1,6 +1,5 @@
 <!-- TODO - THIS FILE IS RIPE FOR A CLEANUP-->
 <script lang="ts">
-	import { z } from 'zod';
 	import type { Map } from 'mapbox-gl';
 	import { goto } from '$app/navigation';
 	import { supabaseClient } from '$lib/db';
@@ -38,9 +37,11 @@
 
 	onMount(() => {
 		// Don't like this, but without it, the input doesn't get focus
-		setTimeout(() => {
-			inputEl.focus();
-		}, 555);
+		if (inputEl) {
+			setTimeout(() => {
+				inputEl.focus();
+			}, 555);
+		}
 	});
 
 	const handleSubmit = async () => {
