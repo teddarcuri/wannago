@@ -144,7 +144,7 @@
 						<button class="red" on:click={handleRemove}>Yes, delete</button>
 						<button on:click={() => (showDeleteConfirmation = false)}>Cancel</button>
 					{:else}
-						<button>View</button>
+						<!-- <button>View</button> -->
 						<button class="red" on:click={() => (showDeleteConfirmation = true)}
 							>Delete</button
 						>

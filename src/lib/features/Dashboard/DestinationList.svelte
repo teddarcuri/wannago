@@ -15,7 +15,7 @@
 
 <div class="root relative mt-8">
 	{#if filteredDestinations.length > 3 || searchQuery}
-		<div class="input-wrapper mb-8">
+		<div class="input-wrapper">
 			<img src={search} height="14px" width="14px" />
 			<input placeholder="Search your destinations" bind:value={searchQuery} />
 			{#if searchQuery}
@@ -41,7 +41,7 @@
 				destination.coordinates.coordinates[1],
 				destination.coordinates.coordinates[0],
 			)}
-			<div class="h-[200px] w-1/2 p-3 mb-3">
+			<div class="tile-wrapper">
 				<TiltTile
 					maxTilt={5}
 					title={destination.name}
@@ -50,19 +50,6 @@
 					link={`/globe/destinations/${destination.id}`}
 				/>
 			</div>
-
-			<!-- 
-				<a
-					class="p-3 tilt-tile flex bg-black flex-col hover:bg-gray-900"
-					href={`/globe/destinations/${destination.id}`}
-				>
-					<h4 class="text-2xl">
-						{destination.name}
-					</h4>
-					<p>
-						{}
-					</p>
-				</a> -->
 		{/each}
 	</div>
 </div>
@@ -71,6 +58,14 @@
 	.blank-state {
 		box-shadow: 0 0 10px 1px rgba(194, 209, 227, 0.1);
 		transition: box-shadow 0.88s ease;
+	}
+
+	.tile-wrapper {
+		@apply w-1/2 p-2 h-[200px];
+
+		@media (max-width: 640px) {
+			@apply w-full p-3 h-[150px];
+		}
 	}
 
 	.input-wrapper {

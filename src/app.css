@@ -40,15 +40,22 @@ html {
 * {
 	scrollbar-color: rgba(255, 255, 255, 0.02) #555;
 }
+
 *::-webkit-scrollbar {
-	width: 2px; /* Mostly for vertical scrollbars */
-	height: 3px; /* Mostly for horizontal scrollbars */
+	width: 2px;
+	height: 2px;
 }
+
+*:hover::-webkit-scrollbar-thumb {
+	background: #ccc;
+}
+
 *::-webkit-scrollbar-thumb {
-	background: #444;
+	background: #222;
 	border-radius: 7px;
 	border: 2px solid transparent;
 }
+
 *::-webkit-scrollbar-track {
 	margin: 35px 0;
 	background: rgba(255, 255, 255, 0.02);

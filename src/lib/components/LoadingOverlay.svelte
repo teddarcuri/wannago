@@ -8,7 +8,7 @@
 
 <style>
 	div {
-		@apply bg-black rounded-lg w-full h-full absolute
+		@apply bg-black top-0 left-0 rounded-lg w-full h-full absolute
         grid place-items-center;
 		z-index: 999;
 	}

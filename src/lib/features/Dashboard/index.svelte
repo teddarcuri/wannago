@@ -10,12 +10,12 @@
 	<div class="bg" />
 	<div class="wrapper h-full flex">
 		<section class="w-full h-full">
-			<div class="w-[633px] h-full flex-shrink-0 flex-grow overflow-auto p-8 relative">
+			<div class="content h-full flex-shrink-0 flex-grow overflow-auto p-8 relative">
 				<GlobeTile />
 				<MyDestinations />
 			</div>
 
-			<div class="p-8 pt-[30px]">
+			<div class="sidebar overflow-auto p-8 pt-[30px]">
 				<div in:fly={{ x: 50, y: 0, delay: 444, duration: 555 }}>
 					<FeedbackForm />
 					<Account />
@@ -26,19 +26,26 @@
 </main>
 
 <style style="scss">
+	.content {
+		max-width: 680px;
+	}
+
+	.sidebar {
+		@apply w-[555px] flex-shrink-0 flex-grow-0;
+	}
+
 	section {
 		@apply flex overflow-hidden;
 		width: 100%;
-		/* max-height: calc(100vh - 170px); */
 	}
 
-	@media (max-width: 800px) {
-		/* section {
-			display: flex;
-			flex-flow: column;
-			overflow: auto;
-			height: auto;
-		} */
+	@media (max-width: 900px) {
+		.sidebar {
+			display: none;
+		}
+		.content {
+			width: 100%;
+		}
 	}
 
 	main {
@@ -49,7 +56,7 @@
 	}
 
 	.bg {
-		@apply bg-black opacity-90
+		@apply bg-black opacity-80
 		fixed top-0 left-0
 		w-full h-full
 		z-0;
@@ -98,10 +105,6 @@
 	a img {
 		transform: scale(1.1);
 		@apply absolute top-0 left-0 opacity-30 h-full w-full object-cover;
-	}
-
-	.feedback textarea {
-		@apply border border-slate-800 bg-transparent w-full p-8 rounded-md;
 	}
 
 	@media (max-width: 768px) {
