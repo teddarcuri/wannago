@@ -1,9 +1,8 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
-import type { Marker } from 'mapbox-gl';
 
 export interface ActiveDestinationStore {
-	marker: Marker | null;
+	marker: object | null;
 	destination?: object;
 	editLocationMode: boolean;
 	deleteMode: boolean;

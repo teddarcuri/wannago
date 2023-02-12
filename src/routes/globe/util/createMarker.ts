@@ -1,9 +1,10 @@
 import { get } from 'svelte/store';
-import type { Map } from 'mapbox-gl';
-import { Marker } from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import createWaypointCanvas from '@/lib/features/Waypoints/utils/createWaypointCanvas';
 import { userDestinationsStore } from '@/lib/stores/userDestinations';
 import searchIcon from '$lib/img/search.svg';
+
+const { Map, Marker } = mapboxgl;
 
 export enum MarkerType {
 	destination,
