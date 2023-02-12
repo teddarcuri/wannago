@@ -19,7 +19,6 @@
 
 	// on mount set the destinationTypeId to the first type
 	onMount(() => {
-		console.log('MOUNT: ', selectedType, activeTypeId, destinationTypes);
 		addDestinationStore.update(s => ({ ...s, destinationTypeId: selectedType?.id ?? 0 }));
 	});
 
@@ -38,7 +37,7 @@
 			class="toggle flex p-3"
 			type="button"
 			><img src={selectedType.icon} class="w-[34px] h-[34px] opacity-80" />
-			<span class="text-xl ml-3 mt-1 group-hover:opacity-90 opacity-0">&#9662;</span>
+			<!-- <span class="text-xl ml-3 mt-1 group-hover:opacity-90 opacity-0">&#9662;</span> -->
 		</button>
 	{/if}
 	{#if showDropdown}

@@ -9,7 +9,6 @@ import {
 	ActiveInfoDisplayStatus,
 	activeInfoDisplayStore,
 } from '$lib/stores/activeInfoDisplay';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import addIcon from '$lib/img/add-icon.svg';
 import createMarker, { MarkerType } from './createMarker';
 import rotateGlobe from './rotateGlobe';
