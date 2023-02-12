@@ -4,54 +4,70 @@
 	import search from '$lib/img/search.svg';
 	import TiltTile from '$lib/components/TiltTile.svelte';
 	import iconStrip from '$lib/img/icon-strip.png';
+	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
+	import { onDestroy } from 'svelte';
+
+	let searchQuery = '';
 
 	$: destinations = $userDestinationsStore.destinations;
 	$: filteredDestinations = destinations.filter(destination => {
 		return destination.name.toLowerCase().includes(searchQuery.toLowerCase());
 	});
 
-	let searchQuery = '';
+	$: loading = !$userDestinationsStore.hasFetched;
+
+	// when component unmounts, ensure filteredDestinations is reset
+	onDestroy(() => {
+		// This is so frustrating
+		// what this is doing is ensuring that when switching accounts, this component doesn't
+		// flash with the last account's destinations before the new account's destinations are fetched
+		// Why resetting the stores upon logout doesn't work is beyond me
+		searchQuery = '';
+	});
 </script>
 
 <div class="root relative mt-8">
-	{#if filteredDestinations.length > 3 || searchQuery}
-		<div class="input-wrapper">
-			<img src={search} height="14px" width="14px" />
-			<input placeholder="Search your destinations" bind:value={searchQuery} />
-			{#if searchQuery}
-				<button class="clear" on:click={() => (searchQuery = '')}>X</button>
-			{/if}
-		</div>
-	{/if}
-	{#if filteredDestinations.length === 0 && !searchQuery}
-		<div class="blank-state bg-black p-[40px] rounded-md">
-			<h4 class="text-2xl opacity-80 my-4 text-center">Welcome to wannago.</h4>
-
-			<h4 class="text-base opacity-50 my-4 text-center">
-				Create some destinations to get started
-			</h4>
-
-			<img class="mx-auto opacity-30 my-5" src={iconStrip} />
-		</div>
-	{/if}
-
-	<div class="flex flex-row flex-wrap">
-		{#each filteredDestinations as destination}
-			{@const coordinates = getLatLngDisplayText(
-				destination.coordinates.coordinates[1],
-				destination.coordinates.coordinates[0],
-			)}
-			<div class="tile-wrapper">
-				<TiltTile
-					maxTilt={5}
-					title={destination.name}
-					subtitle={coordinates}
-					img={destination?.images?.public_url}
-					link={`/globe/destinations/${destination.id}`}
-				/>
+	{#if loading}<LoadingOverlay />{/if}
+	{#if $userDestinationsStore.hasFetched}
+		{#if filteredDestinations.length > 3 || searchQuery}
+			<div class="input-wrapper">
+				<img src={search} height="14px" width="14px" />
+				<input placeholder="Search your destinations" bind:value={searchQuery} />
+				{#if searchQuery}
+					<button class="clear" on:click={() => (searchQuery = '')}>X</button>
+				{/if}
 			</div>
-		{/each}
-	</div>
+		{/if}
+		{#if filteredDestinations.length === 0 && !searchQuery}
+			<div class="blank-state bg-black p-[40px] rounded-md">
+				<h4 class="text-2xl opacity-80 my-4 text-center">Welcome to wannago.</h4>
+
+				<h4 class="text-base opacity-50 my-4 text-center">
+					Create some destinations to get started
+				</h4>
+
+				<img class="mx-auto opacity-30 my-5" src={iconStrip} />
+			</div>
+		{/if}
+
+		<div class="flex flex-row flex-wrap">
+			{#each filteredDestinations as destination}
+				{@const coordinates = getLatLngDisplayText(
+					destination.coordinates.coordinates[1],
+					destination.coordinates.coordinates[0],
+				)}
+				<div class="tile-wrapper">
+					<TiltTile
+						maxTilt={5}
+						title={destination.name}
+						subtitle={coordinates}
+						img={destination?.images?.public_url}
+						link={`/globe/destinations/${destination.id}`}
+					/>
+				</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">

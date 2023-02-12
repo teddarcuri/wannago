@@ -6,14 +6,14 @@
 	$: udDump = JSON.stringify($userDestinationsStore, null, 2);
 	$: adDump = JSON.stringify($activeDestinationStore.newLocation, null, 2);
 
-	let show = false;
+	let show = true;
 
 	$: console.log('AD STORE:', $activeDestinationStore);
 </script>
 
 <div
 	class:active={show}
-	class="absolute transition-all h-full translate-x-[95%] top-0 right-0 z-50"
+	class="root absolute transition-all h-full translate-x-[95%] top-0 left-0 z-50"
 >
 	<button
 		on:click={() => (show = !show)}
@@ -21,16 +21,19 @@
 		>{show ? 'x' : '<'}</button
 	>
 	<pre class="p-7 text-xs overflow-auto w-[500px] opacity-90 h-full bg-gray-900">
-	<!-- <h4>Session</h4>
+	<h4>Session</h4>
 	{JSON.stringify(session, null, 2)}
 	<h4>User Destinations</h4>
-	{udDump} -->
+	{udDump} 
 	<h4>Active Destination</h4>
 	{adDump}
     </pre>
 </div>
 
 <style>
+	.root {
+		z-index: 99999999;
+	}
 	.active {
 		@apply translate-x-0;
 	}

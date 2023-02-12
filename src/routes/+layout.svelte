@@ -9,8 +9,8 @@
 	import Mapbox from '@/routes/globe/components/Mapbox.svelte';
 	import NavigationManager from '@/lib/components/NavigationManager.svelte';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import { addDestinationStore } from '@/lib/stores/addDestination';
 	import CommandCenter from '@/lib/components/CommandCenter.svelte';
+	import DeveloperTools from '@/lib/components/DeveloperTools.svelte';
 
 	$: session = $page.data.session;
 	$: deleteMode = $activeDestinationStore.deleteMode;
@@ -34,6 +34,7 @@
 
 <div id="app-wrapper" class:delete-mode={deleteMode}>
 	<Header />
+	<!-- <DeveloperTools /> -->
 	<div id="app-body">
 		<CommandCenter />
 		<NavigationManager />

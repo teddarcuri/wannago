@@ -21,14 +21,13 @@ export const load: LayoutLoad = async event => {
 			.single();
 
 		auth.update(s => ({ ...s, userProfile, user }));
-	}
 
-	// Get all user destinations
-	try {
-		const { data: destinations } = await supabaseClient
-			.from('destinations')
-			.select(
-				`
+		// Get all user destinations
+		try {
+			const { data: destinations } = await supabaseClient
+				.from('destinations')
+				.select(
+					`
                 id,
                 name,
                 coordinates,
@@ -40,26 +39,27 @@ export const load: LayoutLoad = async event => {
                     bucket_path
                 )
             `,
-			)
-			.order('name', { ascending: true })
-			// where user id matches session user id
-			.eq('user_id', session.user.id)
-			.range(0, limit);
-		userDestinationsStore.update(s => ({ ...s, destinations }));
-	} catch (error) {
-		console.log(error);
-	}
-
-	// select all destination types
-	if (!get(userDestinationsStore).destinationTypes.length) {
-		try {
-			const { data: destinationTypes } = await supabaseClient
-				.from('destination_types')
-				.select('*')
-				.order('id', { ascending: true });
-			userDestinationsStore.update(s => ({ ...s, destinationTypes }));
+				)
+				.order('name', { ascending: true })
+				// where user id matches session user id
+				.eq('user_id', session.user.id)
+				.range(0, limit);
+			userDestinationsStore.update(s => ({ ...s, hasFetched: true, destinations }));
 		} catch (error) {
 			console.log(error);
+		}
+
+		// select all destination types
+		if (!get(userDestinationsStore).destinationTypes.length) {
+			try {
+				const { data: destinationTypes } = await supabaseClient
+					.from('destination_types')
+					.select('*')
+					.order('id', { ascending: true });
+				userDestinationsStore.update(s => ({ ...s, destinationTypes }));
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 

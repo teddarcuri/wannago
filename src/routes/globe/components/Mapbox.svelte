@@ -11,10 +11,11 @@
 	import { addDestinationStore } from '$lib/stores/addDestination';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import Tools from './Tools/Tools.svelte';
-	import WaypointMarkers from './WaypointMarkers.svelte';
 	import SearchMarker from './SearchMarker.svelte';
 	import getLatLngDisplayText from '@/lib/util/getLatLngDisplayText';
 	import { searchStore } from '@/lib/stores/search';
+	import { authStore } from '$lib/stores/auth';
+
 	export let map: Map;
 
 	onMount(async () => {
@@ -35,7 +36,6 @@
 	$: setContext('map', { getMap: () => map }); // Provide map context - getMap is used instead of map because map is undefined onMount
 
 	$: isRoot = $page.url.pathname === '/';
-	$: isGlobe = $page.url.pathname === '/globe';
 	$: isGallery = $page.routeId === '/globe/destinations/[id]/gallery';
 	$: blur = isRoot || isGallery ? 'blur' : '';
 	$: session = $page.data.session;
@@ -43,6 +43,7 @@
 		$addWaypointStore.active ||
 		$addDestinationStore.active ||
 		$activeDestinationStore.deleteMode;
+	$: user = $authStore.user;
 
 	let mouseCoordinates = null;
 	let mouseLatLng = null;
@@ -67,14 +68,14 @@
 {/if}
 
 {#if map && session}
-	{#if session && !isRoot && !isGallery}
+	{#if session && user && !isRoot && !isGallery}
 		<ActiveInfoDisplay />
 		{#if !$activeDestinationStore.deleteMode}
 			<CameraControls />
 		{/if}
 	{/if}
 
-	{#if !isGallery}
+	{#if !isGallery && user}
 		<Tools {map} />
 	{/if}
 	<DestinationMarkers {map} />

@@ -1,6 +1,16 @@
 import { writable } from 'svelte/store';
-
-export default writable({
+import { get } from 'svelte/store';
+const initialState = {
 	userProfile: null,
 	user: null,
+};
+
+export const resetAuthStore = store => {
+	store.set(initialState);
+};
+
+export const authStore = writable({
+	...initialState,
 });
+
+export default authStore;

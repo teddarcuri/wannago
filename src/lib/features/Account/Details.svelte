@@ -1,72 +1,14 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
 	import { supabaseClient } from '$lib/db';
 	import { fly } from 'svelte/transition';
-	import { goto } from '$app/navigation';
-
-	$: session = $page.data.session;
+	import { goto, invalidateAll } from '$app/navigation';
+	import {
+		userDestinationsStore,
+		resetUserDestinationStore,
+	} from '$lib/stores/userDestinations';
+	import { authStore, resetAuthStore } from '$lib/stores/auth';
 
 	let loading = false;
-	let username: string | null = null;
-	let website: string | null = null;
-	let avatarUrl: string | null = null;
-
-	// onMount(() => {
-	// 	getProfile();
-	// });
-
-	// const getProfile = async () => {
-	// 	try {
-	// 		loading = true;
-	// 		const { user } = session;
-
-	// 		const { data, error, status } = await supabaseClient
-	// 			.from('profiles')
-	// 			.select(`username, website, avatar_url`)
-	// 			.eq('id', user.id)
-	// 			.single();
-
-	// 		if (data) {
-	// 			username = data.username;
-	// 			website = data.website;
-	// 			avatarUrl = data.avatar_url;
-	// 		}
-
-	// 		if (error && status !== 406) throw error;
-	// 	} catch (error) {
-	// 		if (error instanceof Error) {
-	// 			console.log(error.message);
-	// 		}
-	// 	} finally {
-	// 		loading = false;
-	// 	}
-	// };
-
-	// async function updateProfile() {
-	// 	try {
-	// 		loading = true;
-	// 		const { user } = session;
-
-	// 		const updates = {
-	// 			id: user.id,
-	// 			username,
-	// 			website,
-	// 			avatar_url: avatarUrl,
-	// 			updated_at: new Date(),
-	// 		};
-
-	// 		let { error } = await supabaseClient.from('profiles').upsert(updates);
-
-	// 		if (error) throw error;
-	// 	} catch (error) {
-	// 		if (error instanceof Error) {
-	// 			alert(error.message);
-	// 		}
-	// 	} finally {
-	// 		loading = false;
-	// 	}
-	// }
 
 	async function signOut() {
 		try {
@@ -74,6 +16,12 @@
 			let { error } = await supabaseClient.auth.signOut();
 			if (error) throw error;
 			await goto('/welcome');
+
+			// resetUserDestinationStore(userDestinationsStore);
+			// resetAuthStore(authStore);
+			// not a fan of this, but the store restes above were not giving me the desired result
+			// All I am trying to do is ensure a  clean state when the user logs out...
+			invalidateAll();
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);
