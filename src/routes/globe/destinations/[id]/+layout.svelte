@@ -20,7 +20,7 @@
 	import GlobePageLayout from '../../_globePageLayout.svelte';
 	import { addWaypointStore } from '@/lib/stores/addWaypoint';
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
-	import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
+	// import DestinationTypeSelector from '$lib/features/Destinations/DestinationTypeSelector.svelte';
 	import destinationSchema from '$lib/features/Destinations/schema';
 
 	enum DefaultWallpapers {
@@ -213,13 +213,13 @@
 									<div class="shadow" />
 									{#if formData.type_id}
 										<div class="absolute top-[0px] left-[0px]">
-											<DestinationTypeSelector
-												activeTypeId={formData.type_id}
-												onSelect={type => {
-													formData.type_id = type.id;
-													handleSubmit(Fields.type_id);
-												}}
-											/>
+											<!-- <DestinationTypeSelector -->
+											<!-- 	activeTypeId={formData.type_id} -->
+											<!-- 	onSelect={type => { -->
+											<!-- 		formData.type_id = type.id; -->
+											<!-- 		handleSubmit(Fields.type_id); -->
+											<!-- 	}} -->
+											<!-- /> -->
 										</div>
 									{/if}
 									<textarea
