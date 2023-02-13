@@ -11,6 +11,12 @@
 	import { activeDestinationStore } from '@/lib/stores/activeDestination';
 	import CommandCenter from '@/lib/components/CommandCenter.svelte';
 	import DeveloperTools from '@/lib/components/DeveloperTools.svelte';
+	import LoadingOverlay from '@/lib/components/LoadingOverlay.svelte';
+	import { fade } from 'svelte/transition';
+
+	import { env } from '$env/dynamic/public';
+
+	let loading = true;
 
 	$: session = $page.data.session;
 	$: deleteMode = $activeDestinationStore.deleteMode;
@@ -29,6 +35,7 @@
 
 	afterUpdate(async () => {
 		if ($page.url.pathname !== '/welcome' && !session) await goto('/welcome');
+		if (loading) loading = false;
 	});
 </script>
 
@@ -40,7 +47,13 @@
 		<NavigationManager />
 		<div class="map w-full h-full flex absolute">
 			<Mapbox>
-				<slot />
+				{#if loading}
+					<!-- <div transition:fade class="absolute top-0 left-0 w-full h-full bg-black z-50"> -->
+					<LoadingOverlay />
+					<!-- </div> -->
+				{:else}
+					<slot />
+				{/if}
 			</Mapbox>
 		</div>
 	</div>

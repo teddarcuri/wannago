@@ -6,6 +6,7 @@
 	import iconStrip from '$lib/img/icon-strip.png';
 	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
 	import { onDestroy } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	let searchQuery = '';
 
@@ -26,7 +27,7 @@
 	});
 </script>
 
-<div class="root relative mt-8">
+<div in:fly={{ y: 20, duration: 500, delay: 200 }} class="root relative mt-8">
 	{#if loading}<LoadingOverlay />{/if}
 	{#if $userDestinationsStore.hasFetched}
 		{#if filteredDestinations.length > 3 || searchQuery}
@@ -40,13 +41,11 @@
 		{/if}
 		{#if filteredDestinations.length === 0 && !searchQuery}
 			<div class="blank-state bg-black p-[40px] rounded-md">
-				<h4 class="text-2xl opacity-80 my-4 text-center">Welcome to wannago.</h4>
+				<h4 class="text-xl opacity-50 my-4 text-left">Welcome to wannago</h4>
 
-				<h4 class="text-base opacity-50 my-4 text-center">
-					Create some destinations to get started
-				</h4>
+				<h4 class="text-base opacity-30 my-4">Create some destinations to get started</h4>
 
-				<img class="mx-auto opacity-30 my-5" src={iconStrip} />
+				<img class=" opacity-30 my-5" src={iconStrip} />
 			</div>
 		{/if}
 

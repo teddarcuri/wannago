@@ -15,9 +15,9 @@
 
 	const options = [
 		'More Destination Types',
-		'Destination filtering/sorting',
+		// 'Destination filtering/sorting',
 		'Sub Destinations + Waypoints',
-		'Image + Video Gallery',
+		'Image + Video Galleries',
 		'A.I Trip Planner',
 		'Strava Integration',
 		'GPS import + export',
@@ -71,7 +71,7 @@
 
 <form
 	on:submit|preventDefault={handleSubmit}
-	class="relative bg-black rounded-md overflow-auto p-[33px]"
+	class="relative bg-black rounded-md opacity-80 overflow-auto p-[33px] min-h-[300px]"
 >
 	{#if loading}
 		<LoadingOverlay />
@@ -82,52 +82,52 @@
 			class="absolute top-0 left-0 w-full h-full bg-black z-50 grid place-items-center"
 		>
 			<div class="flex flex-col text-center">
-				<p class="text-xl">🤍 🌎 Thank you for leaving feedback!</p>
-				<p class="opacity-50">You can reach me at tedd.arcuri@gmail.com with any else!</p>
+				<p class="text-xl">🌎 Thank you for leaving feedback!</p>
+				<p class="opacity-50">You can reach me at tedd.arcuri@gmail.com with any else</p>
 			</div>
 		</div>
+	{:else}
+		<h2 class="text-xl text-stone-300 mb-4">
+			<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
+		</h2>
+		<p class="opacity-70 my-2 mb-4">
+			We would love to hear what features would bring you value.
+		</p>
+		<p class="opacity-50 text-sm mb-4">things like:</p>
+
+		{#each options as option}
+			{@const isSelected = selected.includes(option)}
+			<button
+				class:active={isSelected}
+				on:click|preventDefault={() => {
+					if (isSelected) {
+						selected = selected.filter(item => item !== option);
+					} else {
+						selected = [...selected, option];
+					}
+				}}
+				class="inline-flex items-center justify-center 
+		          p-4 border border-[#333] bg-[#111] hover:bg-[#333] 
+		          rounded-md text-[11px] text-stone-100 text-opacity-70 uppercase font-semibold
+		          tracking-widest mr-2 mb-2 p-2 transition-all ease-in-out
+		          duration-200 hover:text-opacity-100"
+			>
+				{option}
+			</button>
+		{/each}
+
+		<div class="feedback border my-2 border-stone-700">
+			<Textarea
+				placeholder="What else would you find useful?"
+				name="feedback"
+				bind:value={feedback}
+			/>
+		</div>
+
+		<div class="flex justify-end mt-4">
+			<ButtonPill disabled={!feedback && !selected.length}>Submit feedback</ButtonPill>
+		</div>
 	{/if}
-	<h2 class="text-xl text-stone-300 mb-4">
-		<span class="mr-2">🌎</span> How would <b>you</b> like to use wannago?
-	</h2>
-	<p class="opacity-70 my-2 mb-4 font-semibold">
-		We are just getting started making wannago a robust place for you to
-		<i> document your world</i>. While we figure out what direction to take the platform,
-		we'd love to know what types of features would be most useful to you:
-	</p>
-
-	{#each options as option}
-		{@const isSelected = selected.includes(option)}
-		<button
-			class:active={isSelected}
-			on:click|preventDefault={() => {
-				if (isSelected) {
-					selected = selected.filter(item => item !== option);
-				} else {
-					selected = [...selected, option];
-				}
-			}}
-			class="inline-flex items-center justify-center 
-            p-4 border border-[#333] bg-[#111] hover:bg-[#333] 
-            rounded-md text-[11px] text-stone-100 text-opacity-50 uppercase font-semibold
-            tracking-widest mr-2 mb-2 p-2 transition-all ease-in-out
-            duration-200 hover:text-opacity-100"
-		>
-			{option}
-		</button>
-	{/each}
-
-	<div class="feedback border my-2 border-stone-700">
-		<Textarea
-			placeholder="What else would you find useful?"
-			name="feedback"
-			bind:value={feedback}
-		/>
-	</div>
-
-	<div class="flex justify-end mt-4">
-		<ButtonPill disabled={!feedback && !selected.length}>Submit feedback</ButtonPill>
-	</div>
 </form>
 
 <style lang="scss">

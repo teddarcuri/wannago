@@ -47,18 +47,17 @@ html {
 }
 
 *:hover::-webkit-scrollbar-thumb {
-	background: #ccc;
+	background: #999;
 }
 
 *::-webkit-scrollbar-thumb {
 	background: #222;
-	border-radius: 7px;
 	border: 2px solid transparent;
 }
 
 *::-webkit-scrollbar-track {
 	margin: 35px 0;
-	background: rgba(255, 255, 255, 0.02);
+	background: rgba(255, 255, 255, 0.01);
 }
 
 /* GLOBALS */
