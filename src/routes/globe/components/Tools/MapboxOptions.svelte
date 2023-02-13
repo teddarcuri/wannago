@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Mapstyle } from '../../util/bootstrapMapbox';
-	import outdoors from '$lib/features/mapbox/styles/outdoors.png';
-	import satellite from '$lib/features/mapbox/styles/satellite.png';
-	import light from '$lib/features/mapbox/styles/light.png';
-	import dark from '$lib/features/mapbox/styles/dark.png';
-	import natural from '$lib/features/mapbox/styles/natural.png';
-	import streets from '$lib/features/mapbox/styles/streets.png';
+	import outdoors from '$lib/features/Mapbox/styles/outdoors.png';
+	import satellite from '$lib/features/Mapbox/styles/satellite.png';
+	import light from '$lib/features/Mapbox/styles/light.png';
+	import dark from '$lib/features/Mapbox/styles/dark.png';
+	import natural from '$lib/features/Mapbox/styles/natural.png';
+	import streets from '$lib/features/Mapbox/styles/streets.png';
 	import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 	import { mapStore } from '$lib/stores/map';
 	import { getLocalStorageKey } from '$lib/features/Mapbox/localStorage.ts';
