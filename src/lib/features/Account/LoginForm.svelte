@@ -6,12 +6,16 @@
 	import iconStrip from '$lib/img/icon-strip-nobg.svg';
 
 	let loading = false;
+	const authRedirectUrl = import.meta.env.VITE_AUTH_REDIRECT_URL;
 
 	async function signInWithGoogle() {
 		loading = true;
 
 		const { data, error } = await supabaseClient.auth.signInWithOAuth({
 			provider: 'google',
+			options: {
+				redirectTo: authRedirectUrl,
+			},
 		});
 
 		loading = false;
