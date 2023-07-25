@@ -12,7 +12,7 @@ export const getLocalStorageKey = () => {
 
 export const getMapStyleFromLocalStorage = (): Mapstyle => {
 	if (!localStorage) return Mapstyle.Earth;
-	if (!get(authStore).user) return Mapstyle.Earth;
+	if (!get(authStore).user) return Mapstyle.Streets;
 
 	const mapStyle = localStorage.getItem(getLocalStorageKey());
 	if (mapStyle) {
